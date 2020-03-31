@@ -8,3 +8,4 @@
 .cxx
 gradle
 gradlew*
+app/src/main/res/raw/awsconfiguration.json
