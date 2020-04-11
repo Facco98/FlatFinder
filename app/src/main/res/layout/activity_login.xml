@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_login_signup"
+        tools:context=".LoginActivity">
+
+    <View
+            android:id="@+id/divider1"
+            android:layout_width="120dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintStart_toEndOf="@+id/oppure_login" android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toTopOf="@+id/oppure_login" android:layout_marginTop="6dp"/>
+    <ImageView
+            android:layout_width="125dp"
+            android:layout_height="125dp" app:srcCompat="@color/orange"
+            android:id="@+id/logo"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="84dp" android:contentDescription="@string/logo_app"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+    <EditText
+            android:layout_width="340dp"
+            android:layout_height="50dp"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/email_signup"
+            android:hint="@string/email_label"
+            android:drawableEnd="@drawable/ic_action_user"
+            android:drawableRight="@drawable/ic_action_user"
+            app:layout_constraintTop_toBottomOf="@+id/logo"
+            android:layout_marginTop="72dp"
+            android:importantForAutofill="no" app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"/>
+    <EditText
+            android:layout_width="340dp"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password_signup"
+            android:hint="@string/password_label"
+            android:drawableEnd="@drawable/ic_action_password"
+            android:drawableRight="@drawable/ic_action_password"
+            app:layout_constraintTop_toBottomOf="@+id/email_signup"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="10dp" android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+    <Button
+            android:text="@string/accedi_login_label"
+            android:layout_width="250dp"
+            android:layout_height="42dp"
+            android:id="@+id/button_signup"
+            android:background="@color/orange"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/ricordami_login" android:layout_marginTop="44dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+    <TextView
+            android:text="@string/password_dimenticata_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordForgot_login"
+            app:layout_constraintTop_toBottomOf="@+id/button_signup" android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+    <Switch
+            android:layout_width="184dp"
+            android:layout_height="28dp"
+            android:id="@+id/ricordami_login" android:checked="true"
+            android:text="@string/salva_dati_di_accesso_label" app:layout_constraintTop_toBottomOf="@+id/password_signup"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+    />
+    <TextView
+            android:text="@string/registrati_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signup"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginStart="250dp"
+            android:layout_marginLeft="250dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+    <TextView
+            android:text="@string/oppure_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/oppure_login"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginTop="45dp"
+            app:layout_constraintTop_toBottomOf="@+id/passwordForgot_login"/>
+    <View
+            android:id="@+id/divider2"
+            android:layout_width="120dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toStartOf="@+id/oppure_login" android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toTopOf="@+id/oppure_login" android:layout_marginTop="6dp"/>
+    <TextView
+            android:text="@string/accedi_con_google_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_google"
+            android:drawableRight="@drawable/ic_google"
+            android:drawablePadding="8dp"
+            android:id="@+id/google_signup" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/oppure_login"
+            android:textSize="18sp"/>
+    <TextView
+            android:text="@string/accedi_con_facebook_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_facebook"
+            android:drawableRight="@drawable/ic_facebook"
+            android:drawablePadding="8dp"
+            android:id="@+id/facebook_signup" android:textSize="18sp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/google_signup" android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="20dp"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/guideline"
+            app:layout_constraintGuide_begin="375dp"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/guideline2"
+            app:layout_constraintGuide_end="375dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

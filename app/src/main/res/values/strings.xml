@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">FlatFinder</string>
+    <string name="email_label">Indirizzo e-mail</string>
+    <string name="logo_app">Logo app</string>
+    <string name="password_label">Password</string>
+    <string name="ricordami_login_label">Salva dati di accesso</string>
+    <string name="accedi_login_label">Accedi</string>
+    <string name="password_dimenticata_label">Password dimenticata?</string>
+    <string name="salva_dati_di_accesso_label">Salva dati di accesso</string>
+    <string name="non_hai_ancora_l_account_registra_gratuitamente_label">Non hai ancora l\'account? Registra
+        gratuitamente
+    </string>
+    <string name="oppure_label">Oppure</string>
+    <string name="accedi_con_google_label">Accedi con Google</string>
+    <string name="accedi_con_facebook_label">Accedi con Facebook</string>
+    <string name="registrati_label">Registrati</string>
+    <string name="accedi_label">Accedi</string>
+    <string name="nome_signup_label">Nome</string>
+    <string name="cognome_signup_label">Cognome</string>
+    <string name="ripeti_la_password_signup_label">Ripeti la password</string>
+    <string name="registrati_con_google">Registrati con Google</string>
+    <string name="registrati_con_facebook">Registrati con Facebook</string>
+    <string name="informativa_e_condizioni_signup_label">Ho letto e accetto l\'informativa e le condizioni</string>
 </resources>
