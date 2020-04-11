@@ -13,73 +13,74 @@
             android:layout_width="120dp"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintStart_toEndOf="@+id/oppure_login" android:layout_marginStart="20dp"
+            app:layout_constraintStart_toEndOf="@+id/signin_lbl_oppure" android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            app:layout_constraintTop_toTopOf="@+id/oppure_login" android:layout_marginTop="6dp"/>
+            app:layout_constraintTop_toTopOf="@+id/signin_lbl_oppure" android:layout_marginTop="6dp"/>
     <ImageView
-            android:layout_width="125dp"
-            android:layout_height="125dp" app:srcCompat="@color/orange"
-            android:id="@+id/logo"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="84dp" android:contentDescription="@string/logo_app"
-            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+            android:layout_width="100dp"
+            android:layout_height="100dp" app:srcCompat="@color/orange"
+            android:id="@+id/signin_logo"
+            android:contentDescription="@string/logo_app"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="40dp"/>
     <EditText
-            android:layout_width="340dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/email_signup"
+            android:id="@+id/signin_txt_email"
             android:hint="@string/email_label"
             android:drawableEnd="@drawable/ic_action_user"
             android:drawableRight="@drawable/ic_action_user"
-            app:layout_constraintTop_toBottomOf="@+id/logo"
+            app:layout_constraintTop_toBottomOf="@+id/signin_logo"
             android:layout_marginTop="72dp"
             android:importantForAutofill="no" app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"/>
+            app:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" android:layout_marginRight="10dp" android:layout_marginEnd="10dp"/>
     <EditText
-            android:layout_width="340dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/password_signup"
+            android:id="@+id/signin_txt_password"
             android:hint="@string/password_label"
             android:drawableEnd="@drawable/ic_action_password"
             android:drawableRight="@drawable/ic_action_password"
-            app:layout_constraintTop_toBottomOf="@+id/email_signup"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintHorizontal_bias="0.5"
-            android:layout_marginTop="10dp" android:importantForAutofill="no"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/signin_txt_email" android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" android:layout_marginRight="10dp" android:layout_marginEnd="10dp"/>
     <Button
             android:text="@string/accedi_login_label"
             android:layout_width="250dp"
             android:layout_height="42dp"
-            android:id="@+id/button_signup"
+            android:id="@+id/signin_btn_accedi"
             android:background="@color/orange"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/ricordami_login" android:layout_marginTop="44dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/signin_lbl_ricordami" android:layout_marginTop="20dp"/>
     <TextView
             android:text="@string/password_dimenticata_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/passwordForgot_login"
-            app:layout_constraintTop_toBottomOf="@+id/button_signup" android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+            android:id="@+id/signin_lbl_passwordDimenticata"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/signin_btn_accedi" android:layout_marginTop="20dp"/>
     <Switch
             android:layout_width="184dp"
             android:layout_height="28dp"
-            android:id="@+id/ricordami_login" android:checked="true"
-            android:text="@string/salva_dati_di_accesso_label" app:layout_constraintTop_toBottomOf="@+id/password_signup"
-            android:layout_marginTop="16dp"
+            android:id="@+id/signin_lbl_ricordami" android:checked="true"
+            android:text="@string/salva_dati_di_accesso_label"
             app:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
-    />
+            app:layout_constraintTop_toBottomOf="@+id/signin_txt_password" android:layout_marginTop="10dp"/>
     <TextView
             android:text="@string/registrati_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/signup"
+            android:id="@+id/signin_lbl_registrati"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="25dp"
@@ -90,18 +91,18 @@
             android:text="@string/oppure_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/oppure_login"
+            android:id="@+id/signin_lbl_oppure"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginTop="45dp"
-            app:layout_constraintTop_toBottomOf="@+id/passwordForgot_login"/>
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/signin_lbl_passwordDimenticata" android:layout_marginTop="20dp"/>
     <View
             android:id="@+id/divider2"
             android:layout_width="120dp"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@+id/oppure_login" android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/signin_lbl_oppure" android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            app:layout_constraintTop_toTopOf="@+id/oppure_login" android:layout_marginTop="6dp"/>
+            app:layout_constraintTop_toTopOf="@+id/signin_lbl_oppure" android:layout_marginTop="6dp"/>
     <TextView
             android:text="@string/accedi_con_google_label"
             android:layout_width="wrap_content"
@@ -109,9 +110,9 @@
             android:drawableEnd="@drawable/ic_google"
             android:drawableRight="@drawable/ic_google"
             android:drawablePadding="8dp"
-            android:id="@+id/google_signup" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/signin_lbl_google" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/oppure_login"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/signin_lbl_oppure"
             android:textSize="18sp"/>
     <TextView
             android:text="@string/accedi_con_facebook_label"
@@ -120,10 +121,9 @@
             android:drawableEnd="@drawable/ic_facebook"
             android:drawableRight="@drawable/ic_facebook"
             android:drawablePadding="8dp"
-            android:id="@+id/facebook_signup" android:textSize="18sp" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/signin_lbl_facebook" android:textSize="18sp" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/google_signup" android:layout_marginTop="15dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="20dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/signin_lbl_google" android:layout_marginTop="20dp"/>
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
             android:layout_width="wrap_content"

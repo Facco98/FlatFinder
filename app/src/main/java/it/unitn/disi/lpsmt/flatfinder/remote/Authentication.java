@@ -7,10 +7,10 @@ import androidx.annotation.Nullable;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.UserStateDetails;
-import com.amazonaws.mobile.client.results.SignInResult;
-import com.amazonaws.mobile.client.results.SignInState;
 import com.amazonaws.mobile.client.results.SignUpResult;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.task.Completion;
+import it.unitn.disi.lpsmt.flatfinder.task.Task;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,16 +47,24 @@ public abstract class Authentication {
 
     }
 
-    @NonNull
-    public static User login( @NonNull String email, @NonNull String password ) throws Exception {
+    public static void login(@NonNull String email, @NonNull String password, Completion<User> completion) throws Exception {
 
-        mobileClient.signIn(email, password, null);
-        Map<String, String> attributes = mobileClient.getUserAttributes();
-        String name = attributes.get("name");
-        String family_name = attributes.get("family_name");
-        String phone_number = attributes.get("phone_number");
+        Task<String, User> loginTask = new Task<String, User>((params) -> {
+            User user = null;
 
-        return new User(email, name, family_name, phone_number);
+            String mail = params[0];
+            String psw = params[1];
+            mobileClient.signIn(mail, psw, null);
+            Map<String, String> attributes = mobileClient.getUserAttributes();
+            String name = attributes.get("name");
+            String familyName = attributes.get("family_name");
+            String phoneNumber = attributes.get("phone_number");
+            user = new User(email, name, familyName, phoneNumber);
+
+            return user;
+        }, completion);
+        loginTask.execute(email, password);
+
 
     }
 
@@ -79,6 +87,31 @@ public abstract class Authentication {
         }
 
         mobileClient.initialize(context, realCallback);
+
+    }
+
+    @Nullable
+    public static User getUser() throws Exception {
+
+        User user = null;
+        if( mobileClient.isSignedIn() ){
+
+            Map<String, String> attributes = mobileClient.getUserAttributes();
+            String email = attributes.get("email");
+            String name = attributes.get("name");
+            String familyName = attributes.get("family_name");
+            String phoneNumber = attributes.get("phone_number");
+
+            user = new User(email, name, familyName, phoneNumber);
+
+        }
+
+        return user;
+    }
+
+    public static void logout(){
+
+        mobileClient.signOut();
 
     }
 
