@@ -20,34 +20,36 @@ public abstract class Authentication {
     private static final String TAG = "AWS Authentication";
     private static AWSMobileClient mobileClient = AWSMobileClient.getInstance();
 
-    @NonNull
-    public static SignUpResult registerUser( @NonNull User user, @NonNull String password) throws Exception {
+    public static void registerUser( @NonNull User user, @NonNull String password, @Nullable Completion<SignUpResult> completion) {
 
-        if( mobileClient.isSignedIn() ){
-            mobileClient.signOut();
-        }
+        if( mobileClient.isSignedIn() )
+            logout();
 
-        HashMap<String, String> userAttributes = new HashMap<>();
+        Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("name", user.getName());
         userAttributes.put("family_name", user.getFamily_name());
-        if( user.getPhone_number() != null ){
+
+        String phone_number = user.getPhone_number();
+
+        if( phone_number != null ){
             userAttributes.put("phone_number", user.getPhone_number());
         }
 
-        SignUpResult signUpResult = mobileClient.signUp(user.getEmail(), password, userAttributes, null);
-        Log.d(TAG, "User " + user.getEmail() + " signed up with status " + signUpResult);
-        return signUpResult;
+        Task<String, SignUpResult> registrationTask = new Task<String, SignUpResult>((params) -> {
+
+            String psw = params[1];
+            String email = params[0];
+
+            SignUpResult signUpResult = mobileClient.signUp(email, psw, userAttributes, null);
+            return signUpResult;
+
+        }, completion);
+        registrationTask.execute(user.getEmail(), password);
+
+
     }
 
-    @NonNull
-    public static SignUpResult confirmCode(@NonNull User user, @NonNull String code) throws Exception {
-
-        String email = user.getEmail();
-        return mobileClient.confirmSignUp(email, code);
-
-    }
-
-    public static void login(@NonNull String email, @NonNull String password, Completion<User> completion) throws Exception {
+    public static void login(@NonNull String email, @NonNull String password, @Nullable Completion<User> completion) throws Exception {
 
         Task<String, User> loginTask = new Task<String, User>((params) -> {
             User user = null;
@@ -90,23 +92,28 @@ public abstract class Authentication {
 
     }
 
-    @Nullable
-    public static User getUser() throws Exception {
+    public static void getUser(@Nullable Completion<User> completion) {
 
-        User user = null;
-        if( mobileClient.isSignedIn() ){
+        Task<String, User> retrieveUserTask = new Task<String, User>(params -> {
 
-            Map<String, String> attributes = mobileClient.getUserAttributes();
-            String email = attributes.get("email");
-            String name = attributes.get("name");
-            String familyName = attributes.get("family_name");
-            String phoneNumber = attributes.get("phone_number");
+            User user = null;
+            if( mobileClient.isSignedIn() ){
 
-            user = new User(email, name, familyName, phoneNumber);
+                Map<String, String> attributes = mobileClient.getUserAttributes();
+                String email = attributes.get("email");
+                String name = attributes.get("name");
+                String family_name = attributes.get("family_name");
+                String phone_number = attributes.get("phone_number");
 
-        }
+                user = new User(email, name, family_name, phone_number);
 
-        return user;
+            }
+
+            return user;
+
+        }, completion);
+        retrieveUserTask.execute();
+
     }
 
     public static void logout(){
@@ -114,7 +121,6 @@ public abstract class Authentication {
         mobileClient.signOut();
 
     }
-
 
 
 }

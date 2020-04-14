@@ -1,17 +1,15 @@
 package it.unitn.disi.lpsmt.flatfinder;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.UserStateDetails;
-import com.amazonaws.services.cognitoidentity.model.NotAuthorizedException;
+import com.amazonaws.services.cognitoidentityprovider.model.NotAuthorizedException;
+import com.amazonaws.services.cognitoidentityprovider.model.UserNotConfirmedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 
@@ -25,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnAccedi;
     private TextView lblGoogle;
     private TextView lblFacebook;
+    private Switch swtSalvaCredenziali;
+
+    @Nullable
     private User user;
 
     @Override
@@ -32,8 +33,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Authentication.initialize(this.getApplicationContext(), null);
         this.setContentView(R.layout.activity_login);
-        this.initUI();
+        this.user = null;
+        Authentication.getUser((user, exception) -> {
 
+            if( exception != null ){
+
+                Log.d(TAG, "User is not signed in");
+
+            } else if( user != null ) {
+
+                Log.d(TAG, "User is signed in " + user.toString());
+                Authentication.logout();
+
+            }
+            this.initUI();
+
+        });
 
     }
 
@@ -45,11 +60,14 @@ public class LoginActivity extends AppCompatActivity {
         this.btnAccedi = this.findViewById(R.id.signin_btn_accedi);
         this.lblFacebook = this.findViewById(R.id.signin_lbl_facebook);
         this.lblGoogle = this.findViewById(R.id.signin_lbl_google);
+        this.swtSalvaCredenziali = this.findViewById(R.id.signin_swc_ricordami);
 
         this.lblRegistrati.setOnClickListener(this::lblRegistratiOnClick);
         this.btnAccedi.setOnClickListener(this::btnAccediOnClick);
         this.lblGoogle.setOnClickListener(this::lblGoogleOnClick);
         this.lblFacebook.setOnClickListener(this::lblFacebookOnClick);
+
+        this.resetUI();
 
 
     }
@@ -58,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d(TAG, v.getId() + " DID TAP");
         Log.d(TAG, "" + this.lblRegistrati.getId() + " DID TAP");
+        Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+        this.startActivity(i);
     }
 
     private void btnAccediOnClick( View v ){
@@ -90,8 +110,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginAvvenuto(){
 
-        Toast.makeText(getApplicationContext(), "Already signed in", Toast.LENGTH_LONG).show();
-
+        assert this.user != null;
+        Toast.makeText(getApplicationContext(), "Signed in correctly, " + this.user.toString(), Toast.LENGTH_LONG).show();
+        if( this.swtSalvaCredenziali.isChecked() ){
+            SharedPreferences preferences = this.getSharedPreferences("login", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("email", this.txtEmail.getText().toString());
+            editor.putString("password", this.txtPassword.getText().toString());
+            editor.apply();
+        }
         Authentication.logout();
 
     }
@@ -101,10 +128,24 @@ public class LoginActivity extends AppCompatActivity {
         this.user = user;
         if( user != null ){
             this.loginAvvenuto();
+            this.resetUI();
             Authentication.logout();
-        } else {
-            Toast.makeText(this.getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG);
+        } else if ( ex != null ) {
+            if( ex instanceof UserNotConfirmedException )
+                Toast.makeText(this.getApplicationContext(), R.string.login_utente_non_confermato, Toast.LENGTH_LONG).show();
+            else if ( ex instanceof NotAuthorizedException ){
+                Toast.makeText(this.getApplicationContext(), R.string.login_email_o_psw_errati, Toast.LENGTH_LONG).show();
+            }
         }
+
+    }
+
+    private void resetUI(){
+
+        SharedPreferences preferences = this.getSharedPreferences("login", MODE_PRIVATE);
+        this.txtEmail.setText(preferences.getString("email", ""));
+        this.txtPassword.setText(preferences.getString("password", ""));
+        this.swtSalvaCredenziali.setChecked(true);
 
     }
 }

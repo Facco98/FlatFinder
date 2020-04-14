@@ -21,4 +21,30 @@
     <string name="registrati_con_google">Registrati con Google</string>
     <string name="registrati_con_facebook">Registrati con Facebook</string>
     <string name="informativa_e_condizioni_signup_label">Ho letto e accetto l\'informativa e le condizioni</string>
+
+    <string name = "termini_non_accettati">
+        Per registrarti devi accettare i termini di utilizzo
+    </string>
+
+    <string name="password_non_corrispondenti">
+        Le password inserite non corrispondono
+    </string>
+
+    <string name="email_inviata_verifica">
+        Abbiamo inviato una mail di verifica all\'indirizzo specificato
+    </string>
+    <string name="email_gia_registrata">
+        La mail inserita è gia associata a un altro utente
+    </string>
+    <string name="password_non_valida">
+        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola e un simbolo speciale
+    </string>
+
+    <string name="login_utente_non_confermato">
+        L\'utente non è confermato, controlla la mail
+    </string>
+
+    <string name="login_email_o_psw_errati">
+        Email o password errati
+    </string>
 </resources>
