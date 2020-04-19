@@ -22,7 +22,7 @@
     <string name="registrati_con_facebook">Registrati con Facebook</string>
     <string name="informativa_e_condizioni_signup_label">Ho letto e accetto l\'informativa e le condizioni</string>
 
-    <string name = "termini_non_accettati">
+    <string name="termini_non_accettati">
         Per registrarti devi accettare i termini di utilizzo
     </string>
 
@@ -47,4 +47,8 @@
     <string name="login_email_o_psw_errati">
         Email o password errati
     </string>
+    <string name="home_img_background_label">Orange color background</string>
+    <string name="home_btn_search_label">CERCA UN ALLOGGIO</string>
+    <string name="home_btn_post">PUBBLICA UN ANNUNCIO</string>
+    <string name="home_txt_annunciRecenti_label">Annunci recenti</string>
 </resources>
