@@ -51,4 +51,5 @@
     <string name="home_btn_search_label">CERCA UN ALLOGGIO</string>
     <string name="home_btn_post">PUBBLICA UN ANNUNCIO</string>
     <string name="home_txt_annunciRecenti_label">Annunci recenti</string>
+    <string name="sidebar_lbl_hi_heading">Ciao, </string>
 </resources>

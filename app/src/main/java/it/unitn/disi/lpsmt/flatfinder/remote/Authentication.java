@@ -82,7 +82,7 @@ public abstract class Authentication {
 
                 @Override
                 public void onError(Exception e) {
-                    Log.d(TAG, Log.getStackTraceString(e));
+                    //Log.d(TAG, Log.getStackTraceString(e));
                 }
             };
 

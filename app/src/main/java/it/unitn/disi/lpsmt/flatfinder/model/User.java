@@ -5,7 +5,12 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Serializable{
+
+    public static final String EMAIL_KEY = "email";
+    public static final String NAME_KEY = "name";
+    public static final String FAMILY_NAME_KEY = "family_name";
+    public static final String PHONE_NUMBER_KEY = "phone_number";
 
     @NonNull
     private String email;
@@ -26,6 +31,7 @@ public class User implements Serializable {
         this.family_name = family_name;
 
     }
+
 
     @NonNull
     public String getEmail() {
@@ -77,4 +83,6 @@ public class User implements Serializable {
         return sb.toString();
 
     }
+
+
 }

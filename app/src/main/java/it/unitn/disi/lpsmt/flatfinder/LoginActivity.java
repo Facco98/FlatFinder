@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.flatfinder;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView lblFacebook;
     private Switch swtSalvaCredenziali;
 
+
     @Nullable
     private User user;
 
@@ -34,8 +37,14 @@ public class LoginActivity extends AppCompatActivity {
         Authentication.initialize(this.getApplicationContext(), null);
         this.setContentView(R.layout.activity_login);
         this.user = null;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog alertDialog = alertDialogBuilder.setTitle("Caricamento").setMessage("Attendi mentre carichiamo l'applicazione").create();
+
+        alertDialog.show();
         Authentication.getUser((user, exception) -> {
 
+            alertDialog.hide();
+            alertDialog.dismiss();
             if( exception != null ){
 
                 Log.d(TAG, "User is not signed in");
@@ -43,7 +52,8 @@ public class LoginActivity extends AppCompatActivity {
             } else if( user != null ) {
 
                 Log.d(TAG, "User is signed in " + user.toString());
-                Authentication.logout();
+                this.user = user;
+                this.loginAvvenuto();
 
             }
             this.initUI();
@@ -88,10 +98,22 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Registrati di tap");
         Log.d(TAG, "VALUES: email="+email+", password="+psw);
 
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog alertDialog = alertDialogBuilder.setTitle("Caricamento")
+                .setMessage("Autenticazione in corso")
+                .create();
+
+        alertDialog.show();
+
         try {
-            Authentication.login(email, psw, this::loginHandler);
+            Authentication.login(email, psw, (user, exception) ->{
+                alertDialog.hide();
+                alertDialog.dismiss();
+                this.loginHandler(user, exception);
+            });
         } catch (Exception e) {
             e.printStackTrace();
+            alertDialog.hide();
         }
 
     }
@@ -110,16 +132,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginAvvenuto(){
 
-        assert this.user != null;
-        Toast.makeText(getApplicationContext(), "Signed in correctly, " + this.user.toString(), Toast.LENGTH_LONG).show();
-        if( this.swtSalvaCredenziali.isChecked() ){
-            SharedPreferences preferences = this.getSharedPreferences("login", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("email", this.txtEmail.getText().toString());
-            editor.putString("password", this.txtPassword.getText().toString());
-            editor.apply();
-        }
-        Authentication.logout();
+        Intent i = new Intent(this, HomeActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(User.EMAIL_KEY, this.user.getEmail());
+        bundle.putString(User.PHONE_NUMBER_KEY, this.user.getPhone_number());
+        bundle.putString(User.NAME_KEY, this.user.getName());
+        bundle.putString(User.FAMILY_NAME_KEY, this.user.getFamily_name());
+        i.putExtra(HomeActivity.USER_KEY, bundle);
+        this.startActivity(i);
+        this.finish();
 
     }
 
@@ -129,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         if( user != null ){
             this.loginAvvenuto();
             this.resetUI();
-            Authentication.logout();
         } else if ( ex != null ) {
             if( ex instanceof UserNotConfirmedException )
                 Toast.makeText(this.getApplicationContext(), R.string.login_utente_non_confermato, Toast.LENGTH_LONG).show();
