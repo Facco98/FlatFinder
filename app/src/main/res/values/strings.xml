@@ -50,6 +50,16 @@
     <string name="home_img_background_label">Orange color background</string>
     <string name="home_btn_search_label">CERCA UN ALLOGGIO</string>
     <string name="home_btn_post">PUBBLICA UN ANNUNCIO</string>
-    <string name="home_txt_annunciRecenti_label">Annunci recenti</string>
+    <string name="home_lbl_annunciRecenti_label">Annunci recenti</string>
     <string name="sidebar_lbl_hi_heading">Ciao, </string>
+    <string name="sidebar_lbl_home">Home</string>
+    <string name="sidebar_lbl_cerca_un_alloggio">Cerca un alloggio</string>
+    <string name="sidebar_lbl_pubblica_un_annuncio">Pubblica un annuncio</string>
+    <string name="sidebar_lbl_annunci_pubblicati">Annunci pubblicati</string>
+    <string name="sidebar_lbl_annunci_salvati">Annunci salvati</string>
+    <string name="sidebar_lbl_ricerche_salvate">Ricerche salvate</string>
+    <string name="sidebar_lbl_profilo">Profilo</string>
+    <string name="sidebar_lbl_logout">Logout</string>
+    <string name="sidebar_lbl_segnala">Segnala</string>
+    <string name="sidebar_lbl_condivi_con_i_tuoi_amici">Condivi con i tuoi amici</string>
 </resources>

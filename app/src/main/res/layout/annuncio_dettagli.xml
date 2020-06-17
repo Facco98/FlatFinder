@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="2dp"
+            android:layout_margin="10dp">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="vertical" android:padding="20dp">
+
+                <androidx.viewpager.widget.ViewPager
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp">
+                </androidx.viewpager.widget.ViewPager>
+
+                <TextView
+                        android:text="1/10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dettagli_label_imgtag"
+                        android:gravity="center_horizontal"/>
+                <TextView
+                        android:text="€ 400/mese"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_affitto"
+                        android:textSize="24sp"
+                        android:textStyle="bold" android:layout_marginTop="10dp"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                            android:text="3 locali"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_nlocali"
+                            android:padding="5dp"/>
+                    <TextView
+                            android:text="2 piano"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:padding="5dp"
+                            android:id="@+id/dettagli_lbl_piano"/>
+                    <TextView
+                            android:text="100 mq"
+                            android:layout_width="wrap_content" android:padding="5dp"
+                            android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_dimensione"/>
+                    <TextView
+                            android:text="2 bagni"
+                            android:layout_width="wrap_content" android:padding="5dp"
+                            android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_nbagni"/>
+                </LinearLayout>
+                <TextView
+                        android:text="Camera singola"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dettagli_lbl__tipologia"/>
+                <TextView
+                        android:text="Via Roma, 20, Trento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_indirizzo"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_marginTop="10dp">
+                    <Button
+                            android:text="Contatta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/dettagli_btn_contatta"
+                            android:layout_weight="1" tools:drawableLeft="@drawable/ic_action_contact"
+                            android:background="@drawable/background_dettagli_button" android:textColor="@android:color/white"
+                            android:layout_marginRight="5dp" android:padding="5dp"/>
+                    <Button
+                            android:text="salva annuncio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/dettagli_btn_salva"
+                            android:layout_weight="1" android:drawableLeft="@drawable/ic_action_favorite"
+                            android:background="@drawable/background_dettagli_button" android:textColor="@android:color/white"
+                            android:padding="5dp"/>
+                </LinearLayout>
+                <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="?android:attr/listDivider"
+                        android:layout_marginTop="15dp" android:layout_marginBottom="20dp"/>
+                <TextView
+                        android:text="Descrizione"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:textSize="22sp"
+                        android:textStyle="bold"/>
+                <TextView
+                        android:text="hfkjshfkjdshfkjdshfkjdshfjhdjfhsdkjhfjdshfkdshfkjhdskjfhksdhfjhsdkjfhdsjhfjdshfjhdsjkfhdskjhfjhdskhfkjdshkfjdshkfhkdsj"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_descrizione"/>
+                <View
+                        android:id="@+id/divider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="?android:attr/listDivider"
+                        android:layout_marginTop="15dp" android:layout_marginBottom="25dp"/>
+                <TextView
+                        android:text="Altre informazioni"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:textSize="22sp"
+                        android:textStyle="bold"/>
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_marginTop="5dp" android:stretchColumns="1">
+
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="Data annuncio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" tools:layout_column="1"/>
+                        <TextView
+                                android:text="16/06/2020"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_dataAnnuncio"
+                                android:gravity="end"
+                                android:layout_gravity="end"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="Altre spese"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView15"
+                                tools:layout_column="1"/>
+                        <TextView
+                                android:text="50 €"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_altreSpese"
+                                android:gravity="end"
+                                android:layout_gravity="end"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="Disponibilità"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView17"
+                                tools:layout_column="1"/>
+                        <TextView
+                                android:text="Immediata"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_disponibilita"
+                                android:gravity="end"
+                                android:layout_gravity="end"/>
+                    </TableRow>
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        <TextView
+                                android:text="Arredamento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView19"
+                                tools:layout_column="1"/>
+                        <TextView
+                                android:text="Arredato"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_arredamento"
+                                android:gravity="end"
+                                android:layout_gravity="end"/>
+                    </TableRow>
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        <TextView
+                                android:text="Consumo energetico"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView21"
+                                tools:layout_column="1"/>
+                        <TextView
+                                android:text="D"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/dettagli_lbl_classeEnergetica"
+                                android:gravity="end"
+                                android:layout_gravity="end"/>
+                    </TableRow>
+                </TableLayout>
+                <View
+                        android:id="@+id/divider4"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="?android:attr/listDivider"
+                        android:layout_marginTop="15dp" android:layout_marginBottom="25dp" android:layout_weight="1"/>
+                <com.google.android.gms.maps.MapView
+                        android:layout_width="match_parent"
+                        android:layout_height="197dp" android:id="@+id/dettagli_view_mappa"/>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
