@@ -62,4 +62,37 @@
     <string name="sidebar_lbl_logout">Logout</string>
     <string name="sidebar_lbl_segnala">Segnala</string>
     <string name="sidebar_lbl_condivi_con_i_tuoi_amici">Condivi con i tuoi amici</string>
+
+    <string-array name="annuncio_tipologia_struttura">
+        <item>Alloggio privato</item>
+        <item>Studentato</item>
+        <item>Altro</item>
+    </string-array>
+
+    <string-array name="annuncio_categoria">
+        <item>Appartamento</item>
+        <item>Stanza singola</item>
+        <item>Stanza doppia</item>
+        <item>Stanza tripla</item>
+        <item>Altro</item>
+    </string-array>
+
+    <string-array name="arredamento">
+        <item>Arredato</item>
+        <item>Parzialmente arredato</item>
+        <item>Non arredato</item>
+    </string-array>
+
+    <string-array name="consumo_energetico">
+        <item>A4</item>
+        <item>A3</item>
+        <item>A2</item>
+        <item>A1</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+    </string-array>
 </resources>

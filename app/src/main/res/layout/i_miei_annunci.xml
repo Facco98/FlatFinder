@@ -5,20 +5,24 @@
               android:layout_height="match_parent">
     <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:id="@+id/miei_annunci_lyt_tablayout">
+
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="preferiti"
+                android:id="@+id/miei_annunci_tabitem_preferiti"/>
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attivi" android:id="@+id/miei_annunci_tabitem_attivi"/>
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Annunci pubblicati"/>
-
-        <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Annunci offerti"/>
+                android:text="ritirati" android:id="@+id/miei_annunci_tabitem_ritirati"/>
 
     </com.google.android.material.tabs.TabLayout>
     <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" android:id="@+id/miei_annunci_viewpager"/>
 </LinearLayout>
