@@ -79,7 +79,8 @@
                 android:drawablePadding="20dp"
                 android:id="@+id/signin_lbl_google"
                 android:layout_marginTop="50dp"
-                android:textSize="18sp" android:padding="10dp" android:layout_gravity="center"/>
+                android:textSize="18sp" android:padding="10dp" android:layout_gravity="center"
+                android:textColor="@android:color/white"/>
         <TextView
                 android:text="@string/accedi_con_facebook_label"
                 android:layout_width="wrap_content"
@@ -88,7 +89,7 @@
                 android:drawableRight="@drawable/ic_facebook"
                 android:drawablePadding="20dp"
                 android:id="@+id/signin_lbl_facebook" android:textSize="18sp"
-                android:padding="10dp" android:layout_gravity="center"/>
+                android:padding="10dp" android:layout_gravity="center" android:textColor="@android:color/white"/>
 
         <ProgressBar
                 android:layout_width="match_parent"

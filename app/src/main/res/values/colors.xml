@@ -9,5 +9,6 @@
     <color name="ColorText">#555555</color>
     <color name="grey">#F2F2F2</color>
     <color name="colorRedButton">#801401</color>
+    <color name="colorBlack">blac</color>
     <color name="colorTransparentGrey">#1AFFFFFF</color> <!-- opacity 10% -->
 </resources>
