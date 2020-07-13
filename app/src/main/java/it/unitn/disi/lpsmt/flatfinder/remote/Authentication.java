@@ -15,10 +15,14 @@ import it.unitn.disi.lpsmt.flatfinder.task.Task;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Authentication {
+public final class Authentication {
 
     private static final String TAG = "AWS Authentication";
     private static AWSMobileClient mobileClient = AWSMobileClient.getInstance();
+
+    private Authentication(){
+
+    }
 
     public static void registerUser( @NonNull User user, @NonNull String password, @Nullable Completion<SignUpResult> completion) {
 

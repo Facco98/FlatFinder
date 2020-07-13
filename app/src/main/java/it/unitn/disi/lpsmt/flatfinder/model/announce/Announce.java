@@ -212,5 +212,14 @@ public class Announce {
         this.photos = photos;
     }
 
+    public String toString(){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("ANNOUNCE[").append("tipologia=").append(this.getType());
+        sb.append(", arredamento=").append(this.getFornitureStatus()).append(", classeEnergetica=");
+        sb.append(this.getEnergeticClass()).append("]");
+        return sb.toString();
+
+    }
 
 }

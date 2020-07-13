@@ -1,16 +1,22 @@
 package it.unitn.disi.lpsmt.flatfinder;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
+import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
+import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -51,6 +57,9 @@ public class HomeActivity extends AppCompatActivity {
             this.finish();
         else
             this.aggiornaViewsUtente();
+
+        RemoteAPI.getAnnounceList(null, this::handleAnnounceList );
+
     }
 
     private void btnCercaAnnuncioDidClick(View v){
@@ -85,6 +94,28 @@ public class HomeActivity extends AppCompatActivity {
         builder.append(heading).append(this.user.getName());
 
         this.lblCiao.setText(builder.toString());
+
+    }
+
+    private void handleAnnounceList(List<Announce> announces, Exception e){
+
+        if( e != null )
+            e.printStackTrace();
+        else if( announces != null )
+            for( Announce announce : announces ) {
+                RemoteAPI.getPhotosForAnnounce(announce.getId(), this::handlePhotoList);
+                Log.i(TAG, announce.toString());
+            }
+
+    }
+
+    private void handlePhotoList(List<Photo> photos, Exception e){
+
+        if( e != null )
+            e.printStackTrace();
+        else if ( photos != null )
+            for ( Photo photo : photos )
+                Log.d(TAG, photo.toString());
 
     }
 

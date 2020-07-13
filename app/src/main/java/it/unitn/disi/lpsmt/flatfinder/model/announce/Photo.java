@@ -56,4 +56,10 @@ public class Photo {
         return new Photo(null, encodedImage);
 
     }
+
+    public String toString(){
+
+        return "PHOTO[id=" + this.getId() +", encoded=" + this.getEncodedString()+"]";
+
+    }
 }
