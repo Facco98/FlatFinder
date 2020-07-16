@@ -24,20 +24,24 @@
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_tipologia_struttura"/>
+
             <TextView
-                    android:text="Tipologia struttura"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_tipologia_struttura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipologia struttura" />
             <Space
                     android:layout_width="match_parent"
                     android:layout_height="15dp"/>
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_categoria"/>
+
             <TextView
-                    android:text="Categoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Categoria" />
             <Space
                     android:layout_width="match_parent"
                     android:layout_height="15dp"/>
@@ -59,10 +63,12 @@
                         android:layout_height="wrap_content" android:layout_weight="1"
                         android:background="@color/grey" android:id="@+id/nuovo_annuncio_btn_verificaIndirizzo"/>
             </LinearLayout>
+
             <TextView
-                    android:text="Indirizzo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_indirizzo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Indirizzo" />
 
             <Space
                     android:layout_width="match_parent"
@@ -88,10 +94,12 @@
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
                             android:id="@+id/nuovo_annuncio_txt_affitto"/>
+
                     <TextView
-                            android:text="Affitto mensile"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_affitto_mensile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Affitto mensile" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -108,10 +116,12 @@
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
                             android:id="@+id/nuovo_annuncio_txt_altreSpese"/>
+
                     <TextView
-                            android:text="Altre spese"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_altre_spese"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Altre spese" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -127,10 +137,12 @@
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_descrizione"/>
+
             <TextView
-                    android:text="Descrizione"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_descrizione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrizione" />
 
             <Space
                     android:layout_width="match_parent"
@@ -148,10 +160,12 @@
                     <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_arredamento"/>
+
                     <TextView
-                            android:text="Arredamento"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_arredamento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Arredamento" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -161,10 +175,12 @@
                     <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_classeenergetica"/>
+
                     <TextView
-                            android:text="Classe energetica"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_classe_energetica"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Classe energetica" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -179,10 +195,12 @@
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_disponibilità"/>
+
             <TextView
-                    android:text="Disponibilità"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_disponibiità"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disponibilità" />
             <Space
                     android:layout_width="match_parent"
                     android:layout_height="15dp"/>
@@ -204,10 +222,12 @@
                             android:ems="10"
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nLocali"/>
+
                     <TextView
-                            android:text="Numero locali"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_numero_locali"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Numero locali" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -222,10 +242,12 @@
                             android:ems="10"
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nBagni"/>
+
                     <TextView
-                            android:text="Numero bagni"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_numero_bagni"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Numero bagni" />
                 </LinearLayout>
             </LinearLayout>
             <Space
@@ -248,10 +270,12 @@
                             android:ems="10"
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_dimensione"/>
+
                     <TextView
-                            android:text="Dimensione (metri quadri)"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_dimensione"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dimensione (metri quadri)" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -266,10 +290,12 @@
                             android:ems="10"
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nPiano"/>
+
                     <TextView
-                            android:text="Numero piano"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        android:id="@+id/nuovo_annuncio_lbl_numero_piano"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Numero piano" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -285,10 +311,12 @@
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_contattiCellulare"/>
+
             <TextView
-                    android:text="Contatti (numero cellulare)"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/nuovo_annuncio_lbl_contatti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contatti (numero cellulare)" />
 
             <Space
                     android:layout_width="match_parent"
