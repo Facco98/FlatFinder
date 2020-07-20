@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.flatfinder;
+package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.app.AlertDialog;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import com.amazonaws.mobile.client.results.SignUpResult;
 import com.amazonaws.services.cognitoidentityprovider.model.InvalidPasswordException;
 import com.amazonaws.services.cognitoidentityprovider.model.UsernameExistsException;
+import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;

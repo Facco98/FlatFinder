@@ -54,13 +54,19 @@ public class Announce {
     @SerializedName("dimensione")
     private float size;
 
+    @SerializedName("altre_spese")
+    private int extras;
+
+    @SerializedName("data_annuncio")
+    private Date date;
+
     @Expose(serialize = false, deserialize = false)
     private List<Photo> photos;
 
     public Announce(int id, String creatorUsername, LocalType type, Category category, String address,
                     float rentPerMonth, String description, FornitureStatus fornitureStatus,
                     EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms,
-                    int floor, float size) {
+                    int floor, float size, int extras, Date date) {
 
         this.id = id;
         this.creatorUsername = creatorUsername;
@@ -77,6 +83,8 @@ public class Announce {
         this.nBathrooms = nBathrooms;
         this.floor = floor;
         this.size = size;
+        this.extras = extras;
+        this.date = date;
         this.photos = new ArrayList<>();
     }
 
@@ -118,6 +126,14 @@ public class Announce {
 
     public String getAddress() {
         return address;
+    }
+
+    public int getExtras() {
+        return extras;
+    }
+
+    public void setExtras(int extras) {
+        this.extras = extras;
     }
 
     public void setAddress(String address) {
@@ -212,12 +228,20 @@ public class Announce {
         this.photos = photos;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public String toString(){
 
         StringBuilder sb = new StringBuilder();
         sb.append("ANNOUNCE[").append("tipologia=").append(this.getType());
         sb.append(", arredamento=").append(this.getFornitureStatus()).append(", classeEnergetica=");
-        sb.append(this.getEnergeticClass()).append("]");
+        sb.append(this.getEnergeticClass()).append(", affintoM=").append(this.getRentPerMonth()).append("]");
         return sb.toString();
 
     }

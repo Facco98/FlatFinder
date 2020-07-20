@@ -62,6 +62,16 @@
     <string name="sidebar_lbl_logout">Logout</string>
     <string name="sidebar_lbl_segnala">Segnala</string>
     <string name="sidebar_lbl_condivi_con_i_tuoi_amici">Condivi con i tuoi amici</string>
+    <string name="euro">€</string>
+    <string name="per_month">/mese</string>
+    <string name="from">Dal</string>
+    <string name="to">al</string>
+    <string name="rooms">locali</string>
+    <string name="floor">piano</string>
+    <string name="mq">mq</string>
+    <string name="bathrooms">bagni</string>
+    <string name="empty_photos">Caricamento delle foto in corso</string>
+    <string name="no_photo">Nessuna foto disponibile</string>
 
     <string-array name="annuncio_tipologia_struttura">
         <item>Alloggio privato</item>

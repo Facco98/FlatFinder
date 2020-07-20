@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.flatfinder;
+package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.navigation.NavigationView;
+import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
@@ -55,11 +56,9 @@ public class HomeActivity extends AppCompatActivity {
 
         if( this.user == null )
             this.finish();
-        else
+        else {
             this.aggiornaViewsUtente();
-
-        RemoteAPI.getAnnounceList(null, this::handleAnnounceList );
-
+        }
     }
 
     private void btnCercaAnnuncioDidClick(View v){

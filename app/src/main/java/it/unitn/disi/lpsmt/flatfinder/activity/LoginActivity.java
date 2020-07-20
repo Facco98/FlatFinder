@@ -1,7 +1,6 @@
-package it.unitn.disi.lpsmt.flatfinder;
+package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.amazonaws.services.cognitoidentityprovider.model.NotAuthorizedException;
 import com.amazonaws.services.cognitoidentityprovider.model.UserNotConfirmedException;
+import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 
@@ -132,14 +132,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginAvvenuto(){
 
+        /*
         Intent i = new Intent(this, HomeActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putString(User.EMAIL_KEY, this.user.getEmail());
         bundle.putString(User.PHONE_NUMBER_KEY, this.user.getPhone_number());
         bundle.putString(User.NAME_KEY, this.user.getName());
         bundle.putString(User.FAMILY_NAME_KEY, this.user.getFamily_name());
         i.putExtra(HomeActivity.USER_KEY, bundle);
+         */
+
+        Intent i = new Intent(this, AnnounceDetailsActivity.class);
+        i.putExtra("announceID", 2);
         this.startActivity(i);
         this.finish();
 

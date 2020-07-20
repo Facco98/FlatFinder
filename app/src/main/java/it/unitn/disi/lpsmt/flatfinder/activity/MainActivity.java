@@ -1,7 +1,8 @@
-package it.unitn.disi.lpsmt.flatfinder;
+package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import it.unitn.disi.lpsmt.flatfinder.R;
 
 public class MainActivity extends AppCompatActivity {
 

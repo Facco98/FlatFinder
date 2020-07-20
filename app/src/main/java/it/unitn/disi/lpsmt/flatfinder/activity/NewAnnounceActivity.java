@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.flatfinder;
+package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import it.unitn.disi.lpsmt.flatfinder.R;
 
 public class NewAnnounceActivity extends AppCompatActivity {
 
