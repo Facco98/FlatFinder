@@ -132,18 +132,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginAvvenuto(){
 
-        /*
+        User.setCurrentUser(this.user);
         Intent i = new Intent(this, HomeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(User.EMAIL_KEY, this.user.getEmail());
-        bundle.putString(User.PHONE_NUMBER_KEY, this.user.getPhone_number());
-        bundle.putString(User.NAME_KEY, this.user.getName());
-        bundle.putString(User.FAMILY_NAME_KEY, this.user.getFamily_name());
-        i.putExtra(HomeActivity.USER_KEY, bundle);
-         */
-
-        Intent i = new Intent(this, AnnounceDetailsActivity.class);
-        i.putExtra("announceID", 2);
         this.startActivity(i);
         this.finish();
 

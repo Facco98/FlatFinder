@@ -11,16 +11,6 @@
         android:id="@+id/home_lyt_drawerLayout"
         >
 
-    <com.google.android.material.navigation.NavigationView
-            android:id="@+id/home_view_navigationView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/sidebar_header"
-            app:menu="@menu/sidebar_menu"
-    >
-    </com.google.android.material.navigation.NavigationView>
-
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -94,7 +84,18 @@
                         android:id="@+id/home_view_recycleView"/>
             </LinearLayout>
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+            android:id="@+id/home_view_navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/sidebar_menu"
+    >
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

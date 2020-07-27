@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 public class User implements Serializable{
 
+    private static User currentUser = null;
+
     public static final String EMAIL_KEY = "email";
     public static final String NAME_KEY = "name";
     public static final String FAMILY_NAME_KEY = "family_name";
@@ -81,6 +83,25 @@ public class User implements Serializable{
         sb.append("]");
 
         return sb.toString();
+
+    }
+
+    public static void setCurrentUser(User u){
+
+        currentUser = u;
+
+    }
+
+    @Nullable
+    public static User getCurrentUser(){
+
+        return currentUser;
+
+    }
+
+    public static boolean isSignedIn(){
+
+        return currentUser != null;
 
     }
 
