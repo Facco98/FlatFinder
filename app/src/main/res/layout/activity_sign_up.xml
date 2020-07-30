@@ -24,7 +24,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/signup_logo" android:layout_marginTop="40dp" android:layout_marginBottom="40dp"
                 android:contentDescription="@string/logo_app"
-                android:layout_gravity="center" app:srcCompat="@mipmap/ic_launcher"/>
+                android:layout_gravity="center" app:srcCompat="@mipmap/ic_launcher_round"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

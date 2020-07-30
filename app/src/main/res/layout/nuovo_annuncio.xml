@@ -93,7 +93,7 @@
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/nuovo_annuncio_txt_affitto"/>
+                            android:id="@+id/ricerca_filtri_txt_affitto"/>
 
                     <TextView
                         android:id="@+id/nuovo_annuncio_lbl_affitto_mensile"
@@ -115,7 +115,7 @@
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/nuovo_annuncio_txt_altreSpese"/>
+                            android:id="@+id/ricerca_filtri_txt_altreSpese"/>
 
                     <TextView
                         android:id="@+id/nuovo_annuncio_lbl_altre_spese"
@@ -159,7 +159,7 @@
                         android:layout_weight="1">
                     <Spinner
                             android:layout_width="match_parent"
-                            android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_arredamento"/>
+                            android:layout_height="45dp" android:id="@+id/ricerca_spinner_arredamento"/>
 
                     <TextView
                         android:id="@+id/nuovo_annuncio_lbl_arredamento"
@@ -174,7 +174,7 @@
                         android:layout_height="wrap_content" android:layout_weight="1">
                     <Spinner
                             android:layout_width="match_parent"
-                            android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_classeenergetica"/>
+                            android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_classeenergetica"/>
 
                     <TextView
                         android:id="@+id/nuovo_annuncio_lbl_classe_energetica"
@@ -194,7 +194,7 @@
                     android:gravity="start|top"
                     android:ems="10"
                     android:background="@drawable/background_edittext"
-                    android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_disponibilità"/>
+                    android:padding="10dp" android:id="@+id/ricerca_filtri_txt_disponibilità"/>
 
             <TextView
                 android:id="@+id/nuovo_annuncio_lbl_disponibiità"

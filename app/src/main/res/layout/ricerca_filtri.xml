@@ -22,7 +22,7 @@
                     android:layout_height="15dp"/>
             <Spinner
                     android:layout_width="match_parent"
-                    android:layout_height="45dp" android:id="@+id/ricerca_filtri__spinner_categoria"/>
+                    android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_categoria"/>
             <TextView
                     android:text="Categoria"
                     android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/nuovo_annuncio_txt_affitto"/>
+                            android:id="@+id/ricerca_filtri_txt_affitto"/>
                     <TextView
                             android:text="Min"
                             android:layout_width="match_parent"
@@ -76,13 +76,25 @@
                             android:background="@drawable/background_edittext"
                             android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
                             android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/nuovo_annuncio_txt_altreSpese"/>
+                            android:id="@+id/ricerca_filtri_txt_altreSpese"/>
                     <TextView
                             android:text="Max"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/ricerca_filtri_lyt_appartamento">
+
+            </FrameLayout>
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="15dp"
+                    android:text="Imposta filtri" android:id="@+id/nuovo_annuncio_btn_imposta"/>
 
         </LinearLayout>
     </ScrollView>
