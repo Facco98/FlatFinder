@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="5dp"
+            android:background="@drawable/background_map_searchview"
             android:queryHint="Inserisci un indrizzo o una zona" android:layout_margin="20dp"
             android:id="@+id/ricerca_view_search"/>
     <androidx.cardview.widget.CardView
@@ -67,7 +70,7 @@
                         android:layout_height="wrap_content" android:textSize="18sp"
                         android:textStyle="bold" android:layout_marginBottom="5dp"/>
                 <TextView
-                        android:text="cerca gli alloggi intorno"
+                        android:text="cerca gli alloggi intorno a te"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
             </LinearLayout>

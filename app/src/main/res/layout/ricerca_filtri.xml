@@ -12,7 +12,9 @@
 
             <Spinner
                     android:layout_width="match_parent"
-                    android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_tipologia_struttura"/>
+                    android:layout_height="45dp"
+                    android:entries="@array/annuncio_tipologia_struttura"
+                    android:id="@+id/ricerca_filtri_spinner_tipologia_struttura"/>
             <TextView
                     android:text="Tipologia struttura"
                     android:layout_width="match_parent"
@@ -22,6 +24,7 @@
                     android:layout_height="15dp"/>
             <Spinner
                     android:layout_width="match_parent"
+                    android:entries="@array/annuncio_categoria"
                     android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_categoria"/>
             <TextView
                     android:text="Categoria"
@@ -29,72 +32,11 @@
                     android:layout_height="wrap_content"/>
             <Space
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"/>
-            <TextView
-                    android:text="Affitto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="18sp"/>
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
-
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:layout_marginRight="10dp"
-                        android:layout_weight="1">
-                    <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberSigned"
-                            android:gravity="start|top"
-                            android:ems="10"
-                            android:background="@drawable/background_edittext"
-                            android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
-                            android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/ricerca_filtri_txt_affitto"/>
-                    <TextView
-                            android:text="Min"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:layout_weight="1">
-                    <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberSigned"
-                            android:gravity="start|top"
-                            android:ems="10"
-                            android:background="@drawable/background_edittext"
-                            android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
-                            android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
-                            android:id="@+id/ricerca_filtri_txt_altreSpese"/>
-                    <TextView
-                            android:text="Max"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </LinearLayout>
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/ricerca_filtri_lyt_appartamento">
-
-            </FrameLayout>
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
+                    android:layout_height="50dp"/>
             <Button android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:padding="15dp"
-                    android:text="Imposta filtri" android:id="@+id/nuovo_annuncio_btn_imposta"/>
+                    android:text="Avanti" android:id="@+id/ricerca_filtri_btn_avanti"/>
 
         </LinearLayout>
     </ScrollView>
