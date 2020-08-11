@@ -10,7 +10,7 @@ import java.util.List;
 public class Announce {
 
     @SerializedName("id")
-    private int id;
+    private Integer id;
 
     @SerializedName("username_creatore")
     private String creatorUsername;
@@ -55,18 +55,22 @@ public class Announce {
     private float size;
 
     @SerializedName("altre_spese")
-    private int extras;
+    private Float extras;
 
     @SerializedName("data_annuncio")
     private Date date;
 
+    @SerializedName("numero_telefono")
+    private String contact;
+
     @Expose(serialize = false, deserialize = false)
     private List<Photo> photos;
 
-    public Announce(int id, String creatorUsername, LocalType type, Category category, String address,
+
+    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address,
                     float rentPerMonth, String description, FornitureStatus fornitureStatus,
                     EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms,
-                    int floor, float size, int extras, Date date) {
+                    int floor, float size, Float extras, Date date, String contact) {
 
         this.id = id;
         this.creatorUsername = creatorUsername;
@@ -85,6 +89,7 @@ public class Announce {
         this.size = size;
         this.extras = extras;
         this.date = date;
+        this.contact = contact;
         this.photos = new ArrayList<>();
     }
 
@@ -128,11 +133,11 @@ public class Announce {
         return address;
     }
 
-    public int getExtras() {
+    public Float getExtras() {
         return extras;
     }
 
-    public void setExtras(int extras) {
+    public void setExtras(Float extras) {
         this.extras = extras;
     }
 
@@ -246,4 +251,15 @@ public class Announce {
 
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 }

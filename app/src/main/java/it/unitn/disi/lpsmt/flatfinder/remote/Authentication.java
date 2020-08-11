@@ -65,7 +65,8 @@ public final class Authentication {
             String name = attributes.get("name");
             String familyName = attributes.get("family_name");
             String phoneNumber = attributes.get("phone_number");
-            user = new User(email, name, familyName, phoneNumber);
+            String sub = attributes.get("sub");
+            user = new User(email, name, familyName, phoneNumber, sub);
 
             return user;
         }, completion);
@@ -82,6 +83,7 @@ public final class Authentication {
                 @Override
                 public void onResult(UserStateDetails result) {
                     Log.d(TAG, "User details: [ " + result.getUserState() + ", " + result.getDetails() + " ]");
+
                 }
 
                 @Override
@@ -93,7 +95,6 @@ public final class Authentication {
         }
 
         mobileClient.initialize(context, realCallback);
-
     }
 
     public static void getUser(@Nullable Completion<User> completion) {
@@ -108,8 +109,9 @@ public final class Authentication {
                 String name = attributes.get("name");
                 String family_name = attributes.get("family_name");
                 String phone_number = attributes.get("phone_number");
+                String sub = attributes.get("sub");
 
-                user = new User(email, name, family_name, phone_number);
+                user = new User(email, name, family_name, phone_number, sub);
 
             }
 

@@ -26,12 +26,15 @@ public class User implements Serializable{
     @Nullable
     private String phone_number;
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String family_name, @Nullable String phone_number){
+    @Nullable
+    private String sub;
+
+    public User(@NonNull String email, @NonNull String name, @NonNull String family_name, @Nullable String phone_number, @Nullable String sub){
 
         this.email = email;
         this.name = name;
         this.family_name = family_name;
-
+        this.sub = sub;
     }
 
 
@@ -71,6 +74,15 @@ public class User implements Serializable{
         this.phone_number = phone_number;
     }
 
+    @Nullable
+    public String getSub() {
+        return sub;
+    }
+
+    public void setSub(@Nullable String sub) {
+        this.sub = sub;
+    }
+
     @Override
     @NonNull
     public String toString(){
@@ -85,6 +97,8 @@ public class User implements Serializable{
         return sb.toString();
 
     }
+
+
 
     public static void setCurrentUser(User u){
 
@@ -104,6 +118,7 @@ public class User implements Serializable{
         return currentUser != null;
 
     }
+
 
 
 }

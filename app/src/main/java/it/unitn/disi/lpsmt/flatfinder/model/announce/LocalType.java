@@ -14,4 +14,10 @@ public enum LocalType {
 
     }
 
+    public String toString(){
+
+        return this.description;
+
+    }
+
 }

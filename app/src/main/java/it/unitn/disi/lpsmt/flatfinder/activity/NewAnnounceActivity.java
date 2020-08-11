@@ -1,15 +1,28 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.model.announce.*;
+import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
+import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class NewAnnounceActivity extends AppCompatActivity {
 
@@ -30,17 +43,30 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private EditText txtNumeroBagni;
     private EditText txtDimensione;
     private EditText txtNumeroPiano;
-    private EditText txtContattiCellulare;
+    private EditText txtContatti;
     private Button btnAvanti;
+
+    private boolean validAddress = false;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.nuovo_annuncio);
+        this.user = User.getCurrentUser();
+        if( user == null ){
+
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+
+        }
         this.setupUI();
     }
 
     private void setupUI(){
+
         this.spnTipologiaStruttura = this.findViewById(R.id.nuovo_annuncio_spinner_tipologia_struttura);
         this.spnCategoria = this.findViewById(R.id.nuovo_annuncio_spinner_categoria);
         this.txtIndirizzo = this.findViewById(R.id.nuovo_annuncio_txt_indirizzo);
@@ -55,23 +81,159 @@ public class NewAnnounceActivity extends AppCompatActivity {
         this.txtNumeroBagni = this.findViewById(R.id.nuovo_annuncio_txt_nBagni);
         this.txtDimensione = this.findViewById(R.id.nuovo_annuncio_txt_dimensione);
         this.txtNumeroPiano = this.findViewById(R.id.nuovo_annuncio_txt_nPiano);
-        this.txtContattiCellulare = this.findViewById(R.id.nuovo_annuncio_txt_contattiCellulare);
         this.btnAvanti = this.findViewById(R.id.nuovo_annuncio_btn_avanti);
+        this.txtContatti = this.findViewById(R.id.nuovo_annuncio_txt_contattiCellulare);
 
         this.btnVerificaIndirizzo.setOnClickListener(this::btnVerificaIndirizzoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnClick);
+        this.txtIndirizzo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                validAddress = false;
+                //txtIndirizzo.setBackgroundColor(ContextCompat.getColor(NewAnnounceActivity.this, android.R.color.holo_red_light));
+            }
+        });
+
+        ArrayAdapter<LocalType> adapterTipologiaStruttura = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LocalType.values());
+        this.spnTipologiaStruttura.setAdapter(adapterTipologiaStruttura);
+        ArrayAdapter<FornitureStatus> adapterArredamento = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, FornitureStatus.values());
+        this.spnArredamento.setAdapter(adapterArredamento);
+        ArrayAdapter<Category> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Category.values());
+        this.spnCategoria.setAdapter(adapterCategoria);
+        ArrayAdapter<EnergeticClass> adapterClasseEnergetica = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, EnergeticClass.values());
+        this.spnClasseEnergetica.setAdapter(adapterClasseEnergetica);
 
     }
 
     private void btnVerificaIndirizzoOnClick( View v ){
 
         Log.d(TAG, "Button Verifica Indirizzo did click");
+        String indirizzo = this.txtIndirizzo.getText().toString().trim();
+        if( indirizzo.equals("") )
+            Toast.makeText(this, R.string.common_empty_address, Toast.LENGTH_SHORT);
+        else
+            RemoteAPI.verifyAddress(indirizzo, this::verificaIndirizzoCompletata);
+
+    }
+
+    private void verificaIndirizzoCompletata(GeocodingResponse response, Exception e){
+
+        Log.d(TAG, "Verifica completata!");
+        if( e != null ){
+            Toast.makeText(this, R.string.error_while_verifying_address, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } else if( response.getResult() != null && response.getResult().size() == 1 ) {
+            this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+            this.validAddress = true;
+            Log.i(TAG, "CORRECT");
+        }
+        else {
+            this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+            this.validAddress = false;
+            Log.i(TAG, "WRONG");
+        }
 
     }
 
     private void btnAvantiOnClick( View v ){
 
         Log.d(TAG, "Button Avanti did clicl");
+
+        if( !this.validAddress ) {
+            Toast.makeText(this, R.string.new_announce_must_validate_address, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        LocalType tipoLocale = (LocalType) (this.spnTipologiaStruttura.getSelectedItem());
+        FornitureStatus statoArredamento = (FornitureStatus) this.spnArredamento.getSelectedItem();
+        Category categoria = (Category) this.spnCategoria.getSelectedItem();
+        EnergeticClass classeEnergetica = (EnergeticClass) this.spnClasseEnergetica.getSelectedItem();
+        try {
+            String indirizzo = this.txtIndirizzo.getText().toString();
+
+            this.checkEmptyValue(indirizzo, "Indirizzo");
+            this.checkEmptyValue(this.txtAffitto.getText().toString(), "Affitto");
+            this.checkEmptyValue(this.txtAltreSpese.getText().toString(), "Altre Spese");
+
+            Float affittoMensile = Float.parseFloat(this.txtAffitto.getText().toString());
+            Float altreSpese = Float.parseFloat(this.txtAltreSpese.getText().toString());
+
+            String contatti = this.txtContatti.getText().toString();
+            this.checkEmptyValue(contatti, "Contatti");
+
+            String descrizione = this.txtDescrizione.getText().toString();
+            String disponibilita = this.txtDisponibilità.getText().toString();
+
+            this.checkEmptyValue(disponibilita, "Disponibilità");
+            this.checkEmptyValue(this.txtNumeroBagni.getText().toString(), "Numero bagni");
+            this.checkEmptyValue(this.txtNumeroLocali.getText().toString(), "Numero locali");
+            this.checkEmptyValue(this.txtNumeroPiano.getText().toString(), "Piano");
+            this.checkEmptyValue(this.txtDimensione.getText().toString(), "Dimensione");
+
+            Integer numeroLocali = Integer.parseInt(this.txtNumeroLocali.getText().toString());
+            Integer numeroBagni = Integer.parseInt(this.txtNumeroBagni.getText().toString());
+            Integer piano = Integer.parseInt(this.txtNumeroPiano.getText().toString());
+            Float dimensione = Float.parseFloat(this.txtDimensione.getText().toString());
+
+            Date inizioDisponibilita = Util.stringToDate(disponibilita.split("-")[0]);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(inizioDisponibilita);
+            calendar.add(Calendar.YEAR, 1);
+            Date fineDisponibilita = calendar.getTime();
+
+            try {
+
+                fineDisponibilita = Util.stringToDate(disponibilita.split("-")[1]);
+
+            } catch ( Exception ex ){
+
+                ex.printStackTrace();
+
+            }
+
+            Announce announce = new Announce(null, this.user.getSub(), tipoLocale, categoria, indirizzo, affittoMensile,
+                    descrizione, statoArredamento,classeEnergetica, inizioDisponibilita, fineDisponibilita, numeroLocali,
+                    numeroBagni, piano, dimensione, altreSpese, new Date(), contatti);
+            RemoteAPI.createNewAnnounce(announce,null);
+        } catch (EmptyFieldException ex){
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(R.string.common_empty_field).append(ex.field);
+            Toast.makeText(this, R.string.common_empty_field, Toast.LENGTH_SHORT).show();
+
+
+        } catch (NumberFormatException ex){
+
+            Toast.makeText(this,R.string.invalid_number, Toast.LENGTH_SHORT ).show();
+
+        } catch (ParseException ex){
+
+            Toast.makeText(this,R.string.invalid_date, Toast.LENGTH_SHORT ).show();
+
+        }
+
+    }
+
+    private void checkEmptyValue(String text, String fieldName) throws EmptyFieldException{
+
+        if( text == null || text.trim().isEmpty() || text.trim().equals("") )
+            throw new EmptyFieldException(fieldName);
+
+    }
+
+    private void nuovoAnnuncioPubblicato(String response, Exception e){
+
+        Log.i(TAG, "CARICAMENTO COMPLETATO");
+        Log.d(TAG, response);
 
     }
 }

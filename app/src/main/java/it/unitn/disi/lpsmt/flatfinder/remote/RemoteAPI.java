@@ -8,14 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
+import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
 import it.unitn.disi.lpsmt.flatfinder.task.Task;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +24,8 @@ public final class RemoteAPI {
     private final static String ANNOUNCE_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/announce";
     private final static String PHOTO_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/photo";
     private static final String TAG = "REMOTE";
+    private static final String GEOCODING_KEY = "94250b2bf89d401da822d4821b28b640";
+    private static final String GEOCODING_ENDPOINT = "https://api.opencagedata.com/geocode/v1/json";
 
     private RemoteAPI(){
 
@@ -79,11 +79,13 @@ public final class RemoteAPI {
             connection.setRequestMethod("POST");
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-            writer.write(gson.toJson(announce));
+            String jsonString = gson.toJson(announce);
+            Log.i(TAG, "POSTING ANNOUNCE: " + jsonString);
+            writer.write(jsonString);
             writer.flush();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String s = null;
+            String s;
             StringBuilder sb = new StringBuilder();
             while((s = reader.readLine()) != null )
                 sb.append(s);
@@ -109,6 +111,26 @@ public final class RemoteAPI {
 
         }, completion);
         photosTask.execute(new Void[1]);
+
+    }
+
+    public static void verifyAddress(@NonNull String address, @NonNull Completion<GeocodingResponse> completion){
+
+        Task<Void, GeocodingResponse> verificationTask = new Task<Void, GeocodingResponse>((voids -> {
+                HttpsURLConnection connection = (HttpsURLConnection) new URL(GEOCODING_ENDPOINT + "?q=" +address +"&key="+GEOCODING_KEY+"&pretty=1")
+                        .openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String temp;
+                StringBuilder sb = new StringBuilder();
+                while( (temp = in.readLine()) != null)
+                    sb.append(temp);
+                String jsonString = sb.toString();
+                Log.d(TAG, jsonString);
+                Gson gson = new Gson();
+                GeocodingResponse response = gson.fromJson(jsonString, GeocodingResponse.class);
+                return response;
+        }), completion);
+        verificationTask.execute(new Void[1]);
 
     }
 

@@ -15,4 +15,10 @@ public enum Category {
 
     }
 
+    public String toString(){
+
+        return this.description;
+
+    }
+
 }

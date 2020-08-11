@@ -14,4 +14,10 @@ public enum FornitureStatus {
 
     }
 
+    public String toString(){
+
+        return this.description;
+
+    }
+
 }
