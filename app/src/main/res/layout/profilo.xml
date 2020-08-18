@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+            tools:context=".activity.ProfileActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="25dp">
+        <ImageView android:layout_width="150dp"
+                   android:layout_height="150dp"
+                   android:id="@+id/profilo_img_immagineDiProfilo"
+                   android:src="@color/cardview_dark_background"
+                   android:layout_gravity="center"
+        />
+
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="start|top"
+                android:ems="10"
+                android:background="@drawable/background_edittext"
+                android:padding="10dp" android:id="@+id/profilo_txt_nome"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome" />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="start|top"
+                android:ems="10"
+                android:background="@drawable/background_edittext"
+                android:padding="10dp" android:id="@+id/profilo_txt_cognome"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cognome" />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <RadioGroup android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/profilo_rdgroup_sesso">
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:button="@color/colorTransparentGrey"
+                    android:text="Femmina"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_buttongroup"
+                    android:checked="false"/>
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:button="@color/colorTransparentGrey"
+                    android:text="Maschio"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_buttongroup"
+            />
+        </RadioGroup>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sesso"/>
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <Spinner
+                android:layout_width="match_parent"
+                android:entries="@array/tipo_inserzionista"
+                android:layout_height="45dp"
+                android:id="@+id/profilo_spinner_tipoInserzionista"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo inserzionista"/>
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Contatti"
+                  android:textSize="20dp"
+        />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:gravity="start|top"
+                android:ems="10"
+                android:background="@drawable/background_edittext"
+                android:padding="10dp" android:id="@+id/profilo_txt_email"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email" />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:gravity="start|top"
+                android:ems="10"
+                android:background="@drawable/background_edittext"
+                android:padding="10dp" android:id="@+id/profilo_txt_numeroTelefono"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Numero di telefono" />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Desidero mostrare"
+                  android:textSize="20dp"
+        />
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+        <RadioGroup android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/profilo_rdgroup_privacy">
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Nome"
+                    android:layout_weight="1"
+                    android:checked="false"
+            />
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Numero di telefono"
+                    android:layout_weight="1"
+                    android:checked="false"/>
+        </RadioGroup>
+
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:padding="15dp"
+                android:text="Salva modifiche" android:id="@+id/profilo_btn_salva"/>
+
+
+    </LinearLayout>
+
+    </ScrollView>

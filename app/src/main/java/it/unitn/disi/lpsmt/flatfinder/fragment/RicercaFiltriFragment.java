@@ -45,9 +45,9 @@ public class RicercaFiltriFragment extends Fragment {
         Fragment nextFragment;
 
         if(categoria.equals("Appartamento") || categoria.equals("Altro")){
-            nextFragment = new RicercaFiltriStanzaFragment();
-        } else {
             nextFragment = new RicercaFiltriAppartamentoFragment();
+        } else {
+            nextFragment = new RicercaFiltriStanzaFragment();
         }
 
         activity.getSupportFragmentManager().beginTransaction().replace(currentFragmentId, nextFragment).addToBackStack(null).commit();

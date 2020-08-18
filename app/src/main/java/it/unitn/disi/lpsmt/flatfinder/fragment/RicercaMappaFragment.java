@@ -36,7 +36,7 @@ public class RicercaMappaFragment extends Fragment {
     private void initUI(View inflateView){
         this.searchView = inflateView.findViewById(R.id.ricerca_view_search);
         this.mapView = inflateView.findViewById(R.id.ricerca_view_mapView);
-        this.btnGPS = inflateView.findViewById(R.id.ricerca_btn_floatingActionButton);
+        this.btnGPS = inflateView.findViewById(R.id.ricerca_fab_gps);
         this.btnConferma = inflateView.findViewById(R.id.ricerca_btn_conferma);
 
         this.btnGPS.setOnClickListener(this::btnGPSOnClick);

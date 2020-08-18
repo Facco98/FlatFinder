@@ -48,15 +48,21 @@ public class RicercaFragment extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         int currentFragmentId = ((ViewGroup)getView().getParent()).getId();
         Fragment nextFragment = new RicercaMappaFragment();
-        activity.getSupportFragmentManager().beginTransaction().replace(currentFragmentId, nextFragment).addToBackStack(null).commit();
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(currentFragmentId, nextFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void cardDisegnaMappaOnCLick(View view) {
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         int currentFragmentId = ((ViewGroup)getView().getParent()).getId();
         Fragment nextFragment = new RicercaMappaFragment();
-        activity.getSupportFragmentManager().beginTransaction().replace(currentFragmentId, nextFragment).addToBackStack(null).commit();
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(currentFragmentId, nextFragment)
+                .addToBackStack(null)
+                .commit();
     }
-
-
 }

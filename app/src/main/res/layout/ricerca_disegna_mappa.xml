@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true" android:src="@drawable/ic_my_location_black"
-            android:id="@+id/ricerca_btn_floatingActionButton" app:backgroundTint="@android:color/white"
+            android:id="@+id/ricerca_fab_gps" app:backgroundTint="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="24dp" android:layout_marginEnd="24dp"
             android:focusable="true" app:layout_constraintBottom_toTopOf="@+id/ricerca_btn_conferma"
