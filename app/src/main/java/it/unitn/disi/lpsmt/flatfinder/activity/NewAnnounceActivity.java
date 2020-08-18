@@ -1,8 +1,11 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,17 +13,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import com.google.gson.Gson;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.*;
 import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,6 +56,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private EditText txtNumeroPiano;
     private EditText txtContatti;
     private Button btnAvanti;
+    private Button btnCaricaFoto;
+    private PhotosAdapter gridPhotosAdapter;
 
     private boolean validAddress = false;
 
@@ -62,6 +75,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
             this.finish();
 
         }
+        this.gridPhotosAdapter = new PhotosAdapter(new ArrayList<>(), this);
         this.setupUI();
     }
 
@@ -83,8 +97,13 @@ public class NewAnnounceActivity extends AppCompatActivity {
         this.txtNumeroPiano = this.findViewById(R.id.nuovo_annuncio_txt_nPiano);
         this.btnAvanti = this.findViewById(R.id.nuovo_annuncio_btn_avanti);
         this.txtContatti = this.findViewById(R.id.nuovo_annuncio_txt_contattiCellulare);
+        this.btnCaricaFoto = this.findViewById(R.id.nuovo_annuncio_btn_caricafoto);
+        ViewPager photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
+
+        photosPager.setAdapter(this.gridPhotosAdapter);
 
         this.btnVerificaIndirizzo.setOnClickListener(this::btnVerificaIndirizzoOnClick);
+        this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnClick);
         this.txtIndirizzo.addTextChangedListener(new TextWatcher() {
             @Override
@@ -140,7 +159,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
         else {
             this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
             this.validAddress = false;
-            Log.i(TAG, "WRONG");
+            Log.i(TAG, "WRONG ");
         }
 
     }
@@ -203,7 +222,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
             Announce announce = new Announce(null, this.user.getSub(), tipoLocale, categoria, indirizzo, affittoMensile,
                     descrizione, statoArredamento,classeEnergetica, inizioDisponibilita, fineDisponibilita, numeroLocali,
                     numeroBagni, piano, dimensione, altreSpese, new Date(), contatti);
-            RemoteAPI.createNewAnnounce(announce,null);
+            System.out.println(new Gson().toJson(announce));
+            RemoteAPI.createNewAnnounce(announce,this::nuovoAnnuncioPubblicato);
         } catch (EmptyFieldException ex){
 
             StringBuilder sb = new StringBuilder();
@@ -232,8 +252,68 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
     private void nuovoAnnuncioPubblicato(String response, Exception e){
 
-        Log.i(TAG, "CARICAMENTO COMPLETATO");
-        Log.d(TAG, response);
+        if( e != null ){
 
+            e.printStackTrace();
+            Toast.makeText(this, "Errore durante il caricamento dell'annuncio", Toast.LENGTH_SHORT).show();
+
+        } else if( response != null ){
+
+            try {
+                JSONObject responseJSON = new JSONObject(response);
+                int announceID = responseJSON.getInt("createdAnnounceID");
+                RemoteAPI.uploadPhotosForAnnounce(this.gridPhotosAdapter.getItems(), announceID, (res, ex) ->{
+
+                    if( res != null ){
+
+                        Log.i(TAG, res);
+                        this.finish();
+
+                    } else if ( ex != null )
+                        ex.printStackTrace();
+
+                });
+            } catch (JSONException jsonException) {
+                jsonException.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    private void btnCaricaFotoOnClick(View v){
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/png");
+        this.startActivityForResult(intent, Util.SELECT_IMAGE);
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Util.SELECT_IMAGE && data != null && data.getData() != null) {
+
+                try {
+                    InputStream is = this.getContentResolver().openInputStream(data.getData());
+                    Bitmap bmp = BitmapFactory.decodeStream(is);
+                    is.close();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    byte[] base64Encoded = Base64.encode(baos.toByteArray(), Base64.DEFAULT);
+                    String str = new String(base64Encoded);
+                    Photo photo = new Photo(null, str);
+                    this.gridPhotosAdapter.addItem(photo);
+                    this.gridPhotosAdapter.notifyDataSetChanged();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 }

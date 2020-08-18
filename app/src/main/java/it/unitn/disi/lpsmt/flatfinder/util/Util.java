@@ -7,6 +7,8 @@ import java.util.Locale;
 
 public class Util {
 
+    public static final int SELECT_IMAGE = 200;
+
     private Util(){
 
     }
