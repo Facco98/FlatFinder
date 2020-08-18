@@ -37,7 +37,7 @@
         La mail inserita è gia associata a un altro utente
     </string>
     <string name="password_non_valida">
-        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola e un simbolo speciale
+        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola, un numero e un simbolo speciale
     </string>
 
     <string name="login_utente_non_confermato">
@@ -148,6 +148,5 @@
         <item>Personale dello studentato</item>
         <item>Privato</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

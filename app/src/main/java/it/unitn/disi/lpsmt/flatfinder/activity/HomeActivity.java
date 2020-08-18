@@ -124,6 +124,18 @@ public class HomeActivity extends AppCompatActivity {
                 i = new Intent( this, SearchActivity.class);
                 break;
 
+            case R.id.sidebar_item_annunciPubblicati:
+                i = new Intent(this, MyAnnouncesActivity.class);
+                break;
+
+            case R.id.sidebar_item_profilo:
+                i = new Intent(this, ProfileActivity.class);
+                break;
+
+            case R.id.sidebar_item_AnnunciSalvati:
+                i=new Intent(this, FavoritesActivity.class);
+                break;
+
             default:
                 Log.i(TAG, "NOT IMPLEMENTED YET");
         }

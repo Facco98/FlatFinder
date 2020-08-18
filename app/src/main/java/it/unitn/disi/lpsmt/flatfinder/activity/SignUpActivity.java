@@ -1,11 +1,9 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.amazonaws.mobile.client.results.SignUpResult;
@@ -26,6 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText txtPassword;
     private EditText txtConfermaPassword;
     private CheckBox cbxAccettoTermini;
+    private TextView lblAccedi;
 
     private Button btnRegistrati;
 
@@ -47,9 +46,18 @@ public class SignUpActivity extends AppCompatActivity {
         this.txtConfermaPassword = this.findViewById(R.id.signup_txt_confirmPassword);
         this.cbxAccettoTermini = this.findViewById(R.id.signup_cbx_informativa);
         this.btnRegistrati = this.findViewById(R.id.signup_btn_registrati);
+        this.lblAccedi = this.findViewById(R.id.signup_lbl_accedi);
 
         this.btnRegistrati.setOnClickListener(this::btnRegistratiOnClick);
+        this.lblAccedi.setOnClickListener(this::lblAccediOnClick);
         this.resetUI();
+    }
+
+    private void lblAccediOnClick(View view) {
+        Log.d(TAG, view.getId() + " DID TAP");
+        Log.d(TAG, "" + this.lblAccedi.getId() + " DID TAP");
+        Intent i = new Intent(this, LoginActivity.class);
+        this.startActivity(i);
     }
 
     private void resetUI() {

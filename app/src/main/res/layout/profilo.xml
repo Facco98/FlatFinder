@@ -151,26 +151,19 @@
         <Space
                 android:layout_width="match_parent"
                 android:layout_height="15dp"/>
-        <RadioGroup android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/profilo_rdgroup_privacy">
-            <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Nome"
-                    android:layout_weight="1"
-                    android:checked="false"
-            />
-            <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Numero di telefono"
-                    android:layout_weight="1"
-                    android:checked="false"/>
-        </RadioGroup>
+
+        <CheckBox android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Nome"
+                  android:checked="false"
+                  android:padding="10dp"
+                  android:id="@+id/profilo_chkbox_privacyNome"/>
+        <CheckBox android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Numero di telefono"
+                  android:checked="false"
+                  android:padding="10dp"
+                  android:id="@+id/profilo_chkbox_privacyNumeroTelefono"/>
 
         <Space
                 android:layout_width="match_parent"

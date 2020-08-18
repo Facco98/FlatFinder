@@ -9,9 +9,10 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 
 public class ProfileActivity extends AppCompatActivity {
     
-    private ImageView imgProfileImmage;
+    private ImageView imgProfileImage;
     private EditText txtNome, txtCognome, txtEmail, txtTelefono;
-    private RadioGroup rdgSesso, rdgPrivacy;
+    private RadioGroup rdgSesso;
+    private CheckBox chkboxNome, chkboxTelefono;
     private Spinner spnTipoInserzionista;
     private Button btnSalva;
 
@@ -24,12 +25,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        this.imgProfileImmage = this.findViewById(R.id.profilo_img_immagineDiProfilo);
+        this.imgProfileImage = this.findViewById(R.id.profilo_img_immagineDiProfilo);
         this.txtNome = this.findViewById(R.id.profilo_txt_nome);
         this.txtCognome = this.findViewById(R.id.profilo_txt_cognome);
         this.txtEmail = this.findViewById(R.id.profilo_txt_email);
         this.txtTelefono = this.findViewById(R.id.profilo_txt_numeroTelefono);
-        this.rdgPrivacy = this.findViewById(R.id.profilo_rdgroup_privacy);
+        this.chkboxNome = this.findViewById(R.id.profilo_chkbox_privacyNome);
+        this.chkboxTelefono = this.findViewById(R.id.profilo_chkbox_privacyNumeroTelefono);
         this.rdgSesso = this.findViewById(R.id.profilo_rdgroup_sesso);
         this.spnTipoInserzionista  = this.findViewById(R.id.profilo_spinner_tipoInserzionista);
         this.btnSalva = this.findViewById(R.id.profilo_btn_salva);
