@@ -54,4 +54,16 @@ public class PhotosAdapter extends PagerAdapter {
     public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.setPrimaryItem(container, position, object);
     }
+
+    public void addItem(Photo photo){
+
+        this.photos.add(photo);
+
+    }
+
+    public List<Photo> getItems(){
+
+        return this.photos;
+
+    }
 }

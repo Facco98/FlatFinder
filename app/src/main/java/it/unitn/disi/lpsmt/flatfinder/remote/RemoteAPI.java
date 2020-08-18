@@ -77,12 +77,13 @@ public final class RemoteAPI {
             URL endpoint = new URL(ANNOUNCE_ENDPOINT);
             HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
             connection.setRequestMethod("POST");
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
             String jsonString = gson.toJson(announce);
             Log.i(TAG, "POSTING ANNOUNCE: " + jsonString);
-            writer.write(jsonString);
+            writer.println(jsonString);
             writer.flush();
+            writer.close();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String s;
@@ -108,6 +109,30 @@ public final class RemoteAPI {
             Gson gson = new Gson();
             Photo[] photosArray = gson.fromJson(reader, Photo[].class);
             return Arrays.asList(photosArray);
+
+        }, completion);
+        photosTask.execute(new Void[1]);
+
+    }
+
+    public static void uploadPhotosForAnnounce(@NonNull List<Photo> photos, @NonNull Integer announceID, @Nullable Completion<String> completion){
+
+        Task<Void, String> photosTask = new Task<Void, String>((voids) -> {
+
+            URL endpoint = new URL(PHOTO_ENDPOINT + "?idAnnuncio=" + announceID );
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("POST");
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+            writer.println(new Gson().toJson(photos));
+            writer.flush();
+            writer.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+            return sb.toString();
 
         }, completion);
         photosTask.execute(new Void[1]);

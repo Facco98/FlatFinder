@@ -60,7 +60,7 @@ public class Announce {
     @SerializedName("data_annuncio")
     private Date date;
 
-    @SerializedName("numero_telefono")
+    @SerializedName("contatti")
     private String contact;
 
     @Expose(serialize = false, deserialize = false)
