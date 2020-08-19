@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 import it.unitn.disi.lpsmt.flatfinder.R;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -24,7 +25,16 @@ public class ProfileActivity extends AppCompatActivity {
         this.setupUI();
     }
 
+    private void setupToolbar() {
+        Toolbar toolbar = this.findViewById(R.id.profilo_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
     private void setupUI() {
+
+        setupToolbar();
+
         this.imgProfileImage = this.findViewById(R.id.profilo_img_immagineDiProfilo);
         this.txtNome = this.findViewById(R.id.profilo_txt_nome);
         this.txtCognome = this.findViewById(R.id.profilo_txt_cognome);

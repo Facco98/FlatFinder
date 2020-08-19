@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import com.google.gson.Gson;
@@ -80,6 +81,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
     }
 
     private void setupUI(){
+
+        setupToolbar();
 
         this.spnTipologiaStruttura = this.findViewById(R.id.nuovo_annuncio_spinner_tipologia_struttura);
         this.spnCategoria = this.findViewById(R.id.nuovo_annuncio_spinner_categoria);
@@ -315,5 +318,11 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = this.findViewById(R.id.nuovo_annuncio_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 }

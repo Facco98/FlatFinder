@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TableLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -39,6 +40,8 @@ public class MyAnnouncesActivity extends AppCompatActivity {
         this.fabAddNewAnnounce = this.findViewById(R.id.miei_annunci_fab_addNewAnnounce);
 
         this.fabAddNewAnnounce.setOnClickListener(this::fabAddNewAnnounceOnClick);
+
+        setupToolbar();
     }
 
     private void fabAddNewAnnounceOnClick(View view) {
@@ -46,5 +49,10 @@ public class MyAnnouncesActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    private void setupToolbar() {
+        Toolbar toolbar = this.findViewById(R.id.miei_annunci_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
 
 }

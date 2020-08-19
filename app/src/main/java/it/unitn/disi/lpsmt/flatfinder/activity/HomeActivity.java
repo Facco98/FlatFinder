@@ -13,14 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
-import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
-
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private TextView lblCiao;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         this.drawerLayout = this.findViewById(R.id.home_lyt_drawerLayout);
         Toolbar toolbar = this.findViewById(R.id.home_tlbr_toolbar);
         this.navigationView.getMenu().findItem(R.id.sidebar_item_home).setChecked(true);
+        this.recyclerView = this.findViewById(R.id.home_view_recycleView);
 
         this.btnCercaAnnuncio.setOnClickListener(this::btnCercaAnnuncioDidClick);
         this.btnPubblicaAnnuncio.setOnClickListener(this::btnPubblicaAnnuncioDicClick);
@@ -135,6 +134,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.sidebar_item_AnnunciSalvati:
                 i=new Intent(this, FavoritesActivity.class);
                 break;
+
+            case R.id.sidebar_item_ricercheSalvate:
+                i = new Intent(this, SavedSearchActivity.class);
 
             default:
                 Log.i(TAG, "NOT IMPLEMENTED YET");

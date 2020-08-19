@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.R;
 
-public class SalvaZonaDialogFragment extends DialogFragment{
+public class SalvaRicercaDialogFragment extends DialogFragment{
 
     private static final String TAG = "SalvaZonaDialog";
 
@@ -22,7 +22,7 @@ public class SalvaZonaDialogFragment extends DialogFragment{
     private ImageButton btnChiudi;
     private Button btnSalva;
 
-    public SalvaZonaDialogFragment() {
+    public SalvaRicercaDialogFragment() {
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SalvaZonaDialogFragment extends DialogFragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ricerca_salva_zona, container, false);
+        View view = inflater.inflate(R.layout.ricerca_salva, container, false);
 
         this.setupUI(view);
 

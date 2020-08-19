@@ -1,44 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
-    <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical" android:padding="20dp">
+   <LinearLayout android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical">
 
-            <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:entries="@array/annuncio_tipologia_struttura"
-                    android:id="@+id/ricerca_filtri_spinner_tipologia_struttura"/>
-            <TextView
-                    android:text="Tipologia struttura"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"/>
-            <Spinner
-                    android:layout_width="match_parent"
-                    android:entries="@array/annuncio_categoria"
-                    android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_categoria"/>
-            <TextView
-                    android:text="Categoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-            <Button android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark"
-                    android:padding="15dp"
-                    android:text="Avanti" android:id="@+id/ricerca_filtri_btn_avanti"/>
+       <androidx.cardview.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:elevation="5dp"
+               app:cardBackgroundColor="@color/white_background">
+           <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:padding="10dp"
+           >
+               <ImageButton
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/ricerca_filtri_btn_chiudi"
+                       android:src="@drawable/ic_baseline_close_24"
+                       android:background="?attr/selectableItemBackgroundBorderless"
+                       android:layout_gravity="center_vertical"/>
+               <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Imposta filtri"
+                       android:textSize="20sp"
+                       android:layout_gravity="center_vertical"
+                       android:gravity="center_vertical"
+                       android:layout_marginStart="10dp"
+                       android:layout_marginLeft="10dp"/>
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:orientation="vertical" android:padding="20dp">
+
+           <Spinner
+                   android:layout_width="match_parent"
+                   android:layout_height="45dp"
+                   android:entries="@array/annuncio_tipologia_struttura"
+                   android:id="@+id/ricerca_filtri_spinner_tipologia_struttura"/>
+           <TextView
+                   android:text="Tipologia struttura"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"/>
+           <Space
+                   android:layout_width="match_parent"
+                   android:layout_height="15dp"/>
+           <Spinner
+                   android:layout_width="match_parent"
+                   android:entries="@array/annuncio_categoria"
+                   android:layout_height="45dp" android:id="@+id/ricerca_filtri_spinner_categoria"/>
+           <TextView
+                   android:text="Categoria"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"/>
+           <Space
+                   android:layout_width="match_parent"
+                   android:layout_height="50dp"/>
+
+           <fragment
+                   android:id="@+id/ricerca_filtri_view_fragment"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:name="it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment"
+                    />
+
+           <!--
+
+           <Button android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/colorPrimaryDark"
+                   android:padding="15dp"
+                   android:text="Avanti" android:id="@+id/ricerca_filtri_btn_avanti"/>
+
+           -->
+       </LinearLayout>
+
+
+   </LinearLayout>
+
+
+</ScrollView>

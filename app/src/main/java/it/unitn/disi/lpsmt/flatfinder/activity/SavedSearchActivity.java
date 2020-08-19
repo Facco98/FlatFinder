@@ -6,53 +6,52 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
-import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
+import it.unitn.disi.lpsmt.flatfinder.adapter.SavedSearchListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.model.Search;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritesActivity extends AppCompatActivity {
+public class SavedSearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Announce> announceList;
+    private List<Search> searchList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.pagina_dei_preferiti);
+        setContentView(R.layout.activity_saved_search);
 
         this.setupUI();
 
         this.setRecyclerViewAdapter();
+
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = this.findViewById(R.id.saved_search_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     private void setRecyclerViewAdapter() {
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        // TODO get announceList from database
-        // announceList = ;
+        // TODO get searchList from database
 
-        if(announceList == null){
-            announceList = new ArrayList<>();
+        if(searchList == null){
+            searchList = new ArrayList<>();
         }
 
-        this.adapter = new MyAnnounceListAdapter(this.announceList, this);
+        this.adapter = new SavedSearchListAdapter(this.searchList, this);
         this.recyclerView.setAdapter(this.adapter);
     }
 
     private void setupUI() {
-        this.recyclerView = this.findViewById(R.id.preferiti_view_recycleview);
-
         setupToolbar();
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = this.findViewById(R.id.preferiti_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        this.recyclerView = this.findViewById(R.id.saved_search_view_recycleview);
     }
 }

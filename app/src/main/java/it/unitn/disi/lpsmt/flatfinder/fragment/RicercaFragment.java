@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.flatfinder.fragment;
 import android.os.Bundle;
 import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;

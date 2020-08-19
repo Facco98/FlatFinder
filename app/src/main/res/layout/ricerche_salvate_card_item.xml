@@ -13,14 +13,14 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:text="Stanza singola a Trento"
-                  android:id="@+id/zone_salvate_card_lbl_nomeRicerca"
+                  android:id="@+id/ricerche_salvate_card_lbl_nomeRicerca"
                   android:textSize="20sp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Camera singola"
                 android:layout_marginTop="10dp"
-                android:id="@+id/zone_salvate_card_lbl_categoria"/>
+                android:id="@+id/ricerche_salvate_card_lbl_categoria"/>
 
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                       android:orientation="horizontal">
             <Button android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/zone_salvate_card_btn_modifica"
+                    android:id="@+id/ricerche_salvate_card_btn_modifica"
                     android:background="@color/colorTransparentGrey"
                     android:layout_marginRight="5dp"
                     android:text="Modifica"/>
@@ -39,7 +39,7 @@
                     android:text="Elimina"
                     android:textColor="@color/white_background"
                     android:background="@drawable/background_dettagli_button"
-                    android:id="@+id/zone_salvate_card_btn_elimina"/>
+                    android:id="@+id/ricerche_salvate_card_btn_elimina"/>
 
         </LinearLayout>
 

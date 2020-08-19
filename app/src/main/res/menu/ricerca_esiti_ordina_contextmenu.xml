@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/ricerca_esiti_menu_ordinaRilevanza"
+          android:title="Rilevanza"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaEconomici"
+          android:title="Più economici"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaCostosi"
+          android:title="Più costosi"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaGrandi"
+          android:title="Più grandi"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaPiccoli"
+          android:title="Più piccoli"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaPiuLocali"
+          android:title="Più locali"/>
+    <item android:id="@+id/ricerca_esiti_menu_ordinaMenoLocali"
+          android:title="Meno locali"/>
+</menu>

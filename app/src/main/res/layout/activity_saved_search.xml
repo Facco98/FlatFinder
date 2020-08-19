@@ -5,22 +5,26 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.SearchActivity" android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".activity.SavedSearchActivity">
 
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/search_toolbar"
+            android:id="@+id/saved_search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white_background"
             android:elevation="5dp"
-            app:title="Ricerca"
+            app:title="Ricerche salvate"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-    <FrameLayout
+
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/search_lyt_layout"/>
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:id="@+id/saved_search_view_recycleview"/>
+
 
 
 </LinearLayout>

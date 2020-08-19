@@ -15,7 +15,7 @@ import it.unitn.disi.lpsmt.flatfinder.model.Search;
 
 import java.util.List;
 
-public class FavoriteAreaListAdapter extends RecyclerView.Adapter<FavoriteAreaListAdapter.FavoriteAreaListViewHolder>{
+public class SavedSearchListAdapter extends RecyclerView.Adapter<SavedSearchListAdapter.FavoriteAreaListViewHolder>{
 
     private static final String TAG = "FavoriteAreaListAdapter";
 
@@ -23,22 +23,22 @@ public class FavoriteAreaListAdapter extends RecyclerView.Adapter<FavoriteAreaLi
     private Context context;
     private Search search;
 
-    public FavoriteAreaListAdapter(List<Search> list, Context context) {
+    public SavedSearchListAdapter(List<Search> list, Context context) {
         this.list = list;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public FavoriteAreaListAdapter.FavoriteAreaListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zone_salvate_card_item, parent, false);
-        FavoriteAreaListAdapter.FavoriteAreaListViewHolder viewHolder = new FavoriteAreaListAdapter.FavoriteAreaListViewHolder(view);
+    public SavedSearchListAdapter.FavoriteAreaListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ricerche_salvate_card_item, parent, false);
+        SavedSearchListAdapter.FavoriteAreaListViewHolder viewHolder = new SavedSearchListAdapter.FavoriteAreaListViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoriteAreaListAdapter.FavoriteAreaListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SavedSearchListAdapter.FavoriteAreaListViewHolder holder, int position) {
         this.search = this.list.get(position);
 
         holder.itemView.setOnClickListener(this::cardOnClick);
@@ -85,10 +85,10 @@ public class FavoriteAreaListAdapter extends RecyclerView.Adapter<FavoriteAreaLi
         }
 
         private void setupUI(View view) {
-            this.txtNomeRicerca = view.findViewById(R.id.zone_salvate_card_lbl_nomeRicerca);
-            this.txtCategoriaRicerca = view.findViewById(R.id.zone_salvate_card_lbl_categoria);
-            this.btnElimina = view.findViewById(R.id.zone_salvate_card_btn_elimina);
-            this.btnModifica = view.findViewById(R.id.zone_salvate_card_btn_modifica);
+            this.txtNomeRicerca = view.findViewById(R.id.ricerche_salvate_card_lbl_nomeRicerca);
+            this.txtCategoriaRicerca = view.findViewById(R.id.ricerche_salvate_card_lbl_categoria);
+            this.btnElimina = view.findViewById(R.id.ricerche_salvate_card_btn_elimina);
+            this.btnModifica = view.findViewById(R.id.ricerche_salvate_card_btn_modifica);
         }
     }
 }

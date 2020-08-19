@@ -12,20 +12,27 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.FavoriteAreaActivity">
+        <activity android:name=".activity.SavedSearchActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
-        <activity android:name=".activity.SearchResultActivity">
+        <activity android:name=".activity.SearchResultActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
-        <activity android:name=".activity.ProfileActivity">
+        <activity android:name=".activity.ProfileActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
-        <activity android:name=".activity.FavoritesActivity">
+        <activity android:name=".activity.FavoritesActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
-        <activity android:name=".activity.MyAnnouncesActivity">
+        <activity android:name=".activity.MyAnnouncesActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
-        <activity android:name=".activity.SearchActivity">
+        <activity android:name=".activity.SearchActivity"
+                  android:parentActivityName=".activity.HomeActivity">
         </activity>
         <activity android:name=".activity.AnnounceDetailsActivity"/>
-        <activity android:name=".activity.NewAnnounceActivity"/>
+        <activity android:name=".activity.NewAnnounceActivity"
+                  android:parentActivityName=".activity.HomeActivity"/>
         <activity android:name=".activity.HomeActivity"/>
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.LoginActivity">

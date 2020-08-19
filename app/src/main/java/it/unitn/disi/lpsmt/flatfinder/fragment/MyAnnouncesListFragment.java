@@ -14,6 +14,7 @@ import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnouncesAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,15 +39,23 @@ public class MyAnnouncesListFragment extends Fragment {
 
         setupUI(view);
 
+        this.setRecyclerViewAdapter(view);
+
+        return view;
+    }
+
+    private void setRecyclerViewAdapter(View view) {
         this.layoutManager = new LinearLayoutManager(view.getContext());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
         // TODO get announceList from database
 
+        if(announceList == null){
+            announceList = new ArrayList<>();
+        }
+
         this.adapter = new MyAnnounceListAdapter(this.announceList, view.getContext());
         this.recyclerView.setAdapter(this.adapter);
-
-        return view;
     }
 
     private void setupUI(View view) {

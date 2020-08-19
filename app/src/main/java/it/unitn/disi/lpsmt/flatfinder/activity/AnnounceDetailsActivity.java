@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.maps.MapView;
@@ -64,6 +65,14 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
             RemoteAPI.getAnnounceList(filters, this::handleAnnounceLoading);
 
         }
+
+
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = this.findViewById(R.id.dettagli_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     private void setupUI(){
@@ -88,6 +97,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
         this.btnContatta.setOnClickListener(this::btnContattaOnClick);
         this.btnSalva.setOnClickListener(this::btnSalvaOnClick);
+
+        setupToolbar();
 
     }
 

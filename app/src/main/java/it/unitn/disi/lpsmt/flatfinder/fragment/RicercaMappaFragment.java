@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -10,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.MapView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.activity.SearchResultActivity;
 
 public class RicercaMappaFragment extends Fragment {
 
@@ -18,7 +21,7 @@ public class RicercaMappaFragment extends Fragment {
 
     private SearchView searchView;
     private MapView mapView;
-    private Button btnGPS;
+    private FloatingActionButton fabGPS;
     private Button btnConferma;
 
     @Override
@@ -36,10 +39,10 @@ public class RicercaMappaFragment extends Fragment {
     private void initUI(View inflateView){
         this.searchView = inflateView.findViewById(R.id.ricerca_view_search);
         this.mapView = inflateView.findViewById(R.id.ricerca_view_mapView);
-        this.btnGPS = inflateView.findViewById(R.id.ricerca_fab_gps);
+        this.fabGPS = inflateView.findViewById(R.id.ricerca_fab_gps);
         this.btnConferma = inflateView.findViewById(R.id.ricerca_btn_conferma);
 
-        this.btnGPS.setOnClickListener(this::btnGPSOnClick);
+        this.fabGPS.setOnClickListener(this::btnGPSOnClick);
         this.btnConferma.setOnClickListener(this::btnConfermaOnClick);
     }
 
@@ -47,5 +50,9 @@ public class RicercaMappaFragment extends Fragment {
     }
 
     private void btnConfermaOnClick(View view) {
+        // do stuff
+
+        Intent intent = new Intent(this.getActivity(), SearchResultActivity.class);
+        startActivity(intent);
     }
 }
