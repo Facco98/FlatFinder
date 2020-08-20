@@ -224,7 +224,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
             Announce announce = new Announce(null, this.user.getSub(), tipoLocale, categoria, indirizzo, affittoMensile,
                     descrizione, statoArredamento,classeEnergetica, inizioDisponibilita, fineDisponibilita, numeroLocali,
-                    numeroBagni, piano, dimensione, altreSpese, new Date(), contatti);
+                    numeroBagni, piano, dimensione, altreSpese, new Date(), contatti, true);
             System.out.println(new Gson().toJson(announce));
             RemoteAPI.createNewAnnounce(announce,this::nuovoAnnuncioPubblicato);
         } catch (EmptyFieldException ex){

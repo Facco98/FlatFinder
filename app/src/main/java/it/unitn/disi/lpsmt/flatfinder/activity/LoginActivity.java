@@ -9,9 +9,14 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.amazonaws.services.cognitoidentityprovider.model.NotAuthorizedException;
-import com.amazonaws.services.cognitoidentityprovider.model.UserNotConfirmedException;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 
@@ -34,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Authentication.initialize(this.getApplicationContext(), null);
         this.setContentView(R.layout.activity_login);
         this.user = null;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -121,8 +125,32 @@ public class LoginActivity extends AppCompatActivity {
     private void lblGoogleOnClick( View v ){
 
         Log.d(TAG, "Trying to login with Google");
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("128269540845-tpufpa2aon8kapieghrp2l44pav8nmg6.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 300);
 
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == 300) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Authentication.loginWithGoole(account.getIdToken(), this::loginHandler);
+            } catch (ApiException e) {
+                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            }
+        }
+    }
+
 
     private void lblFacebookOnClick( View v ){
 
@@ -146,10 +174,12 @@ public class LoginActivity extends AppCompatActivity {
             this.loginAvvenuto();
             this.resetUI();
         } else if ( ex != null ) {
-            if( ex instanceof UserNotConfirmedException )
+            if( ex instanceof EmailNotVerifiedException)
                 Toast.makeText(this.getApplicationContext(), R.string.login_utente_non_confermato, Toast.LENGTH_LONG).show();
-            else if ( ex instanceof NotAuthorizedException ){
+            else if ( ex instanceof NullPointerException ){
                 Toast.makeText(this.getApplicationContext(), R.string.login_email_o_psw_errati, Toast.LENGTH_LONG).show();
+            } else {
+                ex.printStackTrace();
             }
         }
 

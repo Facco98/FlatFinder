@@ -1,131 +1,176 @@
 package it.unitn.disi.lpsmt.flatfinder.remote;
 
-import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.UserStateDetails;
-import com.amazonaws.mobile.client.results.SignUpResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.*;
+import com.google.firebase.firestore.FirebaseFirestore;
+import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
 import it.unitn.disi.lpsmt.flatfinder.task.Task;
 
+import java.io.InvalidClassException;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Authentication {
 
-    private static final String TAG = "AWS Authentication";
-    private static AWSMobileClient mobileClient = AWSMobileClient.getInstance();
-
+    private static final String TAG = "Authentication";
+    private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private Authentication(){
 
     }
 
-    public static void registerUser( @NonNull User user, @NonNull String password, @Nullable Completion<SignUpResult> completion) {
+    public static void registerUser( @NonNull User user, @NonNull String password, @Nullable Completion<Boolean> completion) {
 
-        if( mobileClient.isSignedIn() )
+        if( firebaseAuth.getCurrentUser() != null )
             logout();
 
-        Map<String, String> userAttributes = new HashMap<>();
-        userAttributes.put("name", user.getName());
-        userAttributes.put("family_name", user.getFamily_name());
+        firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<AuthResult> task) {
+                try{
+                    FirebaseUser firebaseUser = task.getResult().getUser();
+                    firebaseAuth.updateCurrentUser(firebaseUser);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("phoneN", user.getPhone_number());
+                    map.put("uid", firebaseUser.getUid());
+                    map.put("name", user.getName());
+                    map.put("family_name", user.getFamily_name());
+                    firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).set(map).addOnCompleteListener((voids2) -> {
+                        firebaseUser.sendEmailVerification().addOnCompleteListener( (vuoti) -> {
+                            if (completion != null)
+                                    completion.onComplete(true, null);
+                        });
+                    });
 
-        String phone_number = user.getPhone_number();
+                } catch ( Exception ex ){
 
-        if( phone_number != null ){
-            userAttributes.put("phone_number", user.getPhone_number());
-        }
+                    if( completion != null )
+                        completion.onComplete(null, ex);
 
-        Task<String, SignUpResult> registrationTask = new Task<String, SignUpResult>((params) -> {
+                }
+            }
+        });
 
-            String psw = params[1];
-            String email = params[0];
-
-            SignUpResult signUpResult = mobileClient.signUp(email, psw, userAttributes, null);
-            return signUpResult;
-
-        }, completion);
-        registrationTask.execute(user.getEmail(), password);
 
 
     }
 
-    public static void login(@NonNull String email, @NonNull String password, @Nullable Completion<User> completion) throws Exception {
+    public static void login(@NonNull String email, @NonNull String password, @Nullable Completion<User> completion) {
 
-        Task<String, User> loginTask = new Task<String, User>((params) -> {
-            User user = null;
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener((authTask) -> {
+            try {
+                FirebaseUser firebaseUser = authTask.getResult().getUser();
+                if (!firebaseUser.isEmailVerified())
+                    throw new EmailNotVerifiedException("Email non verificata");
+                firebaseAuth.updateCurrentUser(firebaseUser);
 
-            String mail = params[0];
-            String psw = params[1];
-            mobileClient.signIn(mail, psw, null);
-            Map<String, String> attributes = mobileClient.getUserAttributes();
-            String name = attributes.get("name");
-            String familyName = attributes.get("family_name");
-            String phoneNumber = attributes.get("phone_number");
-            String sub = attributes.get("sub");
-            user = new User(email, name, familyName, phoneNumber, sub);
+                firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).get().addOnCompleteListener(task -> {
+                    String phoneNumber = (String) task.getResult().get("phoneN");
+                    String name = (String) task.getResult().get("name");
+                    String familyName = (String) task.getResult().get("family_name");
+                    String sub = firebaseUser.getUid();
+                    User user = new User(email, name, familyName, phoneNumber, sub);
 
-            return user;
-        }, completion);
-        loginTask.execute(email, password);
+                    if( completion != null )
+                        completion.onComplete(user, null);
+                });
 
 
-    }
+            } catch( Exception ex ){
 
-    public static void initialize(@NonNull Context context, @Nullable Callback<UserStateDetails> callback) {
+                if( completion != null )
+                    completion.onComplete(null, ex);
 
-        Callback<UserStateDetails> realCallback = callback;
-        if ( realCallback == null ) {
-            realCallback = new Callback<UserStateDetails>() {
-                @Override
-                public void onResult(UserStateDetails result) {
-                    Log.d(TAG, "User details: [ " + result.getUserState() + ", " + result.getDetails() + " ]");
+            }
+        });
 
-                }
 
-                @Override
-                public void onError(Exception e) {
-                    //Log.d(TAG, Log.getStackTraceString(e));
-                }
-            };
 
-        }
 
-        mobileClient.initialize(context, realCallback);
     }
 
     public static void getUser(@Nullable Completion<User> completion) {
 
-        Task<String, User> retrieveUserTask = new Task<String, User>(params -> {
+        if( firebaseAuth.getCurrentUser() != null ){
 
-            User user = null;
-            if( mobileClient.isSignedIn() ){
+            try {
+                FirebaseUser attributes = firebaseAuth.getCurrentUser();
+                String email = attributes.getEmail();
+                firebaseFirestore.collection("utenti").document(attributes.getUid()).get().addOnCompleteListener(task -> {
+                    String phoneNumber = (String) task.getResult().get("phoneN");
+                    String name = (String) task.getResult().get("name");
+                    String familyName = (String) task.getResult().get("family_name");
+                    String sub = attributes.getUid();
+                    User user = new User(email, name, familyName, phoneNumber, sub);
 
-                Map<String, String> attributes = mobileClient.getUserAttributes();
-                String email = attributes.get("email");
-                String name = attributes.get("name");
-                String family_name = attributes.get("family_name");
-                String phone_number = attributes.get("phone_number");
-                String sub = attributes.get("sub");
+                    if( completion != null )
+                        completion.onComplete(user, null);
+                });
+            } catch ( Exception ex ){
 
-                user = new User(email, name, family_name, phone_number, sub);
+                if( completion != null )
+                    completion.onComplete(null, ex);
 
             }
 
-            return user;
 
-        }, completion);
-        retrieveUserTask.execute();
+        } else {
 
+            if( completion != null )
+                completion.onComplete(null, new InvalidClassException("No user"));
+
+        }
     }
 
     public static void logout(){
 
-        mobileClient.signOut();
+        firebaseAuth.signOut();
 
+    }
+
+    public static void loginWithGoole(String idToken, @Nullable Completion<User> completion){
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(task -> {
+                    try{
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser firebaseUser = task.getResult().getUser();
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("phoneN", firebaseUser.getPhoneNumber());
+                            map.put("uid", firebaseUser.getUid());
+                            map.put("name", task.getResult().getAdditionalUserInfo().getProfile().get("given_name"));
+                            map.put("family_name", task.getResult().getAdditionalUserInfo().getProfile().get("family_name"));
+                            //System.out.println(task.getResult().getAdditionalUserInfo().getProfile());
+                            firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).set(map)
+                                    .addOnCompleteListener(voids -> {
+                                        firebaseAuth.updateCurrentUser(firebaseUser);
+                                        if (completion != null) {
+                                            User user = new User(firebaseUser.getEmail(), (String) map.get("name"),
+                                                    (String) map.get("family_name"), (String) map.get("phoneN"),
+                                                    firebaseUser.getUid());
+                                            completion.onComplete(user, null);
+                                        }
+                                    });
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        }
+                    } catch ( Exception ex ){
+
+                        if( completion != null ) completion.onComplete(null, ex);
+
+                    }
+                });
     }
 
 

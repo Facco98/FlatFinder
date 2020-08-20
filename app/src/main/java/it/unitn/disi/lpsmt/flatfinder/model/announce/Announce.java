@@ -63,14 +63,17 @@ public class Announce {
     @SerializedName("contatti")
     private String contact;
 
+    @SerializedName("attivo")
+    private boolean active = true;
+
     @Expose(serialize = false, deserialize = false)
-    private List<Photo> photos;
+    private List<Photo> photos = new ArrayList<>();
 
 
     public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address,
                     float rentPerMonth, String description, FornitureStatus fornitureStatus,
                     EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms,
-                    int floor, float size, Float extras, Date date, String contact) {
+                    int floor, float size, Float extras, Date date, String contact, boolean active) {
 
         this.id = id;
         this.creatorUsername = creatorUsername;
@@ -90,7 +93,30 @@ public class Announce {
         this.extras = extras;
         this.date = date;
         this.contact = contact;
+        this.active = active;
         this.photos = new ArrayList<>();
+    }
+
+    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address, float rentPerMonth, String description, FornitureStatus fornitureStatus, EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms, int floor, float size, Float extras, Date date, String contact, List<Photo> photos) {
+        this.id = id;
+        this.creatorUsername = creatorUsername;
+        this.type = type;
+        this.category = category;
+        this.address = address;
+        this.rentPerMonth = rentPerMonth;
+        this.description = description;
+        this.fornitureStatus = fornitureStatus;
+        this.energeticClass = energeticClass;
+        this.start = start;
+        this.end = end;
+        this.nLocals = nLocals;
+        this.nBathrooms = nBathrooms;
+        this.floor = floor;
+        this.size = size;
+        this.extras = extras;
+        this.date = date;
+        this.contact = contact;
+        this.photos = photos;
     }
 
     public Announce() {
@@ -261,5 +287,13 @@ public class Announce {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

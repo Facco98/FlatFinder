@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhotosAdapter extends PagerAdapter {
@@ -15,9 +17,10 @@ public class PhotosAdapter extends PagerAdapter {
     private List<Photo> photos;
     private Context context;
 
-    public PhotosAdapter(@NonNull List<Photo> photos, @NonNull Context context) {
+    public PhotosAdapter(@Nullable List<Photo> photos, @NonNull Context context) {
 
-        this.photos = photos;
+        if( this.photos == null )
+            this.photos = new ArrayList<>();
         this.context = context;
 
     }

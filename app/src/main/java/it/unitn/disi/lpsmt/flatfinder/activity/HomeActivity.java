@@ -42,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         this.user = User.getCurrentUser();
         if( this.user == null ) {
             Log.e(TAG, "USER IS NOT LOGGED IN");
-            this.finish();
+            Intent intent = new Intent(this, LoginActivity.class);
+            this.startActivity(intent);
+            this.finishAffinity();
         }
         else {
             this.aggiornaViewsUtente();

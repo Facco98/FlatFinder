@@ -10,11 +10,6 @@
                   android:orientation="vertical"
                   android:padding="20dp">
 
-        <androidx.viewpager.widget.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/miei_annunci_card_viewpager_imageviewpager"/>
-
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

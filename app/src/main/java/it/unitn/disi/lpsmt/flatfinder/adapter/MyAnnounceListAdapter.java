@@ -47,9 +47,6 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
 
         holder.itemView.setOnClickListener(this::cardOnClick);
 
-        List<Photo> photoList = announce.getPhotos();
-        holder.viewPager.setAdapter(new PhotosAdapter(photoList, context));
-
         holder.txtPrezzo.setText(announce.getRentPerMonth()+"");
         holder.txtDimensione.setText(announce.getSize()+"");
         holder.txtNLocali.setText(announce.getnLocals()+"");
@@ -84,7 +81,6 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
 
     public static class MyAnnounceListViewHolder extends RecyclerView.ViewHolder{
 
-        private ViewPager viewPager;
         private TextView txtPrezzo, txtDimensione, txtNLocali, txtCategoria, txtIndirizzo;
         private Button btnElimina, btnModifica;
 
@@ -95,7 +91,6 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
         }
 
         private void setupUI(View view) {
-            this.viewPager = view.findViewById(R.id.miei_annunci_card_viewpager_imageviewpager);
             this.txtPrezzo = view.findViewById(R.id.miei_annunci_card_lbl_prezzo);
             this.txtDimensione = view.findViewById(R.id.miei_annunci_card_lbl_dimensione);
             this.txtIndirizzo = view.findViewById(R.id.miei_annunci_card_lbl_indirizzo);

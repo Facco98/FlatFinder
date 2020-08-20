@@ -41,7 +41,7 @@ public final class RemoteAPI {
 
                 finalUrl += "?";
                 for(Map.Entry<String, String> filter : filters.entrySet() )
-                    finalUrl += filter.getKey() + "=" + filter.getValue() + ",";
+                    finalUrl += filter.getKey() + "=" + filter.getValue() + "&";
                 finalUrl = finalUrl.substring(0, finalUrl.length()-1);
 
             }

@@ -160,31 +160,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"/>
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="Desidero mostrare"
-                      android:textSize="20dp"
-            />
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"/>
-
-            <CheckBox android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="Nome"
-                      android:checked="false"
-                      android:padding="10dp"
-                      android:id="@+id/profilo_chkbox_privacyNome"/>
-            <CheckBox android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="Numero di telefono"
-                      android:checked="false"
-                      android:padding="10dp"
-                      android:id="@+id/profilo_chkbox_privacyNumeroTelefono"/>
-
-            <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"/>
 
             <Button android:layout_width="match_parent"
                     android:layout_height="wrap_content"

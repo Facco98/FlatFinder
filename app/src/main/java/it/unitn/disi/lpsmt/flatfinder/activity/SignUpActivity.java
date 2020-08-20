@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.amazonaws.mobile.client.results.SignUpResult;
-import com.amazonaws.services.cognitoidentityprovider.model.InvalidPasswordException;
-import com.amazonaws.services.cognitoidentityprovider.model.UsernameExistsException;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
@@ -91,16 +88,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         } else {
 
-            Completion<SignUpResult> completion = (result, error) -> {
+            Completion<Boolean> completion = (result, error) -> {
                 if (error != null) {
-                    if (error instanceof UsernameExistsException)
-                        Toast.makeText(this.getApplicationContext(), R.string.email_gia_registrata, Toast.LENGTH_LONG).show();
-                    else if (error instanceof InvalidPasswordException)
-                        Toast.makeText(this.getApplicationContext(), R.string.password_non_valida, Toast.LENGTH_LONG).show();
-                    else
-                        error.printStackTrace();
+                    Toast.makeText(this.getApplicationContext(), "Errore durante la registrazione del nuovo utente", Toast.LENGTH_LONG).show();
+                    error.printStackTrace();
                 } else if (result != null) {
-                    Log.d(TAG, "Utente registrato con status = " + result.getUserSub());
+                    Log.d(TAG, "Utente registrato");
                     Toast.makeText(this.getApplicationContext(), R.string.email_inviata_verifica, Toast.LENGTH_LONG).show();
                     this.resetUI();
                     this.finish();

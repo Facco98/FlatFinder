@@ -28,8 +28,8 @@ public class MyAnnouncesActivity extends AppCompatActivity {
         this.setupUI();
 
         MyAnnouncesAdapter myAnnouncesAdapter = new MyAnnouncesAdapter(getSupportFragmentManager());
-        myAnnouncesAdapter.addToList(new MyAnnouncesListFragment(), "ATTIVI");
-        myAnnouncesAdapter.addToList(new MyAnnouncesListFragment(), "RITIRATI");
+        myAnnouncesAdapter.addToList(new MyAnnouncesListFragment(true), "ATTIVI");
+        myAnnouncesAdapter.addToList(new MyAnnouncesListFragment(false), "RITIRATI");
         this.viewPager.setAdapter(myAnnouncesAdapter);
         tabLayout.setupWithViewPager(this.viewPager);
     }
