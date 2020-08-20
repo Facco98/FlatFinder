@@ -265,17 +265,23 @@ public class NewAnnounceActivity extends AppCompatActivity {
             try {
                 JSONObject responseJSON = new JSONObject(response);
                 int announceID = responseJSON.getInt("createdAnnounceID");
-                RemoteAPI.uploadPhotosForAnnounce(this.gridPhotosAdapter.getItems(), announceID, (res, ex) ->{
+                if( this.gridPhotosAdapter.getItems().size() > 0) {
+                    RemoteAPI.uploadPhotosForAnnounce(this.gridPhotosAdapter.getItems(), announceID, (res, ex) -> {
 
-                    if( res != null ){
+                        if (res != null) {
 
-                        Log.i(TAG, res);
-                        this.finish();
+                            Log.i(TAG, res);
+                            this.finish();
 
-                    } else if ( ex != null )
-                        ex.printStackTrace();
+                        } else if (ex != null)
+                            ex.printStackTrace();
 
-                });
+                    });
+                } else {
+
+                    this.finish();
+
+                }
             } catch (JSONException jsonException) {
                 jsonException.printStackTrace();
             }
