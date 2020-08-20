@@ -4,8 +4,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.PopupMenu;
 import android.widget.ToggleButton;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -60,38 +60,21 @@ public class SearchResultActivity extends AppCompatActivity {
 
         this.btnSalvaRicerca.setOnCheckedChangeListener(this::btnSalvaRicercaOnClick);
         this.btnFiltri.setOnClickListener(this::btnFiltriOnClick);
-        this.registerForContextMenu(btnOrdina);
+        this.btnOrdina.setOnClickListener(this::btnOrdinaOnClick);
+        
     }
 
-    private void btnSalvaRicercaOnClick(CompoundButton compoundButton, boolean b) {
-        if(b){
-            Log.d(TAG, "salva ricerca tap");
-            DialogFragment dialog = new SalvaRicercaDialogFragment();
-            dialog.show(getSupportFragmentManager(), "tag");
-        } else {
-            Log.d(TAG, "cancella ricerca tap");
-        }
+    private void btnOrdinaOnClick(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.ricerca_esiti_ordina_menu, popupMenu.getMenu());
+        popupMenu.show();
+
+        popupMenu.setOnMenuItemClickListener(this::popupMenuItemOnClick);
     }
 
-    private void btnFiltriOnClick(View view) {
-        DialogFragment dialog = new RicercaFiltriDialogFragment();
-        dialog.show(getSupportFragmentManager(), "filtri");
-    }
-
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderIcon(R.drawable.ic_baseline_sort_by_alpha_24);
-        menu.setHeaderTitle("Ordina le ricerce");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.ricerca_esiti_ordina_contextmenu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
+    private boolean popupMenuItemOnClick(MenuItem menuItem) {
+        int itemId = menuItem.getItemId();
 
         // todo menu options
         switch (itemId){
@@ -112,7 +95,23 @@ public class SearchResultActivity extends AppCompatActivity {
             default:
                 Log.d(TAG, "context menu option not valid");
         }
-        return super.onContextItemSelected(item);
+
+        return true;
+    }
+
+    private void btnSalvaRicercaOnClick(CompoundButton compoundButton, boolean b) {
+        if(b){
+            Log.d(TAG, "salva ricerca tap");
+            DialogFragment dialog = new SalvaRicercaDialogFragment();
+            dialog.show(getSupportFragmentManager(), "tag");
+        } else {
+            Log.d(TAG, "cancella ricerca tap");
+        }
+    }
+
+    private void btnFiltriOnClick(View view) {
+        DialogFragment dialog = new RicercaFiltriDialogFragment();
+        dialog.show(getSupportFragmentManager(), "filtri");
     }
 
     private void setRecyclerViewAdapter(){
