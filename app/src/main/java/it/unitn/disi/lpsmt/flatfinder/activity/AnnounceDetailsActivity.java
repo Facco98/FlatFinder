@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.maps.MapView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
@@ -51,10 +52,24 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
     private MapView mapView;
     private ViewPager imgViewPager;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.annuncio_dettagli);
+
+        this.user = User.getCurrentUser();
+        if ( user == null ){
+
+            //Log.i(TAG, "USER IS NOT LOGGED IN");
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
+
+
+
         this.setupUI();
         Intent i = this.getIntent();
         if( i != null && i.hasExtra("announceID") ){
@@ -69,11 +84,17 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
     }
 
+    public boolean onSupportNavigateUp(){
+        this.finish();
+        return onSupportNavigateUp();
+    }
+
     private void setupToolbar() {
         Toolbar toolbar = this.findViewById(R.id.dettagli_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
+
 
     private void setupUI(){
 

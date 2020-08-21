@@ -13,6 +13,7 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnouncesAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.MyAnnouncesListFragment;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFragment;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
 
 public class MyAnnouncesActivity extends AppCompatActivity {
 
@@ -20,10 +21,21 @@ public class MyAnnouncesActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FloatingActionButton fabAddNewAnnounce;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.i_miei_annunci);
+
+        this.user = User.getCurrentUser();
+        if ( user == null ){
+
+            //Log.i(TAG, "USER IS NOT LOGGED IN");
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
 
         this.setupUI();
 

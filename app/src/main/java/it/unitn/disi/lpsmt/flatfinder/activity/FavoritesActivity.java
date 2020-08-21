@@ -1,12 +1,15 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
 import java.util.ArrayList;
@@ -19,10 +22,21 @@ public class FavoritesActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<Announce> announceList;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.pagina_dei_preferiti);
+
+        this.user = User.getCurrentUser();
+        if ( user == null ){
+
+            //Log.i(TAG, "USER IS NOT LOGGED IN");
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
 
         this.setupUI();
 

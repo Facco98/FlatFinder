@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.AnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.fragment.SalvaRicercaDialogFragment;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
 import java.util.ArrayList;
@@ -33,10 +35,21 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<Announce> announceList;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ricerca_esiti_lista);
+
+        this.user = User.getCurrentUser();
+        if ( user == null ){
+
+            //Log.i(TAG, "USER IS NOT LOGGED IN");
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
 
         this.setupUI();
 

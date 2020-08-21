@@ -1,6 +1,8 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.SavedSearchListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.Search;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,21 @@ public class SavedSearchActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<Search> searchList = null;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_search);
+
+        this.user = User.getCurrentUser();
+        if ( user == null ){
+
+            //Log.i(TAG, "USER IS NOT LOGGED IN");
+            Intent i = new Intent(this, LoginActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
 
         this.setupUI();
 
