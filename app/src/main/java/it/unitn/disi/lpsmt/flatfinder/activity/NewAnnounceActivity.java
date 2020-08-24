@@ -15,6 +15,7 @@ import android.view.View;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
@@ -104,6 +105,9 @@ public class NewAnnounceActivity extends AppCompatActivity {
         ViewPager photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
 
         photosPager.setAdapter(this.gridPhotosAdapter);
+
+        TabLayout dotsIndicator = this.findViewById(R.id.nuovo_annuncio_lyt_dotIndicator);
+        dotsIndicator.setupWithViewPager(photosPager, true);
 
         this.btnVerificaIndirizzo.setOnClickListener(this::btnVerificaIndirizzoOnClick);
         this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);

@@ -10,6 +10,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
@@ -47,6 +48,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
 
         List<Photo> photoList = announce.getPhotos();
         holder.viewPager.setAdapter(new PhotosAdapter(photoList, context));
+        holder.dotsIndicator.setupWithViewPager(holder.viewPager, true);
 
         holder.txtPrezzo.setText(announce.getRentPerMonth()+"");
         holder.txtDimensione.setText(announce.getSize()+"");
@@ -80,6 +82,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
         private ViewPager viewPager;
         private TextView txtPrezzo, txtDimensione, txtNLocali, txtCategoria, txtIndirizzo;
         private ToggleButton btnAddToFavorite;
+        private TabLayout dotsIndicator;
 
         public AnnounceListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +98,8 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
             this.txtNLocali = view.findViewById(R.id.annuncio_card_lbl_nlocali);
             this.txtCategoria = view.findViewById(R.id.annuncio_card_lbl_categoria);
             this.btnAddToFavorite = view.findViewById(R.id.annuncio_card_tglbtn_addToFavorite);
+            this.dotsIndicator = view.findViewById(R.id.annuncio_card_lyt_dotIndicator);
+
         }
 
 

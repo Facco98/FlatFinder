@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.maps.MapView;
+import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
@@ -115,6 +116,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblClasseEnergetica = findViewById(R.id.dettagli_lbl_classeEnergetica);
         this.mapView = findViewById(R.id.dettagli_view_mappa);
         this.imgViewPager = this.findViewById(R.id.dettagli_view_pager);
+        TabLayout dotsIndicator = this.findViewById(R.id.nuovo_annuncio_lyt_dotIndicator);
+        dotsIndicator.setupWithViewPager(imgViewPager, true);
 
         this.btnContatta.setOnClickListener(this::btnContattaOnClick);
         this.btnSalva.setOnClickListener(this::btnSalvaOnClick);
