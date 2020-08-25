@@ -23,7 +23,6 @@ public class RicercaFiltriAppartamentoFragment extends Fragment {
     private Spinner spnDimensioneMax;
     private RadioGroup rdgLocali;
     private RadioGroup rdgBagni;
-    private Button btnImpostaFiltri;
 
     public RicercaFiltriAppartamentoFragment() {
         // Required empty public constructor
@@ -41,7 +40,6 @@ public class RicercaFiltriAppartamentoFragment extends Fragment {
     }
 
     private void initUI(View view) {
-        this.btnImpostaFiltri = view.findViewById(R.id.ricerca_filtri_appartamento_btn_imposta);
         this.spnArredamento = view.findViewById(R.id.ricerca_filtri_appartamento_spinner_arredamento);
         this.spnConsumoEnergetico = view.findViewById(R.id.ricerca_filtri_appartamento_spinner_classeenergetica);
         this.spnPiano = view.findViewById(R.id.ricerca_filtri_appartamento_spinner_piano);
@@ -52,10 +50,5 @@ public class RicercaFiltriAppartamentoFragment extends Fragment {
         this.txtDisponibilita = view.findViewById(R.id.ricerca_filtri_appartamento_txt_disponibilità);
         this.rdgLocali = view.findViewById(R.id.ricerca_filtri_appartamento_rdgroup_nlocali);
         this.rdgBagni = view.findViewById(R.id.ricerca_filtri_appartamento_rdgroup_nbagni);
-
-        this.btnImpostaFiltri.setOnClickListener(this::btnImpostaFiltriOnClick);
-    }
-
-    private void btnImpostaFiltriOnClick(View view) {
     }
 }

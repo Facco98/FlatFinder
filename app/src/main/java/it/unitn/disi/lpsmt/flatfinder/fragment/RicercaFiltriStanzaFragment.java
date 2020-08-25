@@ -22,7 +22,7 @@ public class RicercaFiltriStanzaFragment extends Fragment {
     private Spinner spnArredamento;
     private Spinner spnConsumoEnergetico;
     private Spinner spnPiano;
-    private Button btnImpostaFiltri;
+
 
 
     public RicercaFiltriStanzaFragment() {
@@ -41,7 +41,6 @@ public class RicercaFiltriStanzaFragment extends Fragment {
     }
 
     private void initUI(View view) {
-        this.btnImpostaFiltri = view.findViewById(R.id.ricerca_filtri_stanza_btn_imposta);
         this.spnArredamento = view.findViewById(R.id.ricerca_filtri_stanza_spinner_arredamento);
         this.spnConsumoEnergetico = view.findViewById(R.id.ricerca_filtri_stanza_spinner_classeenergetica);
         this.spnPiano = view.findViewById(R.id.ricerca_filtri_stanza_spinner_piano);
@@ -49,7 +48,7 @@ public class RicercaFiltriStanzaFragment extends Fragment {
         this.txtAffittoMin = view.findViewById(R.id.ricerca_filtri_stanza_txt_affittoMin);
         this.txtDisponibilita = view.findViewById(R.id.ricerca_filtri_stanza_txt_disponibilità);
 
-        this.btnImpostaFiltri.setOnClickListener(this::btnImpostaFiltriOnClick);
+
     }
 
     private void btnImpostaFiltriOnClick(View view) {

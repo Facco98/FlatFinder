@@ -4,18 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 
 public class SalvaRicercaDialogFragment extends DialogFragment{
 
-    private static final String TAG = "SalvaZonaDialog";
+    private static final String TAG = "SalvaRicercaDialogFragment";
 
     private EditText txtNomeRicerca;
     private CheckBox chkboxApp, chkboxEmail;

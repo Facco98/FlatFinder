@@ -118,14 +118,4 @@
             android:layout_height="wrap_content"
             android:text="Piano"/>
 
-
-    <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-    <Button android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:padding="15dp"
-            android:text="Imposta filtri"
-            android:id="@+id/ricerca_filtri_stanza_btn_imposta"/>
-
 </LinearLayout>

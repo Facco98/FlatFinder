@@ -37,7 +37,8 @@
         La mail inserita è gia associata a un altro utente
     </string>
     <string name="password_non_valida">
-        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola, un numero e un simbolo speciale
+        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola, un numero e un simbolo
+        speciale
     </string>
 
     <string name="login_utente_non_confermato">
@@ -78,6 +79,10 @@
     <string name="invalid_number">Il numero inserito non è valido</string>
     <string name="invalid_date">Data non valida</string>
     <string name="error_while_verifying_address">Si è verificato un errore durante la verifica dell\'indirizzo</string>
+
+    <string name="notifica_aggiornamenti">Riceverai una notifica quando nuovi annunci in linea alla tua ricerca vengono
+        pubblicati
+    </string>
 
     <string-array name="annuncio_tipologia_struttura">
         <item>Alloggio privato</item>

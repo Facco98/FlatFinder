@@ -2,7 +2,6 @@ package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.TableLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +11,6 @@ import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnouncesAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.MyAnnouncesListFragment;
-import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 
 public class MyAnnouncesActivity extends AppCompatActivity {

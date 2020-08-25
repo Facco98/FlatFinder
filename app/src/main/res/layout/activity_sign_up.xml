@@ -62,26 +62,44 @@
                 android:importantForAutofill="no"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
-        <EditText
+
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/signup_txt_password"
-                android:hint="@string/password_label"
-                android:importantForAutofill="no"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
-        <EditText
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/signup_txt_password"
+                    android:hint="@string/password_label"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/signup_txt_confirmPassword"
-                android:hint="@string/ripeti_la_password_signup_label"
-                android:importantForAutofill="no"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/signup_txt_confirmPassword"
+                    android:hint="@string/ripeti_la_password_signup_label"
+                    android:importantForAutofill="no"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
         <CheckBox
                 android:text="@string/informativa_e_condizioni_signup_label"
                 android:layout_width="match_parent"

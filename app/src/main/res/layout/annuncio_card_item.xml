@@ -10,17 +10,6 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                   android:orientation="vertical" android:padding="20dp">
 
-        <androidx.viewpager.widget.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/annuncio_card_viewpager_imageviewpager"/>
-        <com.google.android.material.tabs.TabLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/annuncio_card_lyt_dotIndicator"
-                app:tabBackground="@drawable/dot_indicator_tabselector"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

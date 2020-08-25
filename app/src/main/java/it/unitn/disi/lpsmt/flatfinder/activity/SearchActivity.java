@@ -1,13 +1,12 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Intent;
-import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import it.unitn.disi.lpsmt.flatfinder.R;
-import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFragment;
+import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaMappaFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 
 public class SearchActivity extends AppCompatActivity {
@@ -31,7 +30,7 @@ public class SearchActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        Fragment fragment = new RicercaFragment();
+        Fragment fragment = new RicercaMappaFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.search_lyt_layout, fragment, fragment.getClass().getSimpleName())

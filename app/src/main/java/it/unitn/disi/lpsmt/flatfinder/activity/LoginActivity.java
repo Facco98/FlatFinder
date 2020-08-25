@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -17,6 +18,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
+import it.unitn.disi.lpsmt.flatfinder.fragment.RecuperaPasswordDialogFragment;
+import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 
@@ -31,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView lblGoogle;
     private TextView lblFacebook;
     private Switch swtSalvaCredenziali;
+    private TextView lblPasswordDimenticata;
 
 
     @Nullable
@@ -75,15 +79,23 @@ public class LoginActivity extends AppCompatActivity {
         this.lblFacebook = this.findViewById(R.id.signin_lbl_facebook);
         this.lblGoogle = this.findViewById(R.id.signin_lbl_google);
         this.swtSalvaCredenziali = this.findViewById(R.id.signin_swc_ricordami);
+        this.lblPasswordDimenticata = this.findViewById(R.id.signin_lbl_passwordDimenticata);
 
         this.lblRegistrati.setOnClickListener(this::lblRegistratiOnClick);
         this.btnAccedi.setOnClickListener(this::btnAccediOnClick);
         this.lblGoogle.setOnClickListener(this::lblGoogleOnClick);
         this.lblFacebook.setOnClickListener(this::lblFacebookOnClick);
+        this.lblPasswordDimenticata.setOnClickListener(this::lblPasswordDimenticata);
 
         this.resetUI();
 
 
+    }
+
+    private void lblPasswordDimenticata(View view) {
+        Log.d(TAG, "Trying to reset the password");
+        DialogFragment dialog = new RecuperaPasswordDialogFragment();
+        dialog.show(getSupportFragmentManager(), "recupera password");
     }
 
     private void lblRegistratiOnClick( View v ) {

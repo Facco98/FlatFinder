@@ -47,7 +47,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:gravity="start|top"
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/profilo_txt_nome"/>
@@ -63,7 +62,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:gravity="start|top"
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/profilo_txt_cognome"/>
@@ -136,8 +134,8 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:gravity="start|top"
+                    android:inputType="none"
+                    android:enabled="false"
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/profilo_txt_email"/>
@@ -154,7 +152,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
-                    android:gravity="start|top"
                     android:ems="10"
                     android:background="@drawable/background_edittext"
                     android:padding="10dp" android:id="@+id/profilo_txt_numeroTelefono"/>

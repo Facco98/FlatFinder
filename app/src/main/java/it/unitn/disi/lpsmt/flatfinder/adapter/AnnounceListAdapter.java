@@ -46,10 +46,6 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
 
         holder.itemView.setOnClickListener(this::cardOnClick);
 
-        List<Photo> photoList = announce.getPhotos();
-        holder.viewPager.setAdapter(new PhotosAdapter(photoList, context));
-        holder.dotsIndicator.setupWithViewPager(holder.viewPager, true);
-
         holder.txtPrezzo.setText(announce.getRentPerMonth()+"");
         holder.txtDimensione.setText(announce.getSize()+"");
         holder.txtNLocali.setText(announce.getnLocals()+"");
@@ -79,10 +75,8 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
 
     public static class AnnounceListViewHolder extends RecyclerView.ViewHolder{
 
-        private ViewPager viewPager;
         private TextView txtPrezzo, txtDimensione, txtNLocali, txtCategoria, txtIndirizzo;
         private ToggleButton btnAddToFavorite;
-        private TabLayout dotsIndicator;
 
         public AnnounceListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,14 +85,12 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
         }
 
         private void setupUI(View view) {
-            this.viewPager = view.findViewById(R.id.annuncio_card_viewpager_imageviewpager);
             this.txtPrezzo = view.findViewById(R.id.annuncio_card_lbl_prezzo);
             this.txtDimensione = view.findViewById(R.id.annuncio_card_lbl_dimensione);
             this.txtIndirizzo = view.findViewById(R.id.annuncio_card_lbl_indirizzo);
             this.txtNLocali = view.findViewById(R.id.annuncio_card_lbl_nlocali);
             this.txtCategoria = view.findViewById(R.id.annuncio_card_lbl_categoria);
             this.btnAddToFavorite = view.findViewById(R.id.annuncio_card_tglbtn_addToFavorite);
-            this.dotsIndicator = view.findViewById(R.id.annuncio_card_lyt_dotIndicator);
 
         }
 

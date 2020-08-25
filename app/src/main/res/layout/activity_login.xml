@@ -35,22 +35,30 @@
                 android:ems="10"
                 android:id="@+id/signin_txt_email"
                 android:hint="@string/email_label"
-                android:drawableEnd="@drawable/ic_action_user"
-                android:drawableRight="@drawable/ic_action_user"
                 android:importantForAutofill="no"
                 android:background="@drawable/background_login_signup_input" android:padding="10dp"
                 android:layout_marginBottom="15dp"/>
-        <EditText
+
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/signin_txt_password"
-                android:hint="@string/password_label"
-                android:drawableEnd="@drawable/ic_action_password"
-                android:drawableRight="@drawable/ic_action_password"
-                android:importantForAutofill="no"
-                android:background="@drawable/background_login_signup_input" android:padding="10dp"/>
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/signin_txt_password"
+                    android:hint="@string/password_label"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/background_login_signup_input"
+                    android:padding="10dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
