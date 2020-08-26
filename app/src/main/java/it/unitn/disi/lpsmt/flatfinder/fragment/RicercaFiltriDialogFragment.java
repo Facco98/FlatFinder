@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import androidx.fragment.app.FragmentContainerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RicercaFiltriDialogFragment extends DialogFragment {
 
     private static final String TAG = "RicercaFiltriDialogFragment";
@@ -24,7 +27,12 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     private TextView lblRaggio;
     private Button btnImpostaFiltri;
 
-    public RicercaFiltriDialogFragment() {
+    private FilterCompletion completion;
+
+    public RicercaFiltriDialogFragment( FilterCompletion completion ) {
+
+        this.completion = completion;
+
     }
 
 
@@ -127,6 +135,10 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     }
 
     private void btnChiudiOnClick(View view) {
+
+        Map<String, String> filters = new HashMap<>();
+        // TODO: Settare tutti i filtri qui (  ovviamente solo quelli scelti )
+        this.completion.onFilterChooseComplete(filters);
         this.dismiss();
     }
 }

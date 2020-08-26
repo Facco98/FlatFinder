@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.AnnounceListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.fragment.FilterCompletion;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.fragment.SalvaRicercaDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
@@ -22,8 +23,9 @@ import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class SearchResultActivity extends AppCompatActivity {
+public class SearchResultActivity extends AppCompatActivity implements FilterCompletion {
 
     private static final String TAG = "SearchResultActivity";
 
@@ -123,7 +125,7 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void btnFiltriOnClick(View view) {
-        DialogFragment dialog = new RicercaFiltriDialogFragment();
+        DialogFragment dialog = new RicercaFiltriDialogFragment(this);
         dialog.show(getSupportFragmentManager(), "filtri");
     }
 
@@ -132,6 +134,8 @@ public class SearchResultActivity extends AppCompatActivity {
         this.recyclerView.setLayoutManager(this.layoutManager);
 
         // TODO get list from database
+        double latitudeCenter, longitudeCenter;
+
 
         if(announceList == null){
             announceList = new ArrayList<>();
@@ -139,5 +143,12 @@ public class SearchResultActivity extends AppCompatActivity {
 
         this.adapter = new AnnounceListAdapter(this.announceList, this);
         this.recyclerView.setAdapter(this.adapter);
+    }
+
+    @Override
+    public void onFilterChooseComplete(Map<String, String> filters) {
+
+        // TODO: Aggiornare la lista con i risultati; basta fare un'altra chiamata alle API remote.
+
     }
 }

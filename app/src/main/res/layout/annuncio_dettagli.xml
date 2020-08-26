@@ -48,6 +48,14 @@
                 <com.google.android.material.tabs.TabLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/annuncio_dettagli_lyt_dotIndicator"
+                        app:tabBackground="@drawable/dot_indicator_tabselector"
+                        app:tabGravity="center"
+                        app:tabIndicatorHeight="0dp"/>
+
+                <com.google.android.material.tabs.TabLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/dettagli_lyt_dotIndicator"
                         app:tabBackground="@drawable/dot_indicator_tabselector"
                         app:tabGravity="center"

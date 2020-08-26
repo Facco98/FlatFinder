@@ -23,6 +23,7 @@ import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.*;
 import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
+import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResult;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 public class NewAnnounceActivity extends AppCompatActivity {
@@ -155,10 +157,17 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private void verificaIndirizzoCompletata(GeocodingResponse response, Exception e){
 
         Log.d(TAG, "Verifica completata!");
+        boolean valid = true;
         if( e != null ){
             Toast.makeText(this, R.string.error_while_verifying_address, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-        } else if( response.getResult() != null && response.getResult().size() == 1 ) {
+        } else if( response.getResult() != null && response.getResult().size() >= 1 ) {
+            response.getResult().sort((a, b) -> b.getConfidence() - a.getConfidence());
+            GeocodingResult result = response.getResult().get(0);
+            valid = result.getConfidence() >= 9;
+        }
+
+        if( valid ){
             this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
             this.validAddress = true;
             Log.i(TAG, "CORRECT");

@@ -87,7 +87,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
     public boolean onSupportNavigateUp(){
         this.finish();
-        return onSupportNavigateUp();
+        return super.onSupportNavigateUp();
     }
 
     private void setupToolbar() {
@@ -116,7 +116,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblClasseEnergetica = findViewById(R.id.dettagli_lbl_classeEnergetica);
         this.mapView = findViewById(R.id.dettagli_view_mappa);
         this.imgViewPager = this.findViewById(R.id.dettagli_view_pager);
-        TabLayout dotsIndicator = this.findViewById(R.id.nuovo_annuncio_lyt_dotIndicator);
+        TabLayout dotsIndicator = this.findViewById(R.id.annuncio_dettagli_lyt_dotIndicator);
         dotsIndicator.setupWithViewPager(imgViewPager, true);
 
         this.btnContatta.setOnClickListener(this::btnContattaOnClick);
