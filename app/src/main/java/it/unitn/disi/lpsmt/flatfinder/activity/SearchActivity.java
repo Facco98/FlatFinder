@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Geometry;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -123,10 +124,12 @@ public class SearchActivity extends AppCompatActivity {
             // set address to toolbar
             toolbar.setTitle(feature.placeName());
 
-            // pass address information to the search result activity
-            Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-            intent.putExtra("indirizzo", feature.placeName());
-            startActivity(intent);
+
+            Point point = (Point) feature.geometry();
+            if (map != null) {
+                moveCameraToPosition(point.latitude(),
+                        point.longitude());
+            }
 
         }
     }
