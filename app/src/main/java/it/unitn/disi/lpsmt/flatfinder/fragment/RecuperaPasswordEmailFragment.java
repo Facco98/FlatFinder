@@ -42,6 +42,7 @@ public class RecuperaPasswordEmailFragment extends Fragment {
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.password_lyt_fragment, fragment, fragment.getClass().getSimpleName())
+                .addToBackStack(null)
                 .commit();
     }
 }

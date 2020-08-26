@@ -1,21 +1,61 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.geojson.Geometry;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import it.unitn.disi.lpsmt.flatfinder.R;
-import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaMappaFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private static final String TAG = "SearchActivity";
+
+    private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
+
     private User user;
+
+    private MapView mapView;
+    private FloatingActionButton fabGPS;
+    private Button btnConferma;
+    private Toolbar toolbar;
+
+    private MapboxMap map;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
+
         setContentView(R.layout.activity_search);
 
         this.user = User.getCurrentUser();
@@ -27,19 +67,139 @@ public class SearchActivity extends AppCompatActivity {
             this.finish();
         }
 
+        this.setupUI();
 
+        this.mapView.onCreate(savedInstanceState);
+        this.mapView.getMapAsync(mapboxMap -> {
+
+            this.map = mapboxMap;
+            this.map.setStyle(Style.MAPBOX_STREETS);
+
+        });
+
+
+    }
+
+
+
+    private void setupUI() {
         setupToolbar();
 
-        Fragment fragment = new RicercaMappaFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.search_lyt_layout, fragment, fragment.getClass().getSimpleName())
-                .commit();
+        this.mapView = this.findViewById(R.id.search_view_mapView);
+        this.fabGPS = this.findViewById(R.id.search_fab_gps);
+        this.btnConferma = this.findViewById(R.id.search_btn_conferma);
+
+        this.fabGPS.setOnClickListener(this::btnGPSOnClick);
+        this.btnConferma.setOnClickListener(this::btnConfermaOnClick);
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = this.findViewById(R.id.search_toolbar);
+        toolbar = this.findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        toolbar.setOnClickListener(this::toolbarOnClick);
+    }
+
+    private void toolbarOnClick(View view) {
+        Intent intent = new PlaceAutocomplete.IntentBuilder()
+                .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                .placeOptions(PlaceOptions.builder()
+                        .backgroundColor(Color.parseColor("#EEEEEE"))
+                        .limit(10)
+                        .language("it")
+                        .country("it")
+                        .build(PlaceOptions.MODE_FULLSCREEN))
+                .build(SearchActivity.this);
+        startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            CarmenFeature feature = PlaceAutocomplete.getPlace(data);
+
+            // set address to toolbar
+            toolbar.setTitle(feature.placeName());
+
+            // pass address information to the search result activity
+            Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+            intent.putExtra("indirizzo", feature.placeName());
+            startActivity(intent);
+
+        }
+    }
+
+    private void btnGPSOnClick(View view) {
+
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "ENTERD");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    400);
+            return;
+
+        }
+
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListenerWrapper() {
+            @Override
+            public void onLocationChanged(Location location) {
+                moveCameraToPosition(location.getLatitude(), location.getLongitude());
+            }
+        }, Looper.getMainLooper());
+
+    }
+
+    private void btnConfermaOnClick(View view) {
+
+        if( this.marker == null ){
+
+            Toast.makeText(this, R.string.must_select_location, Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+        intent.putExtra("latitudineCentro", marker.getPosition().getLatitude());
+        intent.putExtra("longitudineCentro", marker.getPosition().getLongitude());
+        startActivity(intent);
+    }
+
+    private void moveCameraToPosition(double latitude, double longitude){
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(
+                latitude, longitude
+        )).zoom(17).build();
+        if( marker != null )
+            map.removeMarker(marker);
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000);
+        marker = map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+
+    }
+}
+
+abstract class LocationListenerWrapper implements LocationListener {
+
+
+    @Override
+    public abstract void onLocationChanged(Location location);
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

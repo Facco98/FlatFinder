@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,5 +49,8 @@ public class ReimpostaPasswordFragment extends Fragment {
             Toast.makeText(this.getContext(), R.string.password_non_corrispondenti, Toast.LENGTH_LONG).show();
 
         }
+
+        DialogFragment parent = (DialogFragment) getParentFragment();
+        parent.dismiss();
     }
 }

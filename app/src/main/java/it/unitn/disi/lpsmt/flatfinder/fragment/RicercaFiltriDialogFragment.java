@@ -26,8 +26,20 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     private SeekBar skbrRangeSlider;
     private TextView lblRaggio;
     private Button btnImpostaFiltri;
+    private EditText txtAffittoMin;
+    private EditText txtAffittoMax;
+    private EditText txtDisponibilita;
+    private Spinner spnArredamento;
+    private Spinner spnConsumoEnergetico;
+    private Spinner spnDimensioneMin;
+    private Spinner spnDimensioneMax;
+    private RadioGroup rdgLocali;
+    private RadioGroup rdgBagni;
+    private RadioButton rdbtnLocaliChecked, rdbtnBagniChecked;
 
     private FilterCompletion completion;
+
+    private HashMap<String, String> userMap;
 
     public RicercaFiltriDialogFragment( FilterCompletion completion ) {
 
@@ -50,17 +62,56 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
 
         initUI(view);
 
-        inflateFragment();
-
         return view;
     }
 
-    private void inflateFragment() {
-        Fragment fragment = new RicercaFiltriAppartamentoFragment();
-        getChildFragmentManager()
-                .beginTransaction()
-                .add(R.id.ricerca_filtri_view_fragment, fragment, fragment.getClass().getSimpleName())
-                .commit();
+    private String getSpinnerValue(Spinner spinner){
+        String value = spinner.getSelectedItem().toString();
+
+        if(value.equals("-")){
+            value = "";
+        }
+
+        return value;
+    }
+
+    private String getNumberOnly(String s){
+        return s.replace("+", "");
+    }
+
+    private void updateMap(String key, String value){
+        if(!value.isEmpty()){
+            userMap.put(key, value);
+        }
+    }
+
+    private void getUserInput() {
+        String arredamento = getSpinnerValue(spnArredamento);
+        String consumo = getSpinnerValue(spnConsumoEnergetico);
+        String dimMax = getSpinnerValue(spnDimensioneMax);
+        String dimMin = getSpinnerValue(spnDimensioneMin);
+        String affittoMax = txtAffittoMax.toString();
+        String affittoMin = txtAffittoMin.toString();
+        String disponibilita = txtDisponibilita.toString();
+        String nlocaliMin = getNumberOnly(rdbtnLocaliChecked.getText().toString());
+        String nbagniMin = getNumberOnly(rdbtnBagniChecked.getText().toString());
+        String raggio = skbrRangeSlider.getProgress()+"";
+        String categoria = getSpinnerValue(spnCategoria);
+        String tipologia = getSpinnerValue(spnTipologia);
+
+        updateMap("arredamento", arredamento);
+        updateMap("classe_energetica", consumo);
+        updateMap("dimensionemax", dimMax);
+        updateMap("dimensionemin", dimMin);
+        updateMap("affitto_mensilemax", affittoMax);
+        updateMap("affitto_mensilemin", affittoMin);
+        updateMap("inizio_disponibilita", disponibilita);
+        updateMap("numero_localimin", nlocaliMin);
+        updateMap("numero_bagni", nbagniMin);
+        updateMap("raggio", raggio);
+        updateMap("categoria", categoria);
+        updateMap("tipologia", tipologia);
+
     }
 
     private void initUI(View view){
@@ -71,8 +122,24 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
         this.lblRaggio = view.findViewById(R.id.ricerca_filtri_lbl_raggio);
         this.btnImpostaFiltri = view.findViewById(R.id.ricerca_filtri_btn_imposta);
 
+        this.spnArredamento = view.findViewById(R.id.ricerca_filtri_spinner_arredamento);
+        this.spnConsumoEnergetico = view.findViewById(R.id.ricerca_filtri_spinner_classeenergetica);
+        this.spnDimensioneMax = view.findViewById(R.id.ricerca_filtri_spinner_dimensioneMax);
+        this.spnDimensioneMin = view.findViewById(R.id.ricerca_filtri_spinner_dimensioneMin);
+        this.txtAffittoMax = view.findViewById(R.id.ricerca_filtri_txt_affittoMax);
+        this.txtAffittoMin = view.findViewById(R.id.ricerca_filtri_txt_affittoMin);
+        this.txtDisponibilita = view.findViewById(R.id.ricerca_filtri_txt_disponibilità);
+        this.rdgLocali = view.findViewById(R.id.ricerca_filtri_rdgroup_nlocali);
+        this.rdgBagni = view.findViewById(R.id.ricerca_filtri_rdgroup_nbagni);
+
+        this.rdgLocali.check(R.id.ricerca_filtri_rdbtn_nlocaliDefault);
+        this.rdgBagni.check(R.id.ricerca_filtri_rdbtn_nbagniDefault);
+
         this.btnChiudi.setOnClickListener(this::btnChiudiOnClick);
         this.btnImpostaFiltri.setOnClickListener(this::btnImpostaFiltriOnClick);
+        this.rdgLocali.setOnCheckedChangeListener(this::rdgLocaliOnChange);
+        this.rdgBagni.setOnCheckedChangeListener(this::rdgBagniOnChange);
+
         this.skbrRangeSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -100,45 +167,24 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
             }
         });
 
+    }
 
-        spnCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String categoria = spnCategoria.getSelectedItem().toString();
-                int fragmentId = R.id.ricerca_filtri_view_fragment;
-                Fragment fragment;
+    private void rdgBagniOnChange(RadioGroup radioGroup, int i) {
+        this.rdbtnBagniChecked = radioGroup.findViewById(i);
+    }
 
-                if(categoria.equals("Appartamento") || categoria.equals("Altro")){
-                    Log.d(TAG, "Appartamento or Altro selected");
-                    fragment = new RicercaFiltriAppartamentoFragment();
-                } else {
-                    Log.d(TAG, "Stanza selected");
-                    fragment = new RicercaFiltriStanzaFragment();
-                }
-
-                getChildFragmentManager().
-                        beginTransaction().
-                        replace(fragmentId, fragment, fragment.getClass().getSimpleName()).
-                        commit();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+    private void rdgLocaliOnChange(RadioGroup radioGroup, int i) {
+        this.rdbtnLocaliChecked = radioGroup.findViewById(i);
     }
 
     private void btnImpostaFiltriOnClick(View view) {
+        Map<String, String> filters = new HashMap<>();
+        getUserInput();
+        this.completion.onFilterChooseComplete(filters);
+        this.dismiss();
     }
 
     private void btnChiudiOnClick(View view) {
-
-        Map<String, String> filters = new HashMap<>();
-        // TODO: Settare tutti i filtri qui (  ovviamente solo quelli scelti )
-        this.completion.onFilterChooseComplete(filters);
         this.dismiss();
     }
 }
