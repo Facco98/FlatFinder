@@ -37,9 +37,9 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     private RadioGroup rdgBagni;
     private RadioButton rdbtnLocaliChecked, rdbtnBagniChecked;
 
-    private FilterCompletion completion;
+    private Map<String, String> filters;
 
-    private HashMap<String, String> userMap;
+    private FilterCompletion completion;
 
     public RicercaFiltriDialogFragment( FilterCompletion completion ) {
 
@@ -81,7 +81,7 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
 
     private void updateMap(String key, String value){
         if(!value.isEmpty()){
-            userMap.put(key, value);
+            filters.put(key, value);
         }
     }
 
@@ -178,7 +178,7 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     }
 
     private void btnImpostaFiltriOnClick(View view) {
-        Map<String, String> filters = new HashMap<>();
+        filters = new HashMap<>();
         getUserInput();
         this.completion.onFilterChooseComplete(filters);
         this.dismiss();
