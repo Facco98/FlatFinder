@@ -3,16 +3,22 @@ package it.unitn.disi.lpsmt.flatfinder.remote;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
-import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
 import it.unitn.disi.lpsmt.flatfinder.task.Task;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +28,11 @@ public final class RemoteAPI {
 
     private final static String ANNOUNCE_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/announce";
     private final static String PHOTO_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/photo";
+    private final static String ZONE_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/zone";
+
     private static final String TAG = "REMOTE";
+
+    private static FirebaseInstanceId firebaseInstanceId = FirebaseInstanceId.getInstance();
 
     private RemoteAPI(){
 
@@ -134,6 +144,58 @@ public final class RemoteAPI {
         }, completion);
         photosTask.execute(new Void[1]);
 
+    }
+
+    public static void listZones(@NonNull User user, @Nullable Completion<List<Zone>> completion){
+
+        Task<Void, List<Zone>> photosTask = new Task<Void, List<Zone>>((voids) -> {
+
+            URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente="+user.getSub() );
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            Gson gson = new Gson();
+            Zone[] zones = gson.fromJson(reader, Zone[].class);
+            return Arrays.asList(zones);
+
+        }, completion);
+        photosTask.execute(new Void[1]);
+
+    }
+
+    public static void registerZone(@NonNull User user, @NonNull Zone zone, @Nullable Completion<Void> completion){
+
+
+        firebaseInstanceId.getInstanceId().addOnCompleteListener(task -> {
+            try {
+                URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente=" + user.getSub() + "&token_notifica=" +task.getResult().getToken());
+                HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
+                connection.setRequestMethod("POST");
+                PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+                Gson gson = new GsonBuilder().create();
+                String jsonString = gson.toJson(zone);
+                Log.i(TAG, "POSTING ZONE: " + jsonString);
+                writer.println(jsonString);
+                writer.flush();
+                writer.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String s;
+                StringBuilder sb = new StringBuilder();
+                while((s = reader.readLine()) != null )
+                    sb.append(s);
+                Log.d(TAG, sb.toString());
+
+                if( completion != null )
+                    completion.onComplete(null, null);
+
+            } catch (Exception e) {
+                if( completion != null )
+                    completion.onComplete(null, e);
+            }
+
+
+        });
     }
 
 }

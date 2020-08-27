@@ -39,6 +39,8 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
     private RecyclerView.LayoutManager layoutManager;
     private List<Announce> announceList;
 
+    private double latitudeCenter, longitudeCenter;
+
     private User user;
 
     @Override
@@ -55,18 +57,17 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
             this.finish();
         }
 
+        this.latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
+        this.longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);
+
         this.setupUI();
         this.setupToolbar();
         this.setRecyclerViewAdapter();
 
-        double latitudeCenter, longitudeCenter;
-        latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
-        longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);
+
 
         Map<String, String> filters = new HashMap<>();
-        filters.put("latitudineCentro", latitudeCenter+"");
-        filters.put("longitudineCentro", longitudeCenter+"");
-        //filters.put("distanzaMax", "1000");
+        filters.put("distanzaMax", "1");
 
         updateList(filters);
 
@@ -143,16 +144,16 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
     private void setRecyclerViewAdapter(){
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
-
-        if(announceList == null){
-            announceList = new ArrayList<>();
-        }
-
-        this.adapter = new AnnounceListAdapter(this.announceList, this);
-        this.recyclerView.setAdapter(this.adapter);
     }
 
     private void updateList(Map<String, String> filters) {
+
+
+        Log.i(TAG, filters.toString());
+        filters.put("latitudineCentro", ""+this.latitudeCenter);
+        filters.put("longitudineCentro", ""+this.longitudeCenter);
+        filters.put("attivo", ""+true);
+        filters.put("username_creatorenot", this.user.getSub());
 
         RemoteAPI.getAnnounceList(filters, (announces, exception) -> {
 
@@ -164,7 +165,9 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
             } else if ( announces != null ){
 
-                this.recyclerView.setAdapter(new MyAnnounceListAdapter(announces, this));
+                this.announceList = announces;
+                this.adapter = new AnnounceListAdapter(this.announceList, this);
+                this.recyclerView.setAdapter(this.adapter);
                 Log.i(TAG, announces.toString());
                 Log.i(TAG, "Data retrivered");
 

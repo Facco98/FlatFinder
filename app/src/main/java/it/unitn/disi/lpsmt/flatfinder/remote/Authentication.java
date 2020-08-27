@@ -1,10 +1,12 @@
 package it.unitn.disi.lpsmt.flatfinder.remote;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.*;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
@@ -19,6 +21,7 @@ public final class Authentication {
     private static final String TAG = "Authentication";
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
     private Authentication(){
 
     }
@@ -55,9 +58,8 @@ public final class Authentication {
             }
         });
 
-
-
     }
+
 
     public static void login(@NonNull String email, @NonNull String password, @Nullable Completion<User> completion) {
 
@@ -96,7 +98,6 @@ public final class Authentication {
     }
 
     public static void getUser(@Nullable Completion<User> completion) {
-
         if( firebaseAuth.getCurrentUser() != null ){
 
             try {
