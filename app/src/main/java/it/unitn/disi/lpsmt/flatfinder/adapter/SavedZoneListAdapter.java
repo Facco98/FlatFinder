@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.activity.SearchResultActivity;
@@ -88,9 +89,6 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
         public void populateUI(Zone zone){
 
             this.lblIndirizzo.setText(zone.getAddress());
-            if( zone.getAddress().equals("Inserisci qui un luogo di ricerca"))
-                this.lblIndirizzo.setText("Lat:"+ zone.getCenterLatitude()+", " + "Lon: " +zone.getCenterLongitude());
-
             this.lblRaggio.setText(""+zone.getMaxDistance() + " km");
 
 

@@ -18,7 +18,10 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Geometry;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -34,6 +37,9 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -181,7 +187,31 @@ public class SearchActivity extends AppCompatActivity {
         if( marker != null )
             map.removeMarker(marker);
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000);
-        marker = map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+
+        MapboxGeocoding geocoder = MapboxGeocoding.builder().accessToken(getString(R.string.mapbox_access_token))
+                .query(Point.fromLngLat(longitude, latitude))
+                .geocodingTypes(GeocodingCriteria.TYPE_ADDRESS).build();
+        geocoder.enqueueCall(new Callback<GeocodingResponse>() {
+            @Override
+            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+                if( response.body() != null && response.body().features().size() >= 1 ){
+
+                    CarmenFeature feature = response.body().features().get(0);
+                    toolbar.setTitle(feature.placeName());
+                    marker = map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+
+                } else {
+                    Toast.makeText(SearchActivity.this, R.string.error_generic, Toast.LENGTH_SHORT);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GeocodingResponse> call, Throwable t) {
+                Toast.makeText(SearchActivity.this, R.string.error_generic, Toast.LENGTH_SHORT);
+                t.printStackTrace();
+            }
+        });
 
     }
 }
