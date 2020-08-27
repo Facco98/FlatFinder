@@ -136,24 +136,4 @@ public final class RemoteAPI {
 
     }
 
-    public static void verifyAddress(@NonNull String address, @NonNull Completion<GeocodingResponse> completion){
-
-        Task<Void, GeocodingResponse> verificationTask = new Task<Void, GeocodingResponse>((voids -> {
-                HttpsURLConnection connection = (HttpsURLConnection) new URL(GEOCODING_ENDPOINT + "?q=" +address +"&key="+GEOCODING_KEY+"&pretty=1")
-                        .openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String temp;
-                StringBuilder sb = new StringBuilder();
-                while( (temp = in.readLine()) != null)
-                    sb.append(temp);
-                String jsonString = sb.toString();
-                Log.d(TAG, jsonString);
-                Gson gson = new Gson();
-                GeocodingResponse response = gson.fromJson(jsonString, GeocodingResponse.class);
-                return response;
-        }), completion);
-        verificationTask.execute(new Void[1]);
-
-    }
-
 }
