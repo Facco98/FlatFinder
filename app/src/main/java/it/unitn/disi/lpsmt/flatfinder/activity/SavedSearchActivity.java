@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
-import it.unitn.disi.lpsmt.flatfinder.adapter.SavedSearchListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.adapter.SavedZoneListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.Search;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 
@@ -60,7 +60,7 @@ public class SavedSearchActivity extends AppCompatActivity {
             searchList = new ArrayList<>();
         }
 
-        this.adapter = new SavedSearchListAdapter(this.searchList, this);
+        this.adapter = new SavedZoneListAdapter(this.searchList, this);
         this.recyclerView.setAdapter(this.adapter);
     }
 

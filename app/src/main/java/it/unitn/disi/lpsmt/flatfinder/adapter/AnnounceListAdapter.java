@@ -37,6 +37,18 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.annuncio_card_item, parent, false);
         AnnounceListAdapter.AnnounceListViewHolder viewHolder = new AnnounceListAdapter.AnnounceListViewHolder(view);
 
+        viewHolder.itemView.setOnClickListener((v)->{
+            this.announce = this.announceList.get(viewHolder.getAdapterPosition());
+            Intent intent = new Intent(context, AnnounceDetailsActivity.class);
+            intent.putExtra("announceID", announce.getId());
+            context.startActivity(intent);
+        });
+
+        // TODO: holder.btnAddToFavorite.setChecked();
+        viewHolder.btnAddToFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // aggiorna il valore del db con quello di isChecked
+        });
+
         return viewHolder;
     }
 
@@ -44,28 +56,12 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
     public void onBindViewHolder(@NonNull AnnounceListAdapter.AnnounceListViewHolder holder, int position) {
         this.announce = this.announceList.get(position);
 
-        holder.itemView.setOnClickListener(this::cardOnClick);
-
         holder.txtPrezzo.setText(announce.getRentPerMonth()+"");
         holder.txtDimensione.setText(announce.getSize()+"");
         holder.txtNLocali.setText(announce.getnLocals()+"");
         holder.txtCategoria.setText(announce.getCategory().description);
         holder.txtIndirizzo.setText(announce.getAddress());
-        // TODO: holder.btnAddToFavorite.setChecked();
-        holder.btnAddToFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // aggiorna il valore del db con quello di isChecked
-        });
 
-    }
-
-    /**
-     * start AnnounceDetailsActivity on view click
-     * @param view
-     */
-    private void cardOnClick(View view){
-        Intent intent = new Intent(context, AnnounceDetailsActivity.class);
-        intent.putExtra("announceID", announce.getId());
-        context.startActivity(intent);
     }
 
     @Override

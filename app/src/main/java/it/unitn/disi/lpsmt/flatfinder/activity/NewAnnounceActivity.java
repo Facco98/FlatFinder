@@ -116,22 +116,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
         this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnClick);
-        this.txtIndirizzo.setOnFocusChangeListener((view, focused) -> {
+        this.txtIndirizzo.setOnClickListener(this::txtIndirizzoOnClick);
 
-            if( focused ) {
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
-                        .placeOptions(PlaceOptions.builder()
-                                .backgroundColor(Color.parseColor("#EEEEEE"))
-                                .limit(10)
-                                .language("it")
-                                .country("it")
-                                .build(PlaceOptions.MODE_FULLSCREEN))
-                        .build(NewAnnounceActivity.this);
-                startActivityForResult(intent, 1);
-            }
-
-        });
         ArrayAdapter<LocalType> adapterTipologiaStruttura = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LocalType.values());
         this.spnTipologiaStruttura.setAdapter(adapterTipologiaStruttura);
         ArrayAdapter<FornitureStatus> adapterArredamento = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, FornitureStatus.values());
@@ -141,6 +127,19 @@ public class NewAnnounceActivity extends AppCompatActivity {
         ArrayAdapter<EnergeticClass> adapterClasseEnergetica = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, EnergeticClass.values());
         this.spnClasseEnergetica.setAdapter(adapterClasseEnergetica);
 
+    }
+
+    private void txtIndirizzoOnClick(View view) {
+        Intent intent = new PlaceAutocomplete.IntentBuilder()
+                .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                .placeOptions(PlaceOptions.builder()
+                        .backgroundColor(Color.parseColor("#EEEEEE"))
+                        .limit(10)
+                        .language("it")
+                        .country("it")
+                        .build(PlaceOptions.MODE_FULLSCREEN))
+                .build(NewAnnounceActivity.this);
+        startActivityForResult(intent, 1);
     }
 
     private void btnAvantiOnClick( View v ){

@@ -12,36 +12,24 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="Stanza singola a Trento"
-                  android:id="@+id/ricerche_salvate_card_lbl_nomeRicerca"
+                  android:text="Via Giovanni Segantini 15, Trento, Italia"
+                  android:id="@+id/ricerche_salvate_card_lbl_indirizzo"
                   android:textSize="20sp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Camera singola"
+                android:text="Entro 50 Km"
                 android:layout_marginTop="10dp"
-                android:id="@+id/ricerche_salvate_card_lbl_categoria"/>
+                android:id="@+id/ricerche_salvate_card_lbl_raggio"/>
 
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="10dp"
-                      android:layout_gravity="right|end"
-                      android:orientation="horizontal">
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ricerche_salvate_card_btn_modifica"
-                    android:background="@color/colorTransparentGrey"
-                    android:layout_marginRight="5dp"
-                    android:text="Modifica"/>
-
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Elimina"
-                    android:textColor="@color/white_background"
-                    android:background="@drawable/background_dettagli_button"
-                    android:id="@+id/ricerche_salvate_card_btn_elimina"/>
-
-        </LinearLayout>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Elimina"
+                android:layout_gravity="end"
+                android:textColor="@color/white_background"
+                android:background="@drawable/background_dettagli_button"
+                android:id="@+id/ricerche_salvate_card_btn_elimina"/>
 
 
     </LinearLayout>

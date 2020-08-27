@@ -26,7 +26,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Salva ricerca"
+                    android:text="Salva zona"
                     android:textSize="20sp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -41,19 +41,34 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-        <EditText
+        <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:gravity="start|top"
-                android:ems="10"
-                android:background="@drawable/background_edittext"
-                android:padding="10dp"
-                android:id="@+id/ricerca_salva_zona_txt_nomeRicerca"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nome della ricerca" />
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                <TextView
+                        android:text="Via Giovanni Segantini 15, Trento, Italia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ricerca_salva_zona_lbl_indirizzo"
+                        android:textSize="18sp"/>
+                <TextView
+                        android:text="Entro 50 Km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ricerca_salva_zona_lbl_raggio"
+                        />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <Space
                 android:layout_width="match_parent"
                 android:layout_height="48dp"/>

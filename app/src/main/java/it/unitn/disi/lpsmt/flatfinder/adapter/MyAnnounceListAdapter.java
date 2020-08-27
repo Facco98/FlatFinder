@@ -38,6 +38,15 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.i_miei_annunci_card_item, parent, false);
         MyAnnounceListViewHolder viewHolder = new MyAnnounceListViewHolder(view);
 
+        viewHolder.itemView.setOnClickListener((v)->{
+            this.announce = this.announceList.get(viewHolder.getAdapterPosition());
+            Intent intent = new Intent(context, AnnounceDetailsActivity.class);
+            intent.putExtra("announceID", announce.getId());
+            context.startActivity(intent);
+        });
+        viewHolder.btnModifica.setOnClickListener(this::btnModificaOnClick);
+        viewHolder.btnElimina.setOnClickListener(this::btnEliminaOnClick);
+
         return viewHolder;
     }
 
@@ -45,16 +54,11 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     public void onBindViewHolder(@NonNull MyAnnounceListViewHolder holder, int position) {
         this.announce = this.announceList.get(position);
 
-        holder.itemView.setOnClickListener(this::cardOnClick);
-
-        holder.txtPrezzo.setText(announce.getRentPerMonth()+"");
-        holder.txtDimensione.setText(announce.getSize()+"");
-        holder.txtNLocali.setText(announce.getnLocals()+"");
+        holder.txtPrezzo.setText(announce.getRentPerMonth()+" €");
+        holder.txtDimensione.setText(announce.getSize()+" mq");
+        holder.txtNLocali.setText(announce.getnLocals()+" locali");
         holder.txtCategoria.setText(announce.getCategory().description);
         holder.txtIndirizzo.setText(announce.getAddress());
-
-        holder.btnModifica.setOnClickListener(this::btnModificaOnClick);
-        holder.btnElimina.setOnClickListener(this::btnEliminaOnClick);
 
     }
 
@@ -62,16 +66,6 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     }
 
     private void btnModificaOnClick(View view) {
-    }
-
-    /**
-     * start AnnounceDetailsActivity on view click
-     * @param view
-     */
-    private void cardOnClick(View view){
-        Intent intent = new Intent(context, AnnounceDetailsActivity.class);
-        intent.putExtra("announceID", announce.getId());
-        context.startActivity(intent);
     }
 
     @Override

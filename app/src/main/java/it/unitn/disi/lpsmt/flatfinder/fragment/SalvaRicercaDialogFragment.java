@@ -17,7 +17,7 @@ public class SalvaRicercaDialogFragment extends DialogFragment{
 
     private static final String TAG = "SalvaRicercaDialogFragment";
 
-    private EditText txtNomeRicerca;
+    private TextView lblIndirizzo, lblRaggio;
     private CheckBox chkboxApp, chkboxEmail;
     private ImageButton btnChiudi;
     private Button btnSalva;
@@ -41,8 +41,14 @@ public class SalvaRicercaDialogFragment extends DialogFragment{
         return view;
     }
 
+    private void setIndirizzoAndRaggio(String indirizzo, String raggio){
+        this.lblIndirizzo.setText(indirizzo);
+        this.lblRaggio.setText("Entro " + raggio + " Km");
+    }
+
     private void setupUI(View view) {
-        this.txtNomeRicerca = view.findViewById(R.id.ricerca_salva_zona_txt_nomeRicerca);
+        this.lblIndirizzo = view.findViewById(R.id.ricerca_salva_zona_lbl_indirizzo);
+        this.lblRaggio = view.findViewById(R.id.ricerca_salva_zona_lbl_raggio);
         this.chkboxApp = view.findViewById(R.id.ricerca_salva_zona_chkbox_notificheApp);
         this.chkboxEmail = view.findViewById(R.id.ricerca_salva_zona_chkbox_notificheEmail);
         this.btnChiudi = view.findViewById(R.id.ricerca_salva_zona_btn_chiudi);
@@ -53,7 +59,6 @@ public class SalvaRicercaDialogFragment extends DialogFragment{
     }
 
     private void btnSalvaOnClick(View view) {
-
 
         this.dismiss();
     }

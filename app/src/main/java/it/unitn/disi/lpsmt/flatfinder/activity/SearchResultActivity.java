@@ -3,10 +3,8 @@ package it.unitn.disi.lpsmt.flatfinder.activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.*;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.PopupMenu;
-import android.widget.ToggleButton;
+import android.widget.*;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -15,13 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.AnnounceListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.FilterCompletion;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.fragment.SalvaRicercaDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
+import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.task.Completion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,10 +56,19 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         }
 
         this.setupUI();
-
         this.setupToolbar();
-
         this.setRecyclerViewAdapter();
+
+        double latitudeCenter, longitudeCenter;
+        latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
+        longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);
+
+        Map<String, String> filters = new HashMap<>();
+        filters.put("latitudineCentro", latitudeCenter+"");
+        filters.put("longitudineCentro", longitudeCenter+"");
+        //filters.put("distanzaMax", "1000");
+
+        updateList(filters);
 
     }
 
@@ -133,10 +144,6 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        // TODO get list from database
-        double latitudeCenter, longitudeCenter;
-
-
         if(announceList == null){
             announceList = new ArrayList<>();
         }
@@ -145,10 +152,32 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         this.recyclerView.setAdapter(this.adapter);
     }
 
+    private void updateList(Map<String, String> filters) {
+
+        RemoteAPI.getAnnounceList(filters, (announces, exception) -> {
+
+            if( exception != null ){
+
+                Toast.makeText(this, "Errore durante il caricamento dei dati", Toast.LENGTH_SHORT)
+                        .show();
+                exception.printStackTrace();
+
+            } else if ( announces != null ){
+
+                this.recyclerView.setAdapter(new MyAnnounceListAdapter(announces, this));
+                Log.i(TAG, announces.toString());
+                Log.i(TAG, "Data retrivered");
+
+            }
+
+        });
+
+    }
+
     @Override
     public void onFilterChooseComplete(Map<String, String> filters) {
 
-        // TODO: Aggiornare la lista con i risultati; basta fare un'altra chiamata alle API remote.
+        updateList(filters);
 
     }
 }

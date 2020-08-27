@@ -47,7 +47,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:padding="20dp"
             android:id="@+id/miei_annunci_viewpager">
     </androidx.viewpager.widget.ViewPager>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
