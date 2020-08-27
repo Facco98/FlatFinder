@@ -1,8 +1,12 @@
 package it.unitn.disi.lpsmt.flatfinder.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 public class User implements Serializable{
@@ -29,13 +33,42 @@ public class User implements Serializable{
     @Nullable
     private String sub;
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String family_name, @Nullable String phone_number, @Nullable String sub){
+    @Nullable
+    private Boolean male;
+
+    @Nullable
+    private String profileImg;
+
+    public User(@NonNull String email, @NonNull String name, @NonNull String family_name, @Nullable String phone_number, @Nullable String sub, @Nullable Boolean male, @Nullable String profileImg){
 
         this.email = email;
         this.name = name;
         this.family_name = family_name;
         this.sub = sub;
+        this.male = male;
+        this.profileImg = profileImg;
+        this.phone_number = phone_number;
     }
+
+
+    @Nullable
+    public Boolean getMale() {
+        return male;
+    }
+
+    public void setMale(@Nullable Boolean male) {
+        this.male = male;
+    }
+
+    @Nullable
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(@Nullable String profileImg) {
+        this.profileImg = profileImg;
+    }
+
 
 
     @NonNull
@@ -95,6 +128,13 @@ public class User implements Serializable{
         sb.append("]");
 
         return sb.toString();
+
+    }
+
+    public Bitmap getProfileImgBmp(){
+
+        byte[] bytes = Base64.decode(this.profileImg, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
     }
 

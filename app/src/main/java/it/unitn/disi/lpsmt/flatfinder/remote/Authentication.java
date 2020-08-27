@@ -1,16 +1,14 @@
 package it.unitn.disi.lpsmt.flatfinder.remote;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.*;
 import com.google.firebase.firestore.FirebaseFirestore;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
-import it.unitn.disi.lpsmt.flatfinder.task.Task;
+import timber.log.Timber;
 
 import java.io.InvalidClassException;
 import java.util.HashMap;
@@ -75,7 +73,9 @@ public final class Authentication {
                     String name = (String) task.getResult().get("name");
                     String familyName = (String) task.getResult().get("family_name");
                     String sub = firebaseUser.getUid();
-                    User user = new User(email, name, familyName, phoneNumber, sub);
+                    Boolean male = (Boolean) task.getResult().get("male");
+                    String profileImg = (String) task.getResult().get("img");
+                    User user = new User(email, name, familyName, phoneNumber, sub, male, profileImg);
 
                     if( completion != null )
                         completion.onComplete(user, null);
@@ -107,7 +107,9 @@ public final class Authentication {
                     String name = (String) task.getResult().get("name");
                     String familyName = (String) task.getResult().get("family_name");
                     String sub = attributes.getUid();
-                    User user = new User(email, name, familyName, phoneNumber, sub);
+                    Boolean male = (Boolean) task.getResult().get("male");
+                    String profileImg = (String) task.getResult().get("img");
+                    User user = new User(email, name, familyName, phoneNumber, sub, male, profileImg);
 
                     if( completion != null )
                         completion.onComplete(user, null);
@@ -142,7 +144,7 @@ public final class Authentication {
                     try{
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                            Timber.tag(TAG).d("signInWithCredential:success");
                             FirebaseUser firebaseUser = task.getResult().getUser();
                             Map<String, Object> map = new HashMap<>();
                             map.put("phoneN", firebaseUser.getPhoneNumber());
@@ -150,20 +152,25 @@ public final class Authentication {
                             map.put("name", task.getResult().getAdditionalUserInfo().getProfile().get("given_name"));
                             map.put("family_name", task.getResult().getAdditionalUserInfo().getProfile().get("family_name"));
                             //System.out.println(task.getResult().getAdditionalUserInfo().getProfile());
-                            firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).set(map)
+                            firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).update(map)
                                     .addOnCompleteListener(voids -> {
                                         firebaseAuth.updateCurrentUser(firebaseUser);
-                                        if (completion != null) {
-                                            User user = new User(firebaseUser.getEmail(), (String) map.get("name"),
-                                                    (String) map.get("family_name"), (String) map.get("phoneN"),
-                                                    firebaseUser.getUid());
-                                            completion.onComplete(user, null);
-                                        }
+                                        firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).get().addOnCompleteListener((task1) ->
+                                        {
+                                            String profileImg = (String) task1.getResult().get("img");
+                                            Boolean male = (Boolean) task1.getResult().get("male");
+                                            if (completion != null) {
+                                                User user = new User(firebaseUser.getEmail(), (String) map.get("name"),
+                                                        (String) map.get("family_name"), (String) map.get("phoneN"),
+                                                        firebaseUser.getUid(), male, profileImg);
+                                                completion.onComplete(user, null);
+                                            }
+                                        });
                                     });
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Timber.tag(TAG).w(task.getException(), "signInWithCredential:failure");
                         }
                     } catch ( Exception ex ){
 
@@ -171,6 +178,43 @@ public final class Authentication {
 
                     }
                 });
+    }
+
+    public static void forgotPassword(@NonNull String email, @Nullable Completion<Boolean> completion){
+
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener((voids) -> {
+
+            if( completion != null )
+                completion.onComplete(true, null);
+
+        }).addOnFailureListener((err) -> {
+
+            if( completion != null )
+                completion.onComplete(null, err);
+
+        });
+
+    }
+
+    public static void updateProfile(@NonNull User user, @Nullable Completion<Boolean> completion){
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("phoneN", user.getPhone_number());
+        map.put("uid", user.getSub());
+        map.put("name", user.getName());
+        map.put("family_name", user.getFamily_name());
+        map.put("img", user.getProfileImg());
+        map.put("male", user.getMale());
+        firebaseFirestore.collection("utenti").document(user.getSub()).set(map).addOnCompleteListener((voids2) -> {
+            if (completion != null)
+                completion.onComplete(true, null);
+        }).addOnFailureListener((err) -> {
+
+            if( completion != null )
+                completion.onComplete(null, err);
+
+        });
+
     }
 
 

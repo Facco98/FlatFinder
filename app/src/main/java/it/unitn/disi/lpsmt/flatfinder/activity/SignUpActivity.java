@@ -100,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             };
 
-            User user = new User(email, nome, cognome, null, null);
+            User user = new User(email, nome, cognome, null, null, null, null);
             Authentication.registerUser(user, password, completion);
 
         }

@@ -107,8 +107,8 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
         updateMap("affitto_mensilemin", affittoMin);
         updateMap("inizio_disponibilita", disponibilita);
         updateMap("numero_localimin", nlocaliMin);
-        updateMap("numero_bagni", nbagniMin);
-        updateMap("raggio", raggio);
+        updateMap("numero_bagnimin", nbagniMin);
+        updateMap("distanzaMax", raggio);
         updateMap("categoria", categoria);
         updateMap("tipologia", tipologia);
 
@@ -134,6 +134,9 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
 
         this.rdgLocali.check(R.id.ricerca_filtri_rdbtn_nlocaliDefault);
         this.rdgBagni.check(R.id.ricerca_filtri_rdbtn_nbagniDefault);
+
+        this.rdbtnBagniChecked = view.findViewById(this.rdgBagni.getCheckedRadioButtonId());
+        this.rdbtnLocaliChecked = view.findViewById(this.rdgLocali.getCheckedRadioButtonId());
 
         this.btnChiudi.setOnClickListener(this::btnChiudiOnClick);
         this.btnImpostaFiltri.setOnClickListener(this::btnImpostaFiltriOnClick);
@@ -170,11 +173,12 @@ public class RicercaFiltriDialogFragment extends DialogFragment {
     }
 
     private void rdgBagniOnChange(RadioGroup radioGroup, int i) {
-        this.rdbtnBagniChecked = radioGroup.findViewById(i);
+
+        this.rdbtnBagniChecked = this.requireView().findViewById(radioGroup.getCheckedRadioButtonId());
     }
 
     private void rdgLocaliOnChange(RadioGroup radioGroup, int i) {
-        this.rdbtnLocaliChecked = radioGroup.findViewById(i);
+        this.rdbtnLocaliChecked = this.requireView().findViewById(radioGroup.getCheckedRadioButtonId());
     }
 
     private void btnImpostaFiltriOnClick(View view) {

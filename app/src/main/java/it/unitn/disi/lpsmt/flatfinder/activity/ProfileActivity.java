@@ -35,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView imgProfileImage;
     private EditText txtNome, txtCognome, txtEmail, txtTelefono;
     private RadioGroup rdgSesso;
-    private Spinner spnTipoInserzionista;
     private Button btnSalva, btnCambiaImmagineProfilo;
     private User user;
 
@@ -64,6 +63,8 @@ public class ProfileActivity extends AppCompatActivity {
         setupToolbar();
 
         this.imgProfileImage = this.findViewById(R.id.profilo_img_immagineDiProfilo);
+        if( this.user.getProfileImg() != null )
+            this.imgProfileImage.setImageBitmap(this.user.getProfileImgBmp());
         this.txtNome = this.findViewById(R.id.profilo_txt_nome);
         this.txtNome.setText(this.user.getName());
         this.txtCognome = this.findViewById(R.id.profilo_txt_cognome);
@@ -73,7 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
         this.txtTelefono = this.findViewById(R.id.profilo_txt_numeroTelefono);
         this.txtTelefono.setText(this.user.getPhone_number());
         this.rdgSesso = this.findViewById(R.id.profilo_rdgroup_sesso);
-        this.spnTipoInserzionista  = this.findViewById(R.id.profilo_spinner_tipoInserzionista);
+        if( this.user.getMale() != null && this.user.getMale() )
+            this.rdgSesso.check(R.id.profilo_rdgroup_sesso_male);
+        else if( this.user.getMale() != null )
+            this.rdgSesso.check(R.id.profilo_rdgroup_sesso_female);
         this.btnSalva = this.findViewById(R.id.profilo_btn_salva);
         this.btnCambiaImmagineProfilo = this.findViewById(R.id.profilo_btn_cambiaImmagine);
 
@@ -91,7 +95,36 @@ public class ProfileActivity extends AppCompatActivity {
     private void btnSalvaOnClick(View view) {
 
         // ritorna alla pagina home
-        this.finish();
+        switch(this.rdgSesso.getCheckedRadioButtonId()){
+
+            case R.id.profilo_rdgroup_sesso_male:
+                this.user.setMale(true);
+                break;
+
+            case R.id.profilo_rdgroup_sesso_female:
+                this.user.setMale(false);
+                break;
+
+            default:
+                Log.e(TAG, "Invalid value: " + this.rdgSesso.getCheckedRadioButtonId());
+
+        }
+        this.user.setFamily_name(this.txtCognome.getText().toString());
+        this.user.setName(this.txtNome.getText().toString());
+        this.user.setPhone_number(this.txtTelefono.getText().toString());
+        Authentication.updateProfile(this.user, (value, err) -> {
+
+            if( err != null ) {
+                Toast.makeText(this, R.string.profile_error_update, Toast.LENGTH_SHORT).show();
+                err.printStackTrace();
+            }
+            else if ( value != null ) {
+                Toast.makeText(this, R.string.profile_updated, Toast.LENGTH_SHORT).show();
+                this.finish();
+            }
+
+        });
+
     }
 
     @Override
@@ -105,6 +138,9 @@ public class ProfileActivity extends AppCompatActivity {
                     InputStream is = this.getContentResolver().openInputStream(data.getData());
                     Bitmap bmp = BitmapFactory.decodeStream(is);
                     is.close();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    this.user.setProfileImg(Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
                     this.imgProfileImage.setImageBitmap(bmp);
 
                 } catch (FileNotFoundException e) {

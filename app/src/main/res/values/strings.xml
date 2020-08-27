@@ -149,5 +149,7 @@
 
     <string name="mapbox_access_token">pk.eyJ1IjoiZGV2YWNrIiwiYSI6ImNrZWI4c2g0ZTA2aDcyc3A3MTlqejd2MG4ifQ.sRuJerdZblEdwG5IO0a0Lw</string>
     <string name="must_select_location">E\' necessaro selezionare un punto sulla mappa</string>
+    <string name="profile_updated">Profilo aggiornato con successo</string>
+    <string name="profile_error_update">Si è verificato un errore nell\'aggiornamento del profilo</string>
 
 </resources>
