@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.flatfinder.remote;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,8 +23,6 @@ public final class RemoteAPI {
     private final static String ANNOUNCE_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/announce";
     private final static String PHOTO_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/photo";
     private static final String TAG = "REMOTE";
-    private static final String GEOCODING_KEY = "94250b2bf89d401da822d4821b28b640";
-    private static final String GEOCODING_ENDPOINT = "https://api.opencagedata.com/geocode/v1/json";
 
     private RemoteAPI(){
 
