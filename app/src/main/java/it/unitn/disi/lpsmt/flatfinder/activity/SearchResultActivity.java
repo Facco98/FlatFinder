@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -13,16 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.AnnounceListAdapter;
-import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.FilterCompletion;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
-import it.unitn.disi.lpsmt.flatfinder.fragment.SalvaRicercaDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
-import it.unitn.disi.lpsmt.flatfinder.task.Completion;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,13 +29,14 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
     private Toolbar toolbar;
     private Button btnFiltri, btnOrdina;
-    private ToggleButton btnSalvaRicerca;
+    private Button btnSalvaRicerca;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Announce> announceList;
 
-    private double latitudeCenter, longitudeCenter;
+    private Double latitudeCenter, longitudeCenter, maxDistance;
+    private String address;
 
     private User user;
 
@@ -59,6 +56,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
         this.latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
         this.longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);
+        this.address = getIntent().getStringExtra("indirizzo");
 
         this.setupUI();
         this.setupToolbar();
@@ -67,6 +65,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
 
         Map<String, String> filters = new HashMap<>();
+        this.maxDistance = 1.0;
         filters.put("distanzaMax", "1");
 
         updateList(filters);
@@ -85,7 +84,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         this.btnSalvaRicerca = this.findViewById(R.id.ricerca_esiti_btn_salvaRicerca);
         this.recyclerView = this.findViewById(R.id.ricerca_esiti_lista_view_recycleview);
 
-        this.btnSalvaRicerca.setOnCheckedChangeListener(this::btnSalvaRicercaOnClick);
+        this.btnSalvaRicerca.setOnClickListener(this::btnSalvaRicercaOnClick);
         this.btnFiltri.setOnClickListener(this::btnFiltriOnClick);
         this.btnOrdina.setOnClickListener(this::btnOrdinaOnClick);
         
@@ -126,14 +125,21 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         return true;
     }
 
-    private void btnSalvaRicercaOnClick(CompoundButton compoundButton, boolean b) {
-        if(b){
-            Log.d(TAG, "salva ricerca tap");
-            DialogFragment dialog = new SalvaRicercaDialogFragment();
-            dialog.show(getSupportFragmentManager(), "tag");
-        } else {
-            Log.d(TAG, "cancella ricerca tap");
-        }
+    private void btnSalvaRicercaOnClick(View v) {
+        Log.d(TAG, "salva ricerca tap");
+        Zone zone = new Zone(null, this.longitudeCenter, this.latitudeCenter, this.maxDistance, address);
+        RemoteAPI.registerZone(this.user, zone, (string, ex)->{
+
+            if( ex != null ) {
+                ex.printStackTrace();
+                Toast.makeText(this, R.string.zone_registered_error, Toast.LENGTH_SHORT).show();
+            } else {
+
+                Toast.makeText(this, R.string.zone_registered, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     private void btnFiltriOnClick(View view) {
@@ -154,6 +160,8 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
         filters.put("longitudineCentro", ""+this.longitudeCenter);
         filters.put("attivo", ""+true);
         filters.put("username_creatorenot", this.user.getSub());
+        if( filters.get("distanzaMax") != null)
+            this.maxDistance = Double.parseDouble(filters.get("distanzaMax"));
 
         RemoteAPI.getAnnounceList(filters, (announces, exception) -> {
 

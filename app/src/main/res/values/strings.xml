@@ -150,5 +150,8 @@
     <string name="must_select_location">E\' necessaro selezionare un punto sulla mappa</string>
     <string name="profile_updated">Profilo aggiornato con successo</string>
     <string name="profile_error_update">Si è verificato un errore nell\'aggiornamento del profilo</string>
+    <string name="zone_registered">Zona registrata con successo</string>
+    <string name="zone_registered_error">Errore nella registrazione della zona</string>
+    <string name="loading_zones_error">Errore nel caricamento delle zone di interesse</string>
 
 </resources>

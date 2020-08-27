@@ -169,6 +169,7 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
         intent.putExtra("latitudineCentro", marker.getPosition().getLatitude());
         intent.putExtra("longitudineCentro", marker.getPosition().getLongitude());
+        intent.putExtra("indirizzo", this.toolbar.getTitle().toString());
         startActivity(intent);
     }
 

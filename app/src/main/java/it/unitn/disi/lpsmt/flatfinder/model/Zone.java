@@ -16,12 +16,15 @@ public class Zone {
     @SerializedName("distanza_max")
     private double maxDistance;
 
+    @SerializedName("indirizzo")
+    private String address;
 
-    public Zone(Integer id, double centerLongitude, double centerLatitude, double maxDistance) {
+    public Zone(Integer id, double centerLongitude, double centerLatitude, double maxDistance, String address) {
         this.id = id;
         this.centerLongitude = centerLongitude;
         this.centerLatitude = centerLatitude;
         this.maxDistance = maxDistance;
+        this.address = address;
     }
 
     public Zone() {
@@ -60,5 +63,11 @@ public class Zone {
         this.maxDistance = maxDistance;
     }
 
+    public String getAddress() {
+        return address;
+    }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

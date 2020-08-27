@@ -16,6 +16,7 @@ import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapter.AnnounceListViewHolder>{
@@ -27,7 +28,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
     private Announce announce;
 
     public AnnounceListAdapter(List<Announce> announceList, Context context) {
-        this.announceList = announceList;
+        this.announceList = new ArrayList<>(announceList);
         this.context = context;
     }
 

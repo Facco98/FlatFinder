@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,8 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.SavedZoneListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.Search;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
+import it.unitn.disi.lpsmt.flatfinder.model.Zone;
+import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ public class SavedSearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Search> searchList = null;
+    private List<Zone> searchList = null;
 
     private User user;
 
@@ -54,14 +57,23 @@ public class SavedSearchActivity extends AppCompatActivity {
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        // TODO get searchList from database
+        RemoteAPI.listZones(this.user, (list, err) -> {
 
-        if(searchList == null){
-            searchList = new ArrayList<>();
-        }
+            if( err != null ){
 
-        this.adapter = new SavedZoneListAdapter(this.searchList, this);
-        this.recyclerView.setAdapter(this.adapter);
+                err.printStackTrace();
+                Toast.makeText(this,R.string.loading_zones_error, Toast.LENGTH_SHORT).show();
+
+            } else if( list != null ) {
+
+                this.searchList = list;
+                this.adapter = new SavedZoneListAdapter(this.searchList, this);
+                this.recyclerView.setAdapter(this.adapter);
+
+            }
+
+        });
+
     }
 
     private void setupUI() {

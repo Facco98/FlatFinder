@@ -163,31 +163,34 @@ public final class RemoteAPI {
 
     }
 
-    public static void registerZone(@NonNull User user, @NonNull Zone zone, @Nullable Completion<Void> completion){
+    public static void registerZone(@NonNull User user, @NonNull Zone zone, @Nullable Completion<String> completion){
 
 
         firebaseInstanceId.getInstanceId().addOnCompleteListener(task -> {
             try {
-                URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente=" + user.getSub() + "&token_notifica=" +task.getResult().getToken());
-                HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
-                connection.setRequestMethod("POST");
-                PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
-                Gson gson = new GsonBuilder().create();
-                String jsonString = gson.toJson(zone);
-                Log.i(TAG, "POSTING ZONE: " + jsonString);
-                writer.println(jsonString);
-                writer.flush();
-                writer.close();
+                Task<Void, String> registerTask = new Task<Void, String>((voids) -> {
+                    URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente=" + user.getSub() + "&token_notifica=" + task.getResult().getToken());
+                    HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
+                    connection.setRequestMethod("POST");
+                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+                    Gson gson = new GsonBuilder().create();
+                    String jsonString = gson.toJson(zone);
+                    Log.i(TAG, "POSTING ZONE: " + jsonString);
+                    writer.println(jsonString);
+                    writer.flush();
+                    writer.close();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String s;
-                StringBuilder sb = new StringBuilder();
-                while((s = reader.readLine()) != null )
-                    sb.append(s);
-                Log.d(TAG, sb.toString());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String s;
+                    StringBuilder sb = new StringBuilder();
+                    while ((s = reader.readLine()) != null)
+                        sb.append(s);
+                    Log.d(TAG, sb.toString());
 
-                if( completion != null )
-                    completion.onComplete(null, null);
+                    return sb.toString();
+
+                }, completion);
+                registerTask.execute(new Void[1]);
 
             } catch (Exception e) {
                 if( completion != null )
@@ -196,6 +199,32 @@ public final class RemoteAPI {
 
 
         });
+    }
+
+    public static void deleteZone(@NonNull Zone zone, @NonNull Completion<String> completion){
+
+        Task<Void, String> deleteTask = new Task<Void, String>((voids) -> {
+
+            URL endpoint = new URL(ZONE_ENDPOINT);
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("DELETE");
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+            writer.println(new Gson().toJson(zone));
+            System.out.println("SENDING: " + new Gson().toJson(zone));
+            writer.flush();
+            writer.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+            System.out.println("READT");
+            return sb.toString();
+
+        }, completion);
+        deleteTask.execute(new Void[1]);
+
     }
 
 }

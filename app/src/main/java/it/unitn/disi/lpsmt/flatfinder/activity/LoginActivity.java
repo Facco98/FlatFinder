@@ -20,7 +20,6 @@ import com.mapbox.mapboxsdk.Mapbox;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RecuperaPasswordDialogFragment;
-import it.unitn.disi.lpsmt.flatfinder.fragment.RicercaFiltriDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 

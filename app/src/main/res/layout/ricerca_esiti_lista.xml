@@ -33,12 +33,11 @@
                     android:text="Filtri"
                     android:layout_weight="1"
                     android:background="@color/colorTransparentGrey"/>
-            <ToggleButton
+            <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/ricerca_esiti_btn_salvaRicerca"
-                    android:textOff="salva ricerca"
-                    android:textOn="cancella ricerca"
+                    android:text="Salva ricerca"
                     android:layout_weight="1"
                     android:background="@color/colorTransparentGrey"/>
             <Button

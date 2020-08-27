@@ -13,18 +13,21 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.activity.SearchResultActivity;
 import it.unitn.disi.lpsmt.flatfinder.model.Search;
+import it.unitn.disi.lpsmt.flatfinder.model.Zone;
+import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdapter.FavoriteAreaListViewHolder>{
 
     private static final String TAG = "FavoriteAreaListAdapter";
 
-    private List<Search> list;
+    private List<Zone> list;
     private Context context;
 
-    public SavedZoneListAdapter(List<Search> list, Context context) {
-        this.list = list;
+    public SavedZoneListAdapter(List<Zone> list, Context context) {
+        this.list = new ArrayList<>(list);
         this.context = context;
     }
 
@@ -34,31 +37,29 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ricerche_salvate_card_item, parent, false);
         SavedZoneListAdapter.FavoriteAreaListViewHolder viewHolder = new SavedZoneListAdapter.FavoriteAreaListViewHolder(view);
 
-        viewHolder.itemView.setOnClickListener((v)->{
-            // todo get coordinates of the address
-            String latitudeCenter = "", longitudeCenter = "";
-            Intent intent = new Intent(context, SearchResultActivity.class);
-            intent.putExtra("latitudineCentro", latitudeCenter);
-            intent.putExtra("longitudineCentro", longitudeCenter);
-            context.startActivity(intent);
-        });
-
-        viewHolder.btnElimina.setOnClickListener(this::btnEliminaOnClick);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SavedZoneListAdapter.FavoriteAreaListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavoriteAreaListViewHolder holder, int position) {
+        holder.populateUI(this.list.get(position));
+        holder.btnElimina.setOnClickListener((view) -> {
 
-        // todo get zona raggio and centro
-        //holder.lblRaggio.setText();
-        //holder.lblIndirizzo.setText();
+            RemoteAPI.deleteZone(this.list.get(position), (string, ex) -> {
 
+                if( ex != null )
+                    ex.printStackTrace();
+                else {
+                    this.list.remove(position);
+                    this.notifyDataSetChanged();
+                }
+
+            });
+
+        });
     }
 
-    private void btnEliminaOnClick(View view) {
-    }
 
     @Override
     public int getItemCount() {
@@ -80,6 +81,19 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
             this.lblIndirizzo = view.findViewById(R.id.ricerche_salvate_card_lbl_indirizzo);
             this.lblRaggio = view.findViewById(R.id.ricerche_salvate_card_lbl_raggio);
             this.btnElimina = view.findViewById(R.id.ricerche_salvate_card_btn_elimina);
+
+
+        }
+
+        public void populateUI(Zone zone){
+
+            this.lblIndirizzo.setText(zone.getAddress());
+            if( zone.getAddress().equals("Inserisci qui un luogo di ricerca"))
+                this.lblIndirizzo.setText("Lat:"+ zone.getCenterLatitude()+", " + "Lon: " +zone.getCenterLongitude());
+
+            this.lblRaggio.setText(""+zone.getMaxDistance() + " km");
+
+
         }
     }
 }

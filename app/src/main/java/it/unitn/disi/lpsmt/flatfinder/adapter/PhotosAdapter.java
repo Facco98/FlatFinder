@@ -19,8 +19,11 @@ public class PhotosAdapter extends PagerAdapter {
 
     public PhotosAdapter(@Nullable List<Photo> photos, @NonNull Context context) {
 
-        if( this.photos == null )
+
+        if( photos == null )
             this.photos = new ArrayList<>();
+        else
+            this.photos = new ArrayList<>(photos);
         this.context = context;
 
     }
