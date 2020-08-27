@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.mapbox.mapboxsdk.Mapbox;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RecuperaPasswordDialogFragment;
@@ -45,10 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
         this.user = null;
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         AlertDialog alertDialog = alertDialogBuilder.setTitle("Caricamento").setMessage("Attendi mentre carichiamo l'applicazione").create();
 
         alertDialog.show();
+
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         Authentication.getUser((user, exception) -> {
 
             alertDialog.hide();

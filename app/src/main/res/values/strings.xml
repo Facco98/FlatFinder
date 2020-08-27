@@ -74,7 +74,7 @@
     <string name="empty_photos">Caricamento delle foto in corso</string>
     <string name="no_photo">Nessuna foto disponibile</string>
     <string name="common_empty_address">L\'indirizzo non può essere vuoto</string>
-    <string name="new_announce_must_validate_address">Devi prima verificare l\'indirizzo</string>
+    <string name="new_announce_must_validate_address">Devi inserire un indirizzo valido</string>
     <string name="common_empty_field">"Il campo non può essere vuoto: "</string>
     <string name="invalid_number">Il numero inserito non è valido</string>
     <string name="invalid_date">Data non valida</string>

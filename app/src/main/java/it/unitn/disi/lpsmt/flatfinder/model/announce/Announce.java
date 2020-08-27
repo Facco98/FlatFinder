@@ -66,6 +66,16 @@ public class Announce {
     @SerializedName("attivo")
     private boolean active = true;
 
+
+    @Expose(serialize = true, deserialize = false)
+    @SerializedName("latitudine")
+    private Double latitudine;
+
+    @Expose(serialize = true, deserialize = false)
+    @SerializedName("longitudine")
+    private Double longitudine;
+
+
     @Expose(serialize = false, deserialize = false)
     private List<Photo> photos = new ArrayList<>();
 
@@ -73,7 +83,8 @@ public class Announce {
     public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address,
                     float rentPerMonth, String description, FornitureStatus fornitureStatus,
                     EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms,
-                    int floor, float size, Float extras, Date date, String contact, boolean active) {
+                    int floor, float size, Float extras, Date date, String contact, boolean active, Double latitudine,
+                    Double longitudine) {
 
         this.id = id;
         this.creatorUsername = creatorUsername;
@@ -94,10 +105,12 @@ public class Announce {
         this.date = date;
         this.contact = contact;
         this.active = active;
+        this.latitudine = latitudine;
         this.photos = new ArrayList<>();
+        this.longitudine = longitudine;
     }
 
-    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address, float rentPerMonth, String description, FornitureStatus fornitureStatus, EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms, int floor, float size, Float extras, Date date, String contact, List<Photo> photos) {
+    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address, float rentPerMonth, String description, FornitureStatus fornitureStatus, EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms, int floor, float size, Float extras, Date date, String contact, Double latitudine, Double longitudine, List<Photo> photos) {
         this.id = id;
         this.creatorUsername = creatorUsername;
         this.type = type;
@@ -116,7 +129,9 @@ public class Announce {
         this.extras = extras;
         this.date = date;
         this.contact = contact;
+        this.latitudine = latitudine;
         this.photos = photos;
+        this.longitudine = longitudine;
     }
 
     public Announce() {
@@ -295,5 +310,21 @@ public class Announce {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Double getLatitudine() {
+        return latitudine;
+    }
+
+    public void setLatitudine(Double latitudine) {
+        this.latitudine = latitudine;
+    }
+
+    public Double getLongitudine() {
+        return longitudine;
+    }
+
+    public void setLongitudine(Double longitudine) {
+        this.longitudine = longitudine;
     }
 }

@@ -1,10 +1,10 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.graphics.Color;
 import android.util.Base64;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,11 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.geojson.Point;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
@@ -36,7 +41,6 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
 public class NewAnnounceActivity extends AppCompatActivity {
@@ -63,7 +67,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private Button btnCaricaFoto;
     private PhotosAdapter gridPhotosAdapter;
 
-    private boolean validAddress = false;
+    private Point point;
 
     private User user;
 
@@ -90,7 +94,6 @@ public class NewAnnounceActivity extends AppCompatActivity {
         this.spnTipologiaStruttura = this.findViewById(R.id.nuovo_annuncio_spinner_tipologia_struttura);
         this.spnCategoria = this.findViewById(R.id.nuovo_annuncio_spinner_categoria);
         this.txtIndirizzo = this.findViewById(R.id.nuovo_annuncio_txt_indirizzo);
-        this.btnVerificaIndirizzo = this.findViewById(R.id.nuovo_annuncio_btn_verificaIndirizzo);
         this.txtAffitto = this.findViewById(R.id.nuovo_annuncio_txt_affitto);
         this.txtAltreSpese = this.findViewById(R.id.nuovo_annuncio_txt_altreSpese);
         this.txtDescrizione = this.findViewById(R.id.nuovo_annuncio_txt_descrizione);
@@ -111,27 +114,24 @@ public class NewAnnounceActivity extends AppCompatActivity {
         TabLayout dotsIndicator = this.findViewById(R.id.nuovo_annuncio_lyt_dotIndicator);
         dotsIndicator.setupWithViewPager(photosPager, true);
 
-        this.btnVerificaIndirizzo.setOnClickListener(this::btnVerificaIndirizzoOnClick);
         this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnClick);
-        this.txtIndirizzo.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        this.txtIndirizzo.setOnFocusChangeListener((view, focused) -> {
 
+            if( focused ) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(10)
+                                .language("it")
+                                .country("it")
+                                .build(PlaceOptions.MODE_FULLSCREEN))
+                        .build(NewAnnounceActivity.this);
+                startActivityForResult(intent, 1);
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validAddress = false;
-                //txtIndirizzo.setBackgroundColor(ContextCompat.getColor(NewAnnounceActivity.this, android.R.color.holo_red_light));
-            }
         });
-
         ArrayAdapter<LocalType> adapterTipologiaStruttura = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LocalType.values());
         this.spnTipologiaStruttura.setAdapter(adapterTipologiaStruttura);
         ArrayAdapter<FornitureStatus> adapterArredamento = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, FornitureStatus.values());
@@ -143,48 +143,11 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
     }
 
-    private void btnVerificaIndirizzoOnClick( View v ){
-
-        Log.d(TAG, "Button Verifica Indirizzo did click");
-        String indirizzo = this.txtIndirizzo.getText().toString().trim();
-        if( indirizzo.equals("") )
-            Toast.makeText(this, R.string.common_empty_address, Toast.LENGTH_SHORT);
-        else
-            RemoteAPI.verifyAddress(indirizzo, this::verificaIndirizzoCompletata);
-
-    }
-
-    private void verificaIndirizzoCompletata(GeocodingResponse response, Exception e){
-
-        Log.d(TAG, "Verifica completata!");
-        boolean valid = true;
-        if( e != null ){
-            Toast.makeText(this, R.string.error_while_verifying_address, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        } else if( response.getResult() != null && response.getResult().size() >= 1 ) {
-            response.getResult().sort((a, b) -> b.getConfidence() - a.getConfidence());
-            GeocodingResult result = response.getResult().get(0);
-            valid = result.getConfidence() >= 9;
-        }
-
-        if( valid ){
-            this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
-            this.validAddress = true;
-            Log.i(TAG, "CORRECT");
-        }
-        else {
-            this.txtIndirizzo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-            this.validAddress = false;
-            Log.i(TAG, "WRONG ");
-        }
-
-    }
-
     private void btnAvantiOnClick( View v ){
 
         Log.d(TAG, "Button Avanti did clicl");
 
-        if( !this.validAddress ) {
+        if( this.txtIndirizzo.getText().toString().trim().isEmpty() ) {
             Toast.makeText(this, R.string.new_announce_must_validate_address, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -237,7 +200,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
 
             Announce announce = new Announce(null, this.user.getSub(), tipoLocale, categoria, indirizzo, affittoMensile,
                     descrizione, statoArredamento,classeEnergetica, inizioDisponibilita, fineDisponibilita, numeroLocali,
-                    numeroBagni, piano, dimensione, altreSpese, new Date(), contatti, true);
+                    numeroBagni, piano, dimensione, altreSpese, new Date(), contatti, true, this.point.latitude(), this.point.longitude());
             System.out.println(new Gson().toJson(announce));
             RemoteAPI.createNewAnnounce(announce,this::nuovoAnnuncioPubblicato);
         } catch (EmptyFieldException ex){
@@ -334,6 +297,13 @@ public class NewAnnounceActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+            } else if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+                CarmenFeature feature = PlaceAutocomplete.getPlace(data);
+
+                // set address to toolbar
+                this.txtIndirizzo.setText(feature.placeName());
+                this.point = (Point) feature.geometry();
 
             }
         }
