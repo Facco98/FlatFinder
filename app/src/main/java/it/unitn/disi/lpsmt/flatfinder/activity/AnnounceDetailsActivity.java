@@ -187,9 +187,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblArredamento.setText(announce.getFornitureStatus().description);
         this.lblClasseEnergetica.setText(announce.getEnergeticClass().toString());
         sb = new StringBuilder();
-        sb.append(this.getResources().getString(R.string.from)).append(" ").append(Util.dateToString(announce.getStart()))
-                .append(" ").append(this.getResources().getString(R.string.to))
-                .append(" ").append(Util.dateToString(announce.getEnd()));
+        sb.append(this.getResources().getString(R.string.from)).append(" ").append(Util.dateToString(announce.getStart()));
         this.lblDisponibilità.setText(sb.toString());
         this.lblDataAnnuncio.setText(Util.dateToString(announce.getDate()));
         this.lblDescrizione.setText(announce.getDescription());
