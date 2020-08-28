@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.flatfinder.adapter;
 
-import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,17 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-import com.google.android.material.tabs.TabLayout;
-import com.google.gson.JsonArray;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,9 +28,6 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
 
     private List<Announce> announceList;
     private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
 
     public AnnounceListAdapter(List<Announce> announceList, Context context) {
         this.announceList = new ArrayList<>(announceList);
@@ -49,15 +38,13 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
     @Override
     public AnnounceListAdapter.AnnounceListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.annuncio_card_item, parent, false);
-        AnnounceListAdapter.AnnounceListViewHolder viewHolder = new AnnounceListAdapter.AnnounceListViewHolder(view, announceList, context);
-
-        return viewHolder;
+        return new AnnounceListAdapter.AnnounceListViewHolder(view, announceList, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AnnounceListAdapter.AnnounceListViewHolder holder, int position) {
-        this.sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
-        this.editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Set<String> favorites = getFavorites(sharedPreferences);
         Announce announce = this.announceList.get(position);
         String announceId = announce.getId()+"";
@@ -69,9 +56,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
         holder.txtIndirizzo.setText(announce.getAddress());
 
         Log.d(TAG, "favorites: " + favorites.toString());
-        if(favorites.contains(announceId)){
-            holder.btnAddToFavorite.setChecked(true);
-        }
+        holder.btnAddToFavorite.setChecked(favorites.contains(announceId));
     }
 
     private Set<String> getFavorites(SharedPreferences sharedPreferences){
@@ -114,7 +99,6 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
                 context.startActivity(intent);
             });
 
-            // TODO: holder.btnAddToFavorite.setChecked();
             this.btnAddToFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
