@@ -19,6 +19,8 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 
+import java.io.IOException;
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "Home Activity";
@@ -155,7 +157,6 @@ public class HomeActivity extends AppCompatActivity {
         Authentication.logout();
         User.setCurrentUser(null);
         this.recreate();
-
     }
 
     private void intentNotNull(@NonNull Intent i){

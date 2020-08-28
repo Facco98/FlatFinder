@@ -3,6 +3,8 @@ package it.unitn.disi.lpsmt.flatfinder.remote;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,8 +33,6 @@ public final class RemoteAPI {
     private final static String ZONE_ENDPOINT = "https://f4065lwkkj.execute-api.us-east-1.amazonaws.com/zone";
 
     private static final String TAG = "REMOTE";
-
-    private static FirebaseInstanceId firebaseInstanceId = FirebaseInstanceId.getInstance();
 
     private RemoteAPI(){
 
@@ -166,7 +166,7 @@ public final class RemoteAPI {
     public static void registerZone(@NonNull User user, @NonNull Zone zone, @Nullable Completion<String> completion){
 
 
-        firebaseInstanceId.getInstanceId().addOnCompleteListener(task -> {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
             try {
                 Task<Void, String> registerTask = new Task<Void, String>((voids) -> {
                     URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente=" + user.getSub() + "&token_notifica=" + task.getResult().getToken());
@@ -224,6 +224,77 @@ public final class RemoteAPI {
 
         }, completion);
         deleteTask.execute(new Void[1]);
+
+    }
+
+    public static void updateNotificationToken(@NonNull String s, @NonNull Completion<String> completion){
+
+        FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+        if( u != null ){
+
+            Task<Void, String> updateTask = new Task<Void, String>((voids) -> {
+                URL endpoint = new URL(ZONE_ENDPOINT
+                        + "?username_utente=" + u.getUid() + "&token_notifica=" + s);
+                HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
+                connection.setRequestMethod("PUT");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String tmp;
+                StringBuilder sb = new StringBuilder();
+                while ((tmp = reader.readLine()) != null)
+                    sb.append(tmp);
+
+                return sb.toString();
+            }, completion);
+
+            updateTask.execute(new Void[1]);
+
+
+        }
+
+
+    }
+
+    public static void deleteAnnounce(@NonNull Announce announce, @NonNull Completion<String> completion){
+
+        Task<Void, String> deleteTask = new Task<Void, String>((voids) -> {
+
+            URL endpoint = new URL(ANNOUNCE_ENDPOINT+"?idAnnuncio="+announce.getId());
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("DELETE");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+            return sb.toString();
+
+        }, completion);
+        deleteTask.execute(new Void[1]);
+
+    }
+
+    public static void updateAnnounce(@NonNull Announce announce, @NonNull Completion<String> completion){
+
+        Task<Void, String> updateTask = new Task<Void, String>((voids) -> {
+
+            URL endpoint = new URL(ANNOUNCE_ENDPOINT);
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("PUT");
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+            writer.println(new Gson().toJson(announce));
+            writer.flush();
+            writer.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+            return sb.toString();
+
+        }, completion);
+        updateTask.execute(new Void[1]);
 
     }
 

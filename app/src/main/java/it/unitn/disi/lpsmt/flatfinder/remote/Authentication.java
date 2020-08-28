@@ -5,11 +5,14 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.*;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
+import it.unitn.disi.lpsmt.flatfinder.task.Task;
 import timber.log.Timber;
 
+import java.io.IOException;
 import java.io.InvalidClassException;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +29,13 @@ public final class Authentication {
 
     public static void registerUser( @NonNull User user, @NonNull String password, @Nullable Completion<Boolean> completion) {
 
-        if( firebaseAuth.getCurrentUser() != null )
+        if (firebaseAuth.getCurrentUser() != null)
             logout();
 
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull com.google.android.gms.tasks.Task<AuthResult> task) {
-                try{
+                try {
                     FirebaseUser firebaseUser = task.getResult().getUser();
                     firebaseAuth.updateCurrentUser(firebaseUser);
                     Map<String, Object> map = new HashMap<>();
@@ -41,20 +44,21 @@ public final class Authentication {
                     map.put("name", user.getName());
                     map.put("family_name", user.getFamily_name());
                     firebaseFirestore.collection("utenti").document(firebaseUser.getUid()).set(map).addOnCompleteListener((voids2) -> {
-                        firebaseUser.sendEmailVerification().addOnCompleteListener( (vuoti) -> {
+                        firebaseUser.sendEmailVerification().addOnCompleteListener((vuoti) -> {
                             if (completion != null)
-                                    completion.onComplete(true, null);
+                                completion.onComplete(true, null);
                         });
                     });
 
-                } catch ( Exception ex ){
+                } catch (Exception ex) {
 
-                    if( completion != null )
+                    if (completion != null)
                         completion.onComplete(null, ex);
 
                 }
             }
         });
+
 
     }
 
@@ -76,9 +80,19 @@ public final class Authentication {
                     Boolean male = (Boolean) task.getResult().get("male");
                     String profileImg = (String) task.getResult().get("img");
                     User user = new User(email, name, familyName, phoneNumber, sub, male, profileImg);
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener((result ) -> {
+                        RemoteAPI.updateNotificationToken(result.getResult().getToken(), (res, ex) -> {
 
-                    if( completion != null )
-                        completion.onComplete(user, null);
+                            if( ex != null ) {
+                                ex.printStackTrace();
+                                if( completion != null )
+                                    completion.onComplete(null, ex);
+                            }
+                            else if ( res != null && completion != null )
+                                completion.onComplete(user, null);
+
+                        });
+                    });
                 });
 
 
@@ -129,9 +143,20 @@ public final class Authentication {
         }
     }
 
-    public static void logout(){
+    public static void logout() {
 
         firebaseAuth.signOut();
+        Task< Void, Void > tokenDeletionTask = new Task<Void, Void>((voids) -> {
+            FirebaseInstanceId.getInstance().deleteInstanceId();
+            return null;
+        }, (res, ex) -> {
+
+            if( ex != null )
+                ex.printStackTrace();
+
+        });
+        tokenDeletionTask.execute(new Void[1]);
+
 
     }
 
