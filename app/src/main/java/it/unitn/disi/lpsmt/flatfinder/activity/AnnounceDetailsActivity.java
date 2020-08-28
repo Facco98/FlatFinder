@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -129,6 +131,13 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
     private void btnContattaOnClick( View v ){
 
         Log.d(TAG, "Button Contatta did click");
+        //Apre la tastiera del telefono e mostra il numero, l'utente poi deve premere 'chiama' per effettuare la chiamata
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + announce.getContact()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
 
     }
 
@@ -148,7 +157,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         if( announces.size() != 1 )
             return;
 
-        Announce announce = announces.get(0);
+        /*Announce*/ announce = announces.get(0);
 
         RemoteAPI.getPhotosForAnnounce(announce.getId(), (photos, error) -> {
 
@@ -201,6 +210,11 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblIndirizzo.setText(announce.getAddress());
 
 
+        //tolgo bottoni slava e contatta se l'annuncio è mio
+        if(announce.getCreatorUsername().compareTo(user.getSub()) == 0){ //annuncio è mio
+            this.btnContatta.setVisibility(View.GONE);
+            this.btnSalva.setVisibility(View.GONE);
+        }
 
     }
 }
