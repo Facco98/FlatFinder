@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.SavedZoneListAdapter;
-import it.unitn.disi.lpsmt.flatfinder.model.Search;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SavedSearchActivity extends AppCompatActivity {

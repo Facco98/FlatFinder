@@ -1,5 +1,8 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,14 +11,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.adapter.FavoritesAdapter;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FavoritesActivity extends AppCompatActivity {
+    private static final String TAG = "FavoritesActivity";
+    private static final String FAVORITES_ARRAY = "favorite_announces";
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -39,22 +44,30 @@ public class FavoritesActivity extends AppCompatActivity {
         }
 
         this.setupUI();
-
         this.setRecyclerViewAdapter();
     }
 
     private void setRecyclerViewAdapter() {
+        SharedPreferences sharedPreferences = getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
         // TODO get announceList from database
-        // announceList = ;
+        announceList = new ArrayList<>();
 
-        if(announceList == null){
-            announceList = new ArrayList<>();
+        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, null);
+
+        if(favorites != null){
+            Iterator iterator = favorites.iterator();
+            while(iterator.hasNext()){
+                int id = Integer.parseInt((String) iterator.next());
+                // get announce from id
+                //announceList.add();
+            }
         }
 
-        this.adapter = new MyAnnounceListAdapter(this.announceList, this);
+        this.adapter = new FavoritesAdapter(this.announceList, this);
         this.recyclerView.setAdapter(this.adapter);
     }
 

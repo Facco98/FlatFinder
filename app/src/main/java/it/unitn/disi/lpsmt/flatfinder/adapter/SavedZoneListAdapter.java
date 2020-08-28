@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import it.unitn.disi.lpsmt.flatfinder.R;
-import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
-import it.unitn.disi.lpsmt.flatfinder.activity.SearchResultActivity;
-import it.unitn.disi.lpsmt.flatfinder.model.Search;
 import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 
