@@ -1,20 +1,16 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.FavoritesAdapter;
-import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 
 import java.util.*;
 
@@ -25,7 +21,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Announce> announceList;
+    private List<String> announceList;
 
     private User user;
 
@@ -49,22 +45,16 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void setRecyclerViewAdapter() {
         SharedPreferences sharedPreferences = getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        // TODO get announceList from database
         announceList = new ArrayList<>();
 
         Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, null);
 
         if(favorites != null){
-            Iterator iterator = favorites.iterator();
-            while(iterator.hasNext()){
-                int id = Integer.parseInt((String) iterator.next());
-                // get announce from id
-                //announceList.add();
-            }
+            announceList.addAll(favorites);
+            Collections.sort(announceList);
         }
 
         this.adapter = new FavoritesAdapter(this.announceList, this);

@@ -154,5 +154,7 @@
     <string name="zone_registered_error">Errore nella registrazione della zona</string>
     <string name="loading_zones_error">Errore nel caricamento delle zone di interesse</string>
     <string name="error_generic">Errore nel caricamento</string>
+    <string name="salva_annuncio">salva annuncio</string>
+    <string name="annuncio_salvato">annuncio salvato</string>
 
 </resources>

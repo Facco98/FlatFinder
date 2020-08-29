@@ -1,20 +1,17 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
-import android.widget.ImageView;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.maps.MapView;
 import com.google.android.material.tabs.TabLayout;
@@ -22,18 +19,15 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AnnounceDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "AnnounceDetailsAcrivity";
+    private static final String FAVORITES_ARRAY = "favorite_announces";
 
     private Announce announce;
 
@@ -49,11 +43,14 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
     private TextView lblDescrizione;
     private TextView lblDataAnnuncio;
     private TextView lblAltreSpese;
-    private TextView lblDisponibilità;
+    private TextView lblDisponibilita;
     private TextView lblArredamento;
     private TextView lblClasseEnergetica;
     private MapView mapView;
     private ViewPager imgViewPager;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     private User user;
 
@@ -71,7 +68,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
             this.finish();
         }
 
-
+        this.sharedPreferences = this.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
+        this.editor = sharedPreferences.edit();
 
         this.setupUI();
         Intent i = this.getIntent();
@@ -113,7 +111,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblDescrizione = findViewById(R.id.dettagli_lbl_descrizione);
         this.lblDataAnnuncio = findViewById(R.id.dettagli_lbl_dataAnnuncio);
         this.lblAltreSpese = findViewById(R.id.dettagli_lbl_altreSpese);
-        this.lblDisponibilità = findViewById(R.id.dettagli_lbl_disponibilita);
+        this.lblDisponibilita = findViewById(R.id.dettagli_lbl_disponibilita);
         this.lblArredamento = findViewById(R.id.dettagli_lbl_arredamento);
         this.lblClasseEnergetica = findViewById(R.id.dettagli_lbl_classeEnergetica);
         this.mapView = findViewById(R.id.dettagli_view_mappa);
@@ -126,6 +124,19 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
         setupToolbar();
 
+    }
+
+    private void checkBtnSalva(){
+        String announceId = announce.getId() + "";
+        Log.d(TAG, "announceId: "+announceId);
+
+        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
+
+        if(favorites.contains(announceId)){
+            setAnnuncioSalvato();
+        } else {
+            setSalvaAnnuncio();
+        }
     }
 
     private void btnContattaOnClick( View v ){
@@ -145,6 +156,40 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
         Log.d(TAG, "Button Salva did click");
 
+        String announceId = announce.getId() + "";
+        Log.d(TAG, "announceId: "+announceId);
+
+        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
+
+        if(this.btnSalva.getText().equals(getString(R.string.salva_annuncio))){
+            Log.d(TAG, "isChecked");
+            favorites.add(announceId);
+            setAnnuncioSalvato();
+
+        } else {
+            Log.d(TAG, "is not Checked");
+            favorites.remove(announceId);
+            setSalvaAnnuncio();
+        }
+
+        editor.putStringSet(FAVORITES_ARRAY, favorites);
+        editor.commit();
+        Log.d(TAG, "preferiti: " + favorites.toString());
+        Log.d(TAG, "sharedpref: " + sharedPreferences.getStringSet(FAVORITES_ARRAY, null));
+
+
+    }
+
+    private void setAnnuncioSalvato(){
+        this.btnSalva.setText(R.string.annuncio_salvato);
+        this.btnSalva.setBackgroundResource(R.drawable.background_dettagli_button);
+        this.btnSalva.setTextColor(Color.WHITE);
+    }
+
+    private void setSalvaAnnuncio(){
+        this.btnSalva.setText(R.string.salva_annuncio);
+        this.btnSalva.setBackgroundResource(R.drawable.background_dettagli_favorite);
+        this.btnSalva.setTextColor(Color.BLACK);
     }
 
     private void handleAnnounceLoading(List<Announce> announces, Exception ex) {
@@ -188,7 +233,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblClasseEnergetica.setText(announce.getEnergeticClass().toString());
         sb = new StringBuilder();
         sb.append(this.getResources().getString(R.string.from)).append(" ").append(Util.dateToString(announce.getStart()));
-        this.lblDisponibilità.setText(sb.toString());
+        this.lblDisponibilita.setText(sb.toString());
         this.lblDataAnnuncio.setText(Util.dateToString(announce.getDate()));
         this.lblDescrizione.setText(announce.getDescription());
         sb = new StringBuilder();
@@ -212,7 +257,11 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         if(announce.getCreatorUsername().compareTo(user.getSub()) == 0){ //annuncio è mio
             this.btnContatta.setVisibility(View.GONE);
             this.btnSalva.setVisibility(View.GONE);
+        } else {
+            checkBtnSalva();
         }
+
+
 
     }
 }

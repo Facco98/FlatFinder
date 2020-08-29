@@ -110,12 +110,13 @@
                             android:background="@drawable/background_dettagli_button" android:textColor="@android:color/white"
                             android:layout_marginRight="5dp" android:padding="5dp"/>
                     <Button
-                            android:text="salva annuncio"
+                            android:text="@string/salva_annuncio"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/dettagli_btn_salva"
-                            android:layout_weight="1" android:drawableLeft="@drawable/ic_action_favorite"
-                            android:background="@drawable/background_dettagli_button" android:textColor="@android:color/white"
-                            android:padding="5dp"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dettagli_btn_salva"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_dettagli_favorite"
+                            android:padding="10dp"/>
                 </LinearLayout>
                 <View
                         android:id="@+id/divider"

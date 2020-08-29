@@ -44,8 +44,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
     @Override
     public void onBindViewHolder(@NonNull AnnounceListAdapter.AnnounceListViewHolder holder, int position) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Set<String> favorites = getFavorites(sharedPreferences);
+        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
         Announce announce = this.announceList.get(position);
         String announceId = announce.getId()+"";
 
@@ -57,12 +56,6 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
 
         Log.d(TAG, "favorites: " + favorites.toString());
         holder.btnAddToFavorite.setChecked(favorites.contains(announceId));
-    }
-
-    private Set<String> getFavorites(SharedPreferences sharedPreferences){
-        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, null);
-
-        return favorites == null ? new HashSet<>() : favorites;
     }
 
     @Override
@@ -106,8 +99,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
                 String announceId = announce.getId() + "";
                 Log.d(TAG, "announceId: "+announceId);
 
-                Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, null);
-                favorites = favorites == null ? new HashSet<>() : favorites;
+                Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
 
                 if(isChecked){
                     Log.d(TAG, "isChecked");
