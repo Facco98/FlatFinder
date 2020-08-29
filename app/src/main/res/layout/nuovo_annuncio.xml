@@ -53,16 +53,17 @@
                 <Space
                         android:layout_width="match_parent"
                         android:layout_height="15dp"/>
+
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:inputType="textPostalAddress"
-                        android:ems="10"
-                        android:focusable="false"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_edittext"
-                        android:padding="10dp"
-                        android:id="@+id/nuovo_annuncio_txt_indirizzo"/>
+                    android:id="@+id/nuovo_annuncio_txt_indirizzo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_edittext"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPostalAddress"
+                    android:padding="10dp" />
 
                 <TextView
                         android:id="@+id/nuovo_annuncio_lbl_indirizzo"
@@ -351,11 +352,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"/>
 
-                <Button android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:background="@color/colorPrimaryDark"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/nuovo_annuncio_annulla"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_buttongroup_buttonchecked"
+                        android:text="Annulla"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/nuovo_annuncio_btn_avanti"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimaryDark"
                         android:padding="15dp"
-                        android:text="Avanti" android:id="@+id/nuovo_annuncio_btn_avanti"/>
+                        android:text="Avanti" />
+                </LinearLayout>
 
                 <Space
                         android:layout_width="match_parent"

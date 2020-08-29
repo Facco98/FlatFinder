@@ -17,6 +17,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
+import it.unitn.disi.lpsmt.flatfinder.fragment.EliminaAnnuncioDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
@@ -40,6 +41,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
     private TextView lblIndirizzo;
     private Button btnContatta;
     private Button btnSalva;
+    private Button btnModifica;
+    private Button btnElimina;
     private TextView lblDescrizione;
     private TextView lblDataAnnuncio;
     private TextView lblAltreSpese;
@@ -108,6 +111,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.lblIndirizzo = findViewById(R.id.dettagli_lbl_indirizzo);
         this.btnContatta = findViewById(R.id.dettagli_btn_contatta);
         this.btnSalva = findViewById(R.id.dettagli_btn_salva);
+        this.btnModifica = findViewById(R.id.dettagli_btn_modifica);
+        this.btnElimina = findViewById(R.id.dettagli_button_elimina);
         this.lblDescrizione = findViewById(R.id.dettagli_lbl_descrizione);
         this.lblDataAnnuncio = findViewById(R.id.dettagli_lbl_dataAnnuncio);
         this.lblAltreSpese = findViewById(R.id.dettagli_lbl_altreSpese);
@@ -121,6 +126,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
         this.btnContatta.setOnClickListener(this::btnContattaOnClick);
         this.btnSalva.setOnClickListener(this::btnSalvaOnClick);
+        this.btnModifica.setOnClickListener(this::btnModificaOnCick);
+        this.btnElimina.setOnClickListener(this::btnEliminaOnClick);
 
         setupToolbar();
 
@@ -192,6 +199,19 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         this.btnSalva.setTextColor(Color.BLACK);
     }
 
+    private void btnModificaOnCick( View v){
+        Log.d(TAG, "Button Modifica did click");
+        Intent intent = new Intent(AnnounceDetailsActivity.this, ModifyAnnounceActivity.class);
+        intent.putExtra("announceID", announce.getId());
+        startActivity(intent);
+    }
+
+    private void btnEliminaOnClick( View v){
+        Log.d(TAG, "Button Elimina did click");
+        EliminaAnnuncioDialogFragment eliminaAnnuncioDialogFragment = new EliminaAnnuncioDialogFragment(announce, this);
+        eliminaAnnuncioDialogFragment.show(getSupportFragmentManager(), TAG);
+    }
+
     private void handleAnnounceLoading(List<Announce> announces, Exception ex) {
 
         if( ex != null ) {
@@ -257,6 +277,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         if(announce.getCreatorUsername().compareTo(user.getSub()) == 0){ //annuncio è mio
             this.btnContatta.setVisibility(View.GONE);
             this.btnSalva.setVisibility(View.GONE);
+            this.btnModifica.setVisibility(View.VISIBLE);
+            this.btnElimina.setVisibility(View.VISIBLE);
         } else {
             checkBtnSalva();
         }

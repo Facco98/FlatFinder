@@ -53,12 +53,14 @@
                       android:layout_marginTop="10dp"
                       android:layout_gravity="right|end"
                       android:orientation="horizontal">
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/miei_annunci_card_btn_modifica"
-                    android:background="@color/colorTransparentGrey"
-                    android:layout_marginRight="5dp"
-                    android:text="Modifica"/>
+
+            <Button
+                android:id="@+id/miei_annunci_card_btn_modifica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/background_buttongroup_buttonchecked"
+                android:text="Modifica" />
 
             <Button android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -157,4 +157,8 @@
     <string name="salva_annuncio">salva annuncio</string>
     <string name="annuncio_salvato">annuncio salvato</string>
 
+    <string name="delete_announce_message">Eliminare l\'annuncio?</string>
+    <string name="delete_annonce_positive_button">Elimina</string>
+    <string name="delete_announce_negative_button">Annulla</string>
+
 </resources>

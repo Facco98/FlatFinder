@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
+import it.unitn.disi.lpsmt.flatfinder.activity.ModifyAnnounceActivity;
+import it.unitn.disi.lpsmt.flatfinder.fragment.EliminaAnnuncioDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 
@@ -27,6 +30,7 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     private List<Announce> announceList;
     private Context context;
     private Announce announce;
+    MyAnnounceListViewHolder viewHolder;
 
     public MyAnnounceListAdapter(List<Announce> announceList, Context context) {
         this.announceList = new ArrayList<>(announceList);
@@ -37,10 +41,13 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     @Override
     public MyAnnounceListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.i_miei_annunci_card_item, parent, false);
-        MyAnnounceListViewHolder viewHolder = new MyAnnounceListViewHolder(view);
+        /*MyAnnounceListViewHolder*/ viewHolder = new MyAnnounceListViewHolder(view);
 
         viewHolder.itemView.setOnClickListener((v)->{
             this.announce = this.announceList.get(viewHolder.getAdapterPosition());
+            System.out.println("adapter position: " + viewHolder.getAdapterPosition());
+            System.out.println("layout position: " + viewHolder.getLayoutPosition());
+
             Intent intent = new Intent(context, AnnounceDetailsActivity.class);
             intent.putExtra("announceID", announce.getId());
             context.startActivity(intent);
@@ -54,6 +61,7 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     @Override
     public void onBindViewHolder(@NonNull MyAnnounceListViewHolder holder, int position) {
         this.announce = this.announceList.get(position);
+        System.out.println("onBind View Holder: " + this.announceList.get(position));
 
         holder.txtPrezzo.setText(announce.getRentPerMonth()+" €");
         holder.txtDimensione.setText(announce.getSize()+" mq");
@@ -64,9 +72,16 @@ public class MyAnnounceListAdapter extends RecyclerView.Adapter<MyAnnounceListAd
     }
 
     private void btnEliminaOnClick(View view) {
+        Log.d(TAG, "Button Elimina did click");
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+        EliminaAnnuncioDialogFragment eliminaAnnuncioDialogFragment = new EliminaAnnuncioDialogFragment(this.announceList.get(viewHolder.getAdapterPosition()), context);
+        eliminaAnnuncioDialogFragment.show(activity.getSupportFragmentManager(), TAG);
     }
 
     private void btnModificaOnClick(View view) {
+        Intent intent = new Intent(context, ModifyAnnounceActivity.class);
+        intent.putExtra("announceID", announce.getId());
+        context.startActivity(intent);
     }
 
     @Override
