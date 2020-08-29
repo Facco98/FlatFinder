@@ -75,11 +75,6 @@ public class Announce {
     @SerializedName("longitudine")
     private Double longitudine;
 
-
-    @Expose(serialize = false, deserialize = false)
-    private List<Photo> photos = new ArrayList<>();
-
-
     public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address,
                     float rentPerMonth, String description, FornitureStatus fornitureStatus,
                     EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms,
@@ -106,11 +101,10 @@ public class Announce {
         this.contact = contact;
         this.active = active;
         this.latitudine = latitudine;
-        this.photos = new ArrayList<>();
         this.longitudine = longitudine;
     }
 
-    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address, float rentPerMonth, String description, FornitureStatus fornitureStatus, EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms, int floor, float size, Float extras, Date date, String contact, Double latitudine, Double longitudine, List<Photo> photos) {
+    public Announce(Integer id, String creatorUsername, LocalType type, Category category, String address, float rentPerMonth, String description, FornitureStatus fornitureStatus, EnergeticClass energeticClass, Date start, Date end, int nLocals, int nBathrooms, int floor, float size, Float extras, Date date, String contact, Double latitudine, Double longitudine) {
         this.id = id;
         this.creatorUsername = creatorUsername;
         this.type = type;
@@ -130,7 +124,6 @@ public class Announce {
         this.date = date;
         this.contact = contact;
         this.latitudine = latitudine;
-        this.photos = photos;
         this.longitudine = longitudine;
     }
 
@@ -264,14 +257,6 @@ public class Announce {
 
     public void setSize(float size) {
         this.size = size;
-    }
-
-    public List<Photo> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<Photo> photos) {
-        this.photos = photos;
     }
 
     public Date getDate() {

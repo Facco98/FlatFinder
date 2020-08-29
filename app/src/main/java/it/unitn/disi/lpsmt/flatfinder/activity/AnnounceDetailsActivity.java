@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.fragment.EliminaAnnuncioDialogFragment;
+import it.unitn.disi.lpsmt.flatfinder.listener.DeleteFragmentListener;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
@@ -25,7 +26,7 @@ import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 import java.util.*;
 
-public class AnnounceDetailsActivity extends AppCompatActivity {
+public class AnnounceDetailsActivity extends AppCompatActivity implements DeleteFragmentListener {
 
     private static final String TAG = "AnnounceDetailsAcrivity";
     private static final String FAVORITES_ARRAY = "favorite_announces";
@@ -208,7 +209,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
 
     private void btnEliminaOnClick( View v){
         Log.d(TAG, "Button Elimina did click");
-        EliminaAnnuncioDialogFragment eliminaAnnuncioDialogFragment = new EliminaAnnuncioDialogFragment(announce, this);
+        EliminaAnnuncioDialogFragment eliminaAnnuncioDialogFragment = new EliminaAnnuncioDialogFragment(announce, this, this);
         eliminaAnnuncioDialogFragment.show(getSupportFragmentManager(), TAG);
     }
 
@@ -284,6 +285,23 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+    @Override
+    public void announceDeleted(Announce announce) {
+        this.finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if( this.announce != null ) {
+            int id = this.announce.getId();
+            Map<String, String> filters = new HashMap<>(1);
+            filters.put("id", "" + id);
+            RemoteAPI.getAnnounceList(filters, this::handleAnnounceLoading);
+        }
 
     }
 }

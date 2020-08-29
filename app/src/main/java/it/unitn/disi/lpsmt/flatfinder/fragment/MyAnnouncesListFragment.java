@@ -33,7 +33,7 @@ public class MyAnnouncesListFragment extends Fragment {
     private boolean showingActiveAnnounces;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter<MyAnnounceListAdapter.MyAnnounceListViewHolder> adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Announce> announceList;
     private User user;
@@ -60,7 +60,7 @@ public class MyAnnouncesListFragment extends Fragment {
         setupUI(view);
 
         this.setRecyclerViewAdapter(view);
-        this.updateList();
+        //this.updateList();
         return view;
     }
 
@@ -105,5 +105,10 @@ public class MyAnnouncesListFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "ON RESUME");
+        this.updateList();
+    }
 }

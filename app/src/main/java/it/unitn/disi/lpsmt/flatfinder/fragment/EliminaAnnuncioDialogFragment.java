@@ -19,6 +19,7 @@ import java.util.List;
 
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnounceListAdapter;
+import it.unitn.disi.lpsmt.flatfinder.listener.DeleteFragmentListener;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 
@@ -27,11 +28,13 @@ public class EliminaAnnuncioDialogFragment extends DialogFragment {
     private static final String TAG = "EliminaAnnuncioFragment";
     private Announce announce;
     private Context context;
+    private DeleteFragmentListener listener;
 
-    public EliminaAnnuncioDialogFragment(Announce ann, Context ctx){
+    public EliminaAnnuncioDialogFragment(Announce ann, Context ctx, DeleteFragmentListener listener){
 
         context = ctx;
         announce = ann;
+        this.listener = listener;
     }
 
     public Dialog onCreateDialog(Bundle SavedInstanceState)
@@ -50,7 +53,10 @@ public class EliminaAnnuncioDialogFragment extends DialogFragment {
                                 err.printStackTrace();
 
                             }
-                            else /*if (string != null)*/{
+                            else {
+
+                                listener.announceDeleted(announce);
+
                             }
                         });
                     }

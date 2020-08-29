@@ -148,7 +148,7 @@ public final class RemoteAPI {
 
     public static void listZones(@NonNull User user, @Nullable Completion<List<Zone>> completion){
 
-        Task<Void, List<Zone>> photosTask = new Task<Void, List<Zone>>((voids) -> {
+        Task<Void, List<Zone>> listZonesTask = new Task<Void, List<Zone>>((voids) -> {
 
             URL endpoint = new URL(ZONE_ENDPOINT + "?username_utente="+user.getSub() );
             HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
@@ -159,7 +159,7 @@ public final class RemoteAPI {
             return Arrays.asList(zones);
 
         }, completion);
-        photosTask.execute(new Void[1]);
+        listZonesTask.execute(new Void[1]);
 
     }
 
@@ -296,6 +296,29 @@ public final class RemoteAPI {
         }, completion);
         updateTask.execute(new Void[1]);
 
+    }
+
+    public void updatePhotosForAnnounce(@NonNull List<Photo> photos, @NonNull Integer announceID, @NonNull Completion<String> completion){
+
+        Task<Void, String> updateTask = new Task<Void, String>((voids) -> {
+
+            URL endpoint = new URL(PHOTO_ENDPOINT+"?idAnnuncio=" + announceID);
+            HttpsURLConnection connection = (HttpsURLConnection) endpoint.openConnection();
+            connection.setRequestMethod("PUT");
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+            writer.println(new Gson().toJson(photos));
+            writer.flush();
+            writer.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+            return sb.toString();
+
+        }, completion);
+        updateTask.execute(new Void[1]);
     }
 
 }

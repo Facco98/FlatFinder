@@ -378,6 +378,22 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
         } else if (response != null) {
 
+            Log.i(TAG, response);
+            RemoteAPI.uploadPhotosForAnnounce(this.gridPhotosAdapter.getItems(), this.announce.getId(), (res, err) -> {
+
+                if( err != null ){
+
+                    err.printStackTrace();
+                    Toast.makeText(this, "Errore durante la modifica dell'annuncio", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Log.i(TAG, res);
+                    this.finish();
+
+                }
+
+            });
             this.finish(); //chiudo activity
             //caricare le foto
         }
