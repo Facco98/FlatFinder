@@ -86,6 +86,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                         if (!isChecked) {
                             Log.d(TAG, "is not Checked");
                             favorites.remove(announceId);
+                            editor.clear();
                             editor.putStringSet(FAVORITES_ARRAY, favorites);
                             editor.commit();
 

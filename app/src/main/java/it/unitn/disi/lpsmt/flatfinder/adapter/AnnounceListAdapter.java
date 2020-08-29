@@ -109,7 +109,7 @@ public class AnnounceListAdapter extends RecyclerView.Adapter<AnnounceListAdapte
                     Log.d(TAG, "is not Checked");
                     favorites.remove(announceId);
                 }
-
+                editor.clear();
                 editor.putStringSet(FAVORITES_ARRAY, favorites);
                 editor.commit();
                 Log.d(TAG, "preferiti: " + favorites.toString());

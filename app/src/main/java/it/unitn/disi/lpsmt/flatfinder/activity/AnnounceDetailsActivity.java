@@ -171,7 +171,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity {
             favorites.remove(announceId);
             setSalvaAnnuncio();
         }
-
+        editor.clear();
         editor.putStringSet(FAVORITES_ARRAY, favorites);
         editor.commit();
         Log.d(TAG, "preferiti: " + favorites.toString());

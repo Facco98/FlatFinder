@@ -72,6 +72,14 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void setupToolbar() {
         toolbar = this.findViewById(R.id.ricerca_esiti_toolbar);
         setSupportActionBar(toolbar);

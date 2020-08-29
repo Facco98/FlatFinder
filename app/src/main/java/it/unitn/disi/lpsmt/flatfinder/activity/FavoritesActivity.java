@@ -43,6 +43,14 @@ public class FavoritesActivity extends AppCompatActivity {
         this.setRecyclerViewAdapter();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void setRecyclerViewAdapter() {
         SharedPreferences sharedPreferences = getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
         this.layoutManager = new LinearLayoutManager(this);
