@@ -116,7 +116,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
         if(announceList != null){
             switch (itemId){
-                case R.id.ricerca_esiti_menu_ordinaRilevanza:
+                case R.id.ricerca_esiti_menu_ordinaRecenti:
                     announceList.sort((a1, a2) -> a2.getDate().compareTo(a1.getDate()));
                     break;
                 case R.id.ricerca_esiti_menu_ordinaCostosi:

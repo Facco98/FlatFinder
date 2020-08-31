@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.flatfinder.service;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -54,10 +55,12 @@ public class NotificationService extends FirebaseMessagingService {
         String channelId = "Default";
         String title = remoteMessage.getData().get("title")+": " + remoteMessage.getData().get("announceID");
         String text = remoteMessage.getData().get("body");
-
+        Intent i = new Intent(this, HomeActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
         NotificationCompat.Builder builder = new  NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text).setBigContentTitle(title))
+                .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(text).setAutoCancel(true);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
