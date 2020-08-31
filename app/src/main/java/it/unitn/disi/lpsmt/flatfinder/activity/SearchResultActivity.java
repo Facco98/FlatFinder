@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.*;
@@ -18,10 +19,9 @@ import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SearchResultActivity extends AppCompatActivity implements FilterCompletion {
 
@@ -40,6 +40,8 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
     private User user;
 
+    private AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,8 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
             this.startActivity(i);
             this.finish();
         }
+
+        this.alertDialog = Util.getDialog(this, TAG);
 
         this.latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
         this.longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);
@@ -110,30 +114,43 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
     private boolean popupMenuItemOnClick(MenuItem menuItem) {
         int itemId = menuItem.getItemId();
 
-        // todo menu options
-        switch (itemId){
-            case R.id.ricerca_esiti_menu_ordinaRilevanza:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaCostosi:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaEconomici:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaGrandi:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaPiccoli:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaPiuLocali:
-                break;
-            case R.id.ricerca_esiti_menu_ordinaMenoLocali:
-                break;
-            default:
-                Log.d(TAG, "context menu option not valid");
+        if(announceList != null){
+            switch (itemId){
+                case R.id.ricerca_esiti_menu_ordinaRilevanza:
+                    announceList.sort((a1, a2) -> a2.getDate().compareTo(a1.getDate()));
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaCostosi:
+                    announceList.sort((a1, a2)-> Math.round(a2.getRentPerMonth() - a1.getRentPerMonth()));
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaEconomici:
+                    announceList.sort((a1, a2)-> Math.round(a1.getRentPerMonth() - a2.getRentPerMonth()));
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaGrandi:
+                    announceList.sort((a1, a2)-> Math.round(a2.getSize() - a1.getSize()));
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaPiccoli:
+                    announceList.sort((a1, a2)-> Math.round(a1.getSize() - a2.getSize()));
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaPiuLocali:
+                    announceList.sort((a1, a2)-> a2.getnLocals() - a1.getnLocals());
+                    break;
+                case R.id.ricerca_esiti_menu_ordinaMenoLocali:
+                    announceList.sort(Comparator.comparingInt(Announce::getnLocals));
+                    break;
+                default:
+                    Log.d(TAG, "context menu option not valid");
+            }
+            this.adapter = new AnnounceListAdapter(this.announceList, this);
+            this.recyclerView.setAdapter(this.adapter);
+
+            Toast.makeText(this,"Lista ordinata con successo", Toast.LENGTH_SHORT).show();
         }
 
         return true;
     }
 
     private void btnSalvaRicercaOnClick(View v) {
+        Util.showDialog(alertDialog, TAG);
         Log.d(TAG, "salva ricerca tap");
         Zone zone = new Zone(null, this.longitudeCenter, this.latitudeCenter, this.maxDistance, address);
         RemoteAPI.registerZone(this.user, zone, (string, ex)->{
@@ -147,6 +164,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
 
             }
         });
+        Util.dismissDialog(alertDialog, TAG);
 
     }
 
@@ -161,6 +179,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
     }
 
     private void updateList(Map<String, String> filters) {
+        Util.showDialog(alertDialog, TAG);
 
 
         Log.i(TAG, filters.toString());
@@ -190,6 +209,8 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
             }
 
         });
+
+        Util.dismissDialog(alertDialog, TAG);
 
     }
 

@@ -22,6 +22,7 @@ import it.unitn.disi.lpsmt.flatfinder.exception.EmailNotVerifiedException;
 import it.unitn.disi.lpsmt.flatfinder.fragment.RecuperaPasswordDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,16 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_login);
         this.user = null;
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        AlertDialog alertDialog = alertDialogBuilder.setTitle("Caricamento").setMessage("Attendi mentre carichiamo l'applicazione").create();
-
-        alertDialog.show();
+        AlertDialog alertDialog = Util.getDialog(this, TAG);
+        Util.showDialog(alertDialog, TAG);
 
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         Authentication.getUser((user, exception) -> {
 
-            alertDialog.hide();
-            alertDialog.dismiss();
+            Util.dismissDialog(alertDialog, TAG);
             if( exception != null ){
 
                 Log.d(TAG, "User is not signed in");

@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -67,6 +68,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private Button btnCaricaFoto;
     private PhotosAdapter gridPhotosAdapter;
 
+    private AlertDialog alertDialog;
+
     private Point point;
 
     private User user;
@@ -75,6 +78,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.nuovo_annuncio);
+        this.alertDialog = Util.getDialog(this, TAG);
         this.user = User.getCurrentUser();
         if( user == null ){
 
@@ -143,6 +147,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
     }
 
     private void btnAvantiOnClick( View v ){
+        Util.showDialog(alertDialog, TAG);
 
         Log.d(TAG, "Button Avanti did clicl");
 
@@ -218,6 +223,8 @@ public class NewAnnounceActivity extends AppCompatActivity {
             Toast.makeText(this,R.string.invalid_date, Toast.LENGTH_SHORT ).show();
 
         }
+
+        Util.dismissDialog(alertDialog, TAG);
 
     }
 

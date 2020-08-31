@@ -376,7 +376,7 @@
                         android:layout_weight="1"
                         android:background="@color/colorPrimaryDark"
                         android:padding="15dp"
-                        android:text="Avanti" />
+                        android:text="pubblica" />
                 </LinearLayout>
 
                 <Space

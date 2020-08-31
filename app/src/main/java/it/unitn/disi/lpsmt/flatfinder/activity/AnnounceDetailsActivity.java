@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -56,6 +57,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    private AlertDialog alertDialog;
+
     private User user;
 
     @Override
@@ -74,6 +77,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
 
         this.sharedPreferences = this.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
         this.editor = sharedPreferences.edit();
+        this.alertDialog = Util.getDialog(this, TAG);
 
         this.setupUI();
         Intent i = this.getIntent();
@@ -83,6 +87,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
             Map<String, String> filters = new HashMap<>(1);
             filters.put("id", ""+announceID);
             RemoteAPI.getAnnounceList(filters, this::handleAnnounceLoading);
+
 
         }
 
@@ -214,6 +219,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     }
 
     private void handleAnnounceLoading(List<Announce> announces, Exception ex) {
+        Util.showDialog(alertDialog, TAG);
 
         if( ex != null ) {
             ex.printStackTrace();
@@ -224,6 +230,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
             return;
 
         /*Announce*/ announce = announces.get(0);
+
 
         RemoteAPI.getPhotosForAnnounce(announce.getId(), (photos, error) -> {
 
@@ -240,6 +247,8 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
                     ((TextView) this.findViewById(R.id.dettagli_empty_message)).setText(R.string.no_photo);
                     this.findViewById(R.id.dettagli_empty_message).setVisibility(View.VISIBLE);
                 }
+
+
             }
 
         });
@@ -284,7 +293,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
             checkBtnSalva();
         }
 
-
+        Util.dismissDialog(alertDialog, TAG);
 
     }
 

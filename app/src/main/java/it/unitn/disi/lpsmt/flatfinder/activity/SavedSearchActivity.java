@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.AlertDialog;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,15 +14,20 @@ import it.unitn.disi.lpsmt.flatfinder.adapter.SavedZoneListAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 import java.util.List;
 
 public class SavedSearchActivity extends AppCompatActivity {
 
+    private static final String TAG = "SavedSearchActivity";
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Zone> searchList = null;
+
+    private AlertDialog alertDialog;
 
     private User user;
 
@@ -29,6 +35,7 @@ public class SavedSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_search);
+        this.alertDialog = Util.getDialog(this, TAG);
 
         this.user = User.getCurrentUser();
         if ( user == null ){
@@ -52,6 +59,7 @@ public class SavedSearchActivity extends AppCompatActivity {
     }
 
     private void setRecyclerViewAdapter() {
+        Util.showDialog(alertDialog, TAG);
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
@@ -71,6 +79,7 @@ public class SavedSearchActivity extends AppCompatActivity {
             }
 
         });
+        Util.dismissDialog(alertDialog, TAG);
 
     }
 

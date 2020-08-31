@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.flatfinder.service;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.activity.HomeActivity;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.task.Task;
@@ -50,10 +52,14 @@ public class NotificationService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.d("msg", "onMessageReceived: " + remoteMessage.getData().get("message"));
         String channelId = "Default";
+        String title = remoteMessage.getData().get("title")+": " + remoteMessage.getData().get("announceID");
+        String text = remoteMessage.getData().get("body");
+
         NotificationCompat.Builder builder = new  NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(remoteMessage.getData().get("title")+": " + remoteMessage.getData().get("announceID"))
-                .setContentText(remoteMessage.getData().get("body")).setAutoCancel(true);
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text).setBigContentTitle(title))
+                .setContentTitle(title)
+                .setContentText(text).setAutoCancel(true);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Default channel", NotificationManager.IMPORTANCE_DEFAULT);

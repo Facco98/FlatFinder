@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -92,6 +93,8 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
     private User user;
     private Announce announce;
 
+    private AlertDialog alertDialog;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +107,8 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
             this.finish();
 
         }
+
+        this.alertDialog = Util.getDialog(this, TAG);
 
         Intent i = this.getIntent();
         if( i != null && i.hasExtra("announceID") ){
@@ -177,6 +182,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
 
     private void handleAnnounceLoading(List<Announce> announces, Exception ex) {
+        Util.showDialog(alertDialog, TAG);
 
         if( ex != null ) {
             ex.printStackTrace();
@@ -220,6 +226,8 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.spnCategoria.setSelection(adapterCategoria.getPosition(announce.getCategory()));
         this.spnArredamento.setSelection(adapterArredamento.getPosition(announce.getFornitureStatus()));
         this.spnClasseEnergetica.setSelection(adapterClasseEnergetica.getPosition(announce.getEnergeticClass()));
+
+        Util.dismissDialog(alertDialog, TAG);
     }
 
     public boolean onSupportNavigateUp(){
@@ -371,6 +379,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
     }
 
     private void modificaAnnuncio(String response, Exception ex) {
+        Util.showDialog(alertDialog, TAG);
         if (ex != null) {
 
             ex.printStackTrace();
@@ -397,6 +406,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
             this.finish(); //chiudo activity
             //caricare le foto
         }
+        Util.dismissDialog(alertDialog, TAG);
     }
 
 }

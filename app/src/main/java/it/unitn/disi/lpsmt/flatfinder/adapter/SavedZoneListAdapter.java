@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.Zone;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,8 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
 
     @Override
     public void onBindViewHolder(@NonNull FavoriteAreaListViewHolder holder, int position) {
+        AlertDialog alertDialog = Util.getDialog(context, TAG);
+        Util.showDialog(alertDialog, TAG);
         holder.populateUI(this.list.get(position));
         holder.btnElimina.setOnClickListener((view) -> {
 
@@ -54,6 +58,7 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
             });
 
         });
+        Util.dismissDialog(alertDialog, TAG);
     }
 
 

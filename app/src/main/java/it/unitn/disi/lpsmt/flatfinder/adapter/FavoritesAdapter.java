@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 import java.util.*;
 
@@ -40,6 +42,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
+
+        AlertDialog alertDialog = Util.getDialog(context, TAG);
+        Util.showDialog(alertDialog, TAG);
+
         Map<String, String> filters = new HashMap<>();
         filters.put("id", announceList.get(position));
         RemoteAPI.getAnnounceList(filters, (announces, exception) ->{
@@ -49,7 +58,16 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                         .show();
                 exception.printStackTrace();
 
-            } else if ( announces != null ){
+            } else if( announces != null && announces.size() <= 0 ){
+                // non viene ritornato nessun annuncio, rimuovo l'annuncio dai preferiti
+                favorites.remove(announceList.get(position));
+                editor.clear();
+                editor.putStringSet(FAVORITES_ARRAY, favorites);
+                editor.commit();
+
+                removeFromList(position);
+            } else if ( announces != null && announces.size() > 0 ){
+                // annuncio ancora presente
                 Announce announce = announces.get(0);
                 Log.i(TAG, "id=" + announces.get(0).getId() + ", " +announces.toString());
                 Log.i(TAG, "Data retrivered");
@@ -62,12 +80,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                     holder.txtCategoria.setText(announce.getCategory().description);
                     holder.txtIndirizzo.setText(announce.getAddress());
 
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
                     String announceId = announce.getId() + "";
                     Log.d(TAG, "announceId: " + announceId);
 
-                    Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
                     if(favorites.contains(announceId)){
                         holder.btnAddToFavorite.setChecked(true);
                     } else {
@@ -97,6 +113,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                 }
             }
         });
+
+        Util.dismissDialog(alertDialog, TAG);
     }
 
     private void removeFromList(int position){
