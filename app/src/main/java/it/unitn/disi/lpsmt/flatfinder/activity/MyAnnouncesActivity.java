@@ -42,6 +42,7 @@ public class MyAnnouncesActivity extends AppCompatActivity {
         myAnnouncesAdapter.addToList(new MyAnnouncesListFragment(false), "RITIRATI");
         this.viewPager.setAdapter(myAnnouncesAdapter);
         tabLayout.setupWithViewPager(this.viewPager);
+
     }
 
     private void setupUI(){

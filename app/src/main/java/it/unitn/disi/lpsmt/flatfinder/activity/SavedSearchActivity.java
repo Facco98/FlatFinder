@@ -75,11 +75,12 @@ public class SavedSearchActivity extends AppCompatActivity {
                 this.searchList = list;
                 this.adapter = new SavedZoneListAdapter(this.searchList, this);
                 this.recyclerView.setAdapter(this.adapter);
+                Util.dismissDialog(alertDialog, TAG);
 
             }
 
         });
-        Util.dismissDialog(alertDialog, TAG);
+
 
     }
 

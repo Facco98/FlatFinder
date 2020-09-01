@@ -1,12 +1,16 @@
 package it.unitn.disi.lpsmt.flatfinder.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
 
 import java.util.ArrayList;
@@ -28,12 +32,25 @@ public class PhotosAdapter extends PagerAdapter {
 
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         Photo photo = this.photos.get(position);
         ImageView imgView = new ImageView(this.context);
+        ((Activity) this.context).registerForContextMenu(imgView);
+        imgView.setOnLongClickListener(v -> {
+
+                imgView.showContextMenu();
+                Log.e("PhotosAdapter", "OnLongClick");
+            return true;
+
+        });
         imgView.setImageBitmap(photo.getBitmap());
         container.addView(imgView);
         return imgView;
@@ -43,7 +60,7 @@ public class PhotosAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeViewAt(position);
+        ((ViewPager) container).removeView((View) object);
     }
 
     @Override
@@ -70,6 +87,12 @@ public class PhotosAdapter extends PagerAdapter {
     public List<Photo> getItems(){
 
         return this.photos;
+
+    }
+
+    public void removeItem(int position){
+
+        this.photos.remove(position);
 
     }
 }

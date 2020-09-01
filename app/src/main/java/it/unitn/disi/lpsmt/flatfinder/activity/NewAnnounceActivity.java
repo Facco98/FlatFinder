@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,10 +39,7 @@ import it.unitn.disi.lpsmt.flatfinder.util.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,7 +67,9 @@ public class NewAnnounceActivity extends AppCompatActivity {
     private EditText txtContatti;
     private Button btnAvanti;
     private Button btnCaricaFoto;
+    private Button btnScattaFoto;
     private PhotosAdapter gridPhotosAdapter;
+    private ViewPager photosPager;
 
     private AlertDialog alertDialog;
 
@@ -111,16 +114,19 @@ public class NewAnnounceActivity extends AppCompatActivity {
         this.btnAvanti = this.findViewById(R.id.nuovo_annuncio_btn_avanti);
         this.txtContatti = this.findViewById(R.id.nuovo_annuncio_txt_contattiCellulare);
         this.btnCaricaFoto = this.findViewById(R.id.nuovo_annuncio_btn_caricafoto);
-        ViewPager photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
+        this.btnScattaFoto = this.findViewById(R.id.nuovo_annuncio_btn_scattaFoto);
+        this.photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
 
-        photosPager.setAdapter(this.gridPhotosAdapter);
+        this.photosPager.setAdapter(this.gridPhotosAdapter);
 
         TabLayout dotsIndicator = this.findViewById(R.id.nuovo_annuncio_lyt_dotIndicator);
         dotsIndicator.setupWithViewPager(photosPager, true);
 
         this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnClick);
+        this.btnScattaFoto.setOnClickListener(this::btnScattaFotoOnClick);
         this.txtIndirizzo.setOnClickListener(this::txtIndirizzoOnClick);
+
 
         ArrayAdapter<LocalType> adapterTipologiaStruttura = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LocalType.values());
         this.spnTipologiaStruttura.setAdapter(adapterTipologiaStruttura);
@@ -147,7 +153,6 @@ public class NewAnnounceActivity extends AppCompatActivity {
     }
 
     private void btnAvantiOnClick( View v ){
-        Util.showDialog(alertDialog, TAG);
 
         Log.d(TAG, "Button Avanti did clicl");
 
@@ -206,6 +211,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
                     descrizione, statoArredamento,classeEnergetica, inizioDisponibilita, fineDisponibilita, numeroLocali,
                     numeroBagni, piano, dimensione, altreSpese, new Date(), contatti, true, this.point.latitude(), this.point.longitude());
             System.out.println(new Gson().toJson(announce));
+            Util.showDialog(this.alertDialog, TAG);
             RemoteAPI.createNewAnnounce(announce,this::nuovoAnnuncioPubblicato);
         } catch (EmptyFieldException ex){
 
@@ -223,8 +229,6 @@ public class NewAnnounceActivity extends AppCompatActivity {
             Toast.makeText(this,R.string.invalid_date, Toast.LENGTH_SHORT ).show();
 
         }
-
-        Util.dismissDialog(alertDialog, TAG);
 
     }
 
@@ -253,6 +257,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
                         if (res != null) {
 
                             Log.i(TAG, res);
+                            Util.dismissDialog(this.alertDialog, TAG);
                             this.finish();
 
                         } else if (ex != null)
@@ -261,6 +266,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
                     });
                 } else {
 
+                    Util.dismissDialog(this.alertDialog, TAG);
                     this.finish();
 
                 }
@@ -279,6 +285,15 @@ public class NewAnnounceActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/png");
         this.startActivityForResult(intent, Util.SELECT_IMAGE);
+
+    }
+
+    private void btnScattaFotoOnClick(View v){
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, 900);
+        }
 
     }
 
@@ -304,12 +319,26 @@ public class NewAnnounceActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-            } else if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            } else if ( requestCode == 1) {
                 CarmenFeature feature = PlaceAutocomplete.getPlace(data);
 
                 // set address to toolbar
                 this.txtIndirizzo.setText(feature.placeName());
                 this.point = (Point) feature.geometry();
+
+            } else if( requestCode == 900 ){
+
+                Bundle extras = data.getExtras();
+                Bitmap bmp = (Bitmap) extras.get("data");
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
+                String encoded = Base64.encodeToString(out.toByteArray(), Base64.DEFAULT);
+                Photo photo = new Photo(null, encoded );
+                this.gridPhotosAdapter.addItem(photo);
+                if( this.photosPager.getAdapter() == null )
+                    this.photosPager.setAdapter(this.gridPhotosAdapter);
+                this.gridPhotosAdapter.notifyDataSetChanged();
+
 
             }
         }
@@ -320,4 +349,20 @@ public class NewAnnounceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.image_context_menu, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.img_menu_delete) {
+            int currentItemPosition = this.photosPager.getCurrentItem();
+            this.gridPhotosAdapter.removeItem(currentItemPosition);
+            this.gridPhotosAdapter.notifyDataSetChanged();
+        }
+        return super.onContextItemSelected(item);
+    }
+
 }

@@ -86,6 +86,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
             int announceID = i.getIntExtra("announceID", 1);
             Map<String, String> filters = new HashMap<>(1);
             filters.put("id", ""+announceID);
+            Util.showDialog(this.alertDialog, TAG);
             RemoteAPI.getAnnounceList(filters, this::handleAnnounceLoading);
 
 
@@ -226,12 +227,16 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
             return;
         }
 
-        if( announces.size() != 1 )
+        if( announces.size() != 1 ) {
+            TextView textView = new TextView(this);
+            textView.setText("L'annuncio selezionato non esiste");
+            this.setContentView(textView);
             return;
+        }
 
         /*Announce*/ announce = announces.get(0);
 
-
+        Util.dismissDialog(this.alertDialog, TAG);
         RemoteAPI.getPhotosForAnnounce(announce.getId(), (photos, error) -> {
 
             if( error != null ){

@@ -49,6 +49,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         AlertDialog alertDialog = Util.getDialog(context, TAG);
         Util.showDialog(alertDialog, TAG);
 
+        holder.txtCategoria.setText("");
+        holder.txtPrezzo.setText("");
+        holder.txtIndirizzo.setText("");
+        holder.txtNLocali.setText("");
+        holder.txtDimensione.setText("");
+
         Map<String, String> filters = new HashMap<>();
         filters.put("id", announceList.get(position));
         RemoteAPI.getAnnounceList(filters, (announces, exception) ->{

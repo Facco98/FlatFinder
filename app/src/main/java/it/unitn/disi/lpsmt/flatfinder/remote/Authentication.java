@@ -124,8 +124,19 @@ public final class Authentication {
                     String profileImg = (String) task.getResult().get("img");
                     User user = new User(email, name, familyName, phoneNumber, sub, male, profileImg);
 
-                    if( completion != null )
-                        completion.onComplete(user, null);
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener((result ) -> {
+                        RemoteAPI.updateNotificationToken(result.getResult().getToken(), (res, ex) -> {
+
+                            if( ex != null ) {
+                                ex.printStackTrace();
+                                if( completion != null )
+                                    completion.onComplete(null, ex);
+                            }
+                            else if ( res != null && completion != null )
+                                completion.onComplete(user, null);
+
+                        });
+                    });
                 });
             } catch ( Exception ex ){
 

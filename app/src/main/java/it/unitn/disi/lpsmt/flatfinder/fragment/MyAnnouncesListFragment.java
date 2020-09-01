@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Adapter;
@@ -17,6 +18,7 @@ import it.unitn.disi.lpsmt.flatfinder.adapter.MyAnnouncesAdapter;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +40,17 @@ public class MyAnnouncesListFragment extends Fragment {
     private List<Announce> announceList;
     private User user;
 
+    private AlertDialog alertDialog;
+
     public MyAnnouncesListFragment( boolean showingActiveAnnounces) {
         // Required empty public constructor
 
         this.showingActiveAnnounces = showingActiveAnnounces;
     }
 
+    public MyAnnouncesListFragment(){
+        this.showingActiveAnnounces = true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +84,9 @@ public class MyAnnouncesListFragment extends Fragment {
     }
 
     private void setupUI(View view) {
+
         this.recyclerView = view.findViewById(R.id.miei_annunci_view_annunciList);
+        this.alertDialog = Util.getDialog(this.requireContext(), TAG);
     }
 
     private void updateList() {
@@ -85,6 +94,7 @@ public class MyAnnouncesListFragment extends Fragment {
         Map<String, String> filters = new HashMap<>();
         filters.put("username_creatore", this.user.getSub());
         filters.put("attivo", ""+this.showingActiveAnnounces);
+        Util.showDialog(this.alertDialog, TAG);
         RemoteAPI.getAnnounceList(filters, (announces, exception) -> {
 
             if( exception != null ){
@@ -98,6 +108,7 @@ public class MyAnnouncesListFragment extends Fragment {
                 this.recyclerView.setAdapter(new MyAnnounceListAdapter(announces, this.requireContext()));
                 Log.i(TAG, announces.toString());
                 Log.i(TAG, "Data retrivered");
+                Util.dismissDialog(this.alertDialog, TAG);
 
             }
 

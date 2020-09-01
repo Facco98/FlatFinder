@@ -205,12 +205,13 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
                 this.recyclerView.setAdapter(this.adapter);
                 Log.i(TAG, announces.toString());
                 Log.i(TAG, "Data retrivered");
+                Util.dismissDialog(alertDialog, TAG);
 
             }
 
         });
 
-        Util.dismissDialog(alertDialog, TAG);
+
 
     }
 

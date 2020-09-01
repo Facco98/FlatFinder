@@ -8,8 +8,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -81,6 +85,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
     private Button btnAvanti;
     private Button btnCaricaFoto;
     private Button btnAnnulla;
+    private Button btnScattaFoto;
     private PhotosAdapter gridPhotosAdapter;
     private ViewPager photosPager;
     private ArrayAdapter<LocalType> adapterTipologiaStruttura;
@@ -116,6 +121,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
             int announceID = i.getIntExtra("announceID", 1);
             Map<String, String> filters = new HashMap<>(1);
             filters.put("id", ""+announceID);
+            Util.showDialog(alertDialog, TAG);
             RemoteAPI.getAnnounceList(filters, this::handleAnnounceLoading);
 
         }
@@ -148,6 +154,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.txtContatti = this.findViewById(R.id.nuovo_annuncio_txt_contattiCellulare);
         this.btnCaricaFoto = this.findViewById(R.id.nuovo_annuncio_btn_caricafoto);
         this.photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
+        this.btnScattaFoto = this.findViewById(R.id.nuovo_annuncio_btn_scattaFoto);
 
         photosPager.setAdapter(this.gridPhotosAdapter);
 
@@ -157,6 +164,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.btnCaricaFoto.setOnClickListener(this::btnCaricaFotoOnClick);
         this.btnAvanti.setOnClickListener(this::btnAvantiOnCLick);
         this.btnAnnulla.setOnClickListener(this::btnAnnullaOnClick);
+        this.btnScattaFoto.setOnClickListener(this::btnScattaFotoOnClick);
 
         /*ArrayAdapter<LocalType> */ adapterTipologiaStruttura = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LocalType.values());
         this.spnTipologiaStruttura.setAdapter(adapterTipologiaStruttura);
@@ -171,6 +179,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.btnAvanti.setText("Salva"); //??
 
 
+
     }
 
     private void setupToolbar() {
@@ -182,7 +191,6 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
 
     private void handleAnnounceLoading(List<Announce> announces, Exception ex) {
-        Util.showDialog(alertDialog, TAG);
 
         if( ex != null ) {
             ex.printStackTrace();
@@ -202,9 +210,10 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
             } else if( photos != null ) {
 
-                if( photos.size() > 0 ) {
-                    this.photosPager.setAdapter(new PhotosAdapter(photos, this));
-                }
+                for(Photo p: photos)
+                    this.gridPhotosAdapter.addItem(p);
+                this.gridPhotosAdapter.notifyDataSetChanged();
+                Util.dismissDialog(alertDialog, TAG);
             }
 
         });
@@ -227,7 +236,6 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.spnArredamento.setSelection(adapterArredamento.getPosition(announce.getFornitureStatus()));
         this.spnClasseEnergetica.setSelection(adapterClasseEnergetica.getPosition(announce.getEnergeticClass()));
 
-        Util.dismissDialog(alertDialog, TAG);
     }
 
     public boolean onSupportNavigateUp(){
@@ -264,18 +272,29 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
                     this.gridPhotosAdapter.addItem(photo);
                     this.gridPhotosAdapter.notifyDataSetChanged();
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            } else if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            } else if (requestCode == 1) {
                 CarmenFeature feature = PlaceAutocomplete.getPlace(data);
 
                 // set address to toolbar
                 this.txtIndirizzo.setText(feature.placeName());
                 this.point = (Point) feature.geometry();
+
+            } else if( requestCode == 900 ){
+
+                Bundle extras = data.getExtras();
+                Bitmap bmp = (Bitmap) extras.get("data");
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
+                String encoded = Base64.encodeToString(out.toByteArray(), Base64.DEFAULT);
+                Photo photo = new Photo(null, encoded );
+                this.gridPhotosAdapter.addItem(photo);
+                this.gridPhotosAdapter.notifyDataSetChanged();
+
+
 
             }
         }
@@ -349,6 +368,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
             System.out.println(new Gson().toJson(announce));
 
+            Util.showDialog(this.alertDialog, TAG);
             RemoteAPI.updateAnnounce(announce, this::modificaAnnuncio);
 
         } catch (EmptyFieldException ex){
@@ -379,7 +399,6 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
     }
 
     private void modificaAnnuncio(String response, Exception ex) {
-        Util.showDialog(alertDialog, TAG);
         if (ex != null) {
 
             ex.printStackTrace();
@@ -390,7 +409,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
             Log.i(TAG, response);
             RemoteAPI.uploadPhotosForAnnounce(this.gridPhotosAdapter.getItems(), this.announce.getId(), (res, err) -> {
 
-                if( err != null ){
+                if (err != null) {
 
                     err.printStackTrace();
                     Toast.makeText(this, "Errore durante la modifica dell'annuncio", Toast.LENGTH_SHORT).show();
@@ -398,15 +417,39 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
                 } else {
 
                     Log.i(TAG, res);
+                    Util.dismissDialog(this.alertDialog, TAG);
                     this.finish();
 
                 }
 
             });
-            this.finish(); //chiudo activity
-            //caricare le foto
         }
-        Util.dismissDialog(alertDialog, TAG);
+    }
+
+    private void btnScattaFotoOnClick(View v){
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, 900);
+        }
+
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.img_menu_delete) {
+            int currentItemPosition = this.photosPager.getCurrentItem();
+            this.gridPhotosAdapter.removeItem(currentItemPosition);
+            this.gridPhotosAdapter.notifyDataSetChanged();
+            //this.photosPager.setAdapter(this.gridPhotosAdapter);
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.image_context_menu, menu);
     }
 
 }
