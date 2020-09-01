@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -92,6 +93,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
     private ArrayAdapter<FornitureStatus> adapterArredamento;
     private ArrayAdapter<Category> adapterCategoria;
     private ArrayAdapter<EnergeticClass> adapterClasseEnergetica;
+    private CheckBox checkBoxAttivo;
 
     private Point point;
 
@@ -155,6 +157,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.btnCaricaFoto = this.findViewById(R.id.nuovo_annuncio_btn_caricafoto);
         this.photosPager = this.findViewById(R.id.nuovo_annuncio_view_pager);
         this.btnScattaFoto = this.findViewById(R.id.nuovo_annuncio_btn_scattaFoto);
+        this.checkBoxAttivo = this.findViewById(R.id.nuovo_annuncio_checkBox_attivo);
 
         photosPager.setAdapter(this.gridPhotosAdapter);
 
@@ -178,7 +181,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.btnAnnulla.setVisibility(View.VISIBLE);
         this.btnAvanti.setText("Salva"); //??
 
-
+        this.checkBoxAttivo.setVisibility(View.VISIBLE);
 
     }
 
@@ -235,6 +238,8 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
         this.spnCategoria.setSelection(adapterCategoria.getPosition(announce.getCategory()));
         this.spnArredamento.setSelection(adapterArredamento.getPosition(announce.getFornitureStatus()));
         this.spnClasseEnergetica.setSelection(adapterClasseEnergetica.getPosition(announce.getEnergeticClass()));
+
+        this.checkBoxAttivo.setChecked(announce.isActive());
 
     }
 
@@ -364,6 +369,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
             announce.setSize(dimensione);
             announce.setExtras(altreSpese);
             announce.setContact(contatti);
+            announce.setActive(checkBoxAttivo.isChecked());
 
 
             System.out.println(new Gson().toJson(announce));

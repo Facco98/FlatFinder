@@ -25,6 +25,7 @@ import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
+import retrofit2.http.HTTP;
 
 import java.util.*;
 
@@ -143,6 +144,13 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     }
 
     private void btnMessaggiOnClick(View view) {
+        Log.d(TAG, "Button Messaggi did click");
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.setData(Uri.parse("smsto:" + announce.getContact()));  // This ensures only SMS apps respond
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
     private void checkBtnSalva(){
@@ -293,6 +301,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         //tolgo bottoni slava e contatta se l'annuncio è mio
         if(announce.getCreatorUsername().compareTo(user.getSub()) == 0){ //annuncio è mio
             this.btnContatta.setVisibility(View.GONE);
+            this.btnMessaggi.setVisibility(View.GONE);
             this.btnSalva.setVisibility(View.GONE);
             this.btnModifica.setVisibility(View.VISIBLE);
             this.btnElimina.setVisibility(View.VISIBLE);
