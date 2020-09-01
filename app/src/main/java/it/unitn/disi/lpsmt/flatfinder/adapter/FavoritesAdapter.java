@@ -56,7 +56,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         holder.txtDimensione.setText("");
 
         Map<String, String> filters = new HashMap<>();
-        filters.put("id", announceList.get(position));
+        String announceId = announceList.get(position);
+        filters.put("id", announceId);
+        Log.d(TAG, "announceId: " + announceId);
+
         RemoteAPI.getAnnounceList(filters, (announces, exception) ->{
             if( exception != null ){
 
@@ -65,13 +68,20 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                 exception.printStackTrace();
 
             } else if( announces != null && announces.size() <= 0 ){
-                // non viene ritornato nessun annuncio, rimuovo l'annuncio dai preferiti
-                favorites.remove(announceList.get(position));
-                editor.clear();
-                editor.putStringSet(FAVORITES_ARRAY, favorites);
-                editor.commit();
-
-                removeFromList(position);
+                // non viene ritornato nessun annuncio, apro un dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setCancelable(false)
+                        .setTitle("Aggiornamento lista dei preferiti")
+                        .setMessage("L'annuncio numero " +announceId+ " è stato eliminato, cliccare sul bottone per aggiornare gli annunci")
+                        .setPositiveButton("Aggiorna la lista", (dialog, which) -> {
+                            favorites.remove(announceId);
+                            editor.clear();
+                            editor.putStringSet(FAVORITES_ARRAY, favorites);
+                            editor.commit();
+                            removeFromList(position);
+                            dialog.dismiss();
+                            Toast.makeText(context, "Lista aggiornata con successo", Toast.LENGTH_SHORT).show();
+                        }).create().show();
             } else if ( announces != null && announces.size() > 0 ){
                 // annuncio ancora presente
                 Announce announce = announces.get(0);
@@ -86,16 +96,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                     holder.txtCategoria.setText(announce.getCategory().description);
                     holder.txtIndirizzo.setText(announce.getAddress());
 
-
-                    String announceId = announce.getId() + "";
-                    Log.d(TAG, "announceId: " + announceId);
-
                     if(favorites.contains(announceId)){
                         holder.btnAddToFavorite.setChecked(true);
                     } else {
                         removeFromList(position);
                     }
-
 
                     holder.itemView.setOnClickListener((v) -> {
                         Intent intent = new Intent(context, AnnounceDetailsActivity.class);
@@ -111,8 +116,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                             editor.clear();
                             editor.putStringSet(FAVORITES_ARRAY, favorites);
                             editor.commit();
-
                             removeFromList(position);
+                            Toast.makeText(context, "Lista aggiornata con successo", Toast.LENGTH_SHORT).show();
                         }
 
                     });

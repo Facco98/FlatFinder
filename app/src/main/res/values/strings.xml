@@ -11,15 +11,13 @@
         gratuitamente
     </string>
     <string name="oppure_label">Oppure</string>
-    <string name="accedi_con_google_label">Accedi con</string>
-    <string name="accedi_con_facebook_label">Accedi con</string>
+    <string name="accedi_con_google_label">Accedi con Google</string>+
     <string name="registrati_label">Registrati</string>
     <string name="accedi_label">Accedi</string>
     <string name="nome_signup_label">Nome</string>
     <string name="cognome_signup_label">Cognome</string>
     <string name="ripeti_la_password_signup_label">Ripeti la password</string>
-    <string name="registrati_con_google">Registrati con</string>
-    <string name="registrati_con_facebook">Registrati con</string>
+    <string name="registrati_con_google">Registrati con Google</string>
     <string name="informativa_e_condizioni_signup_label">Ho letto e accetto l\'informativa e le condizioni</string>
 
     <string name="termini_non_accettati">

@@ -32,8 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtEmail;
     private EditText txtPassword;
     private Button btnAccedi;
-    private TextView lblGoogle;
-    private TextView lblFacebook;
+    private Button btnGoogle;
     private Switch swtSalvaCredenziali;
     private TextView lblPasswordDimenticata;
 
@@ -77,15 +76,13 @@ public class LoginActivity extends AppCompatActivity {
         this.txtEmail = this.findViewById(R.id.signin_txt_email);
         this.txtPassword = this.findViewById(R.id.signin_txt_password);
         this.btnAccedi = this.findViewById(R.id.signin_btn_accedi);
-        this.lblFacebook = this.findViewById(R.id.signin_lbl_facebook);
-        this.lblGoogle = this.findViewById(R.id.signin_lbl_google);
+        this.btnGoogle = this.findViewById(R.id.signin_lbl_google);
         this.swtSalvaCredenziali = this.findViewById(R.id.signin_swc_ricordami);
         this.lblPasswordDimenticata = this.findViewById(R.id.signin_lbl_passwordDimenticata);
 
         this.lblRegistrati.setOnClickListener(this::lblRegistratiOnClick);
         this.btnAccedi.setOnClickListener(this::btnAccediOnClick);
-        this.lblGoogle.setOnClickListener(this::lblGoogleOnClick);
-        this.lblFacebook.setOnClickListener(this::lblFacebookOnClick);
+        this.btnGoogle.setOnClickListener(this::btnGoogleOnClick);
         this.lblPasswordDimenticata.setOnClickListener(this::lblPasswordDimenticata);
 
         this.resetUI();
@@ -135,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void lblGoogleOnClick( View v ){
+    private void btnGoogleOnClick( View v ){
 
         Log.d(TAG, "Trying to login with Google");
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -162,13 +159,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             }
         }
-    }
-
-
-    private void lblFacebookOnClick( View v ){
-
-        Log.d(TAG, "Trying to login with Facebook");
-
     }
 
     private void loginAvvenuto(){

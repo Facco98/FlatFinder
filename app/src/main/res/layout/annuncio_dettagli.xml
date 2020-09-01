@@ -48,14 +48,6 @@
                 <com.google.android.material.tabs.TabLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/annuncio_dettagli_lyt_dotIndicator"
-                        app:tabBackground="@drawable/dot_indicator_tabselector"
-                        app:tabGravity="center"
-                        app:tabIndicatorHeight="0dp"/>
-
-                <com.google.android.material.tabs.TabLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/dettagli_lyt_dotIndicator"
                         app:tabBackground="@drawable/dot_indicator_tabselector"
                         app:tabGravity="center"
@@ -101,23 +93,40 @@
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_marginTop="10dp">
-                    <Button
-                            android:text="Contatta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/dettagli_btn_contatta"
-                            android:layout_weight="1" tools:drawableLeft="@drawable/ic_action_contact"
-                            android:background="@drawable/background_dettagli_button" android:textColor="@android:color/white"
-                            android:layout_marginRight="5dp" android:padding="5dp"/>
-                    <Button
-                            android:text="@string/salva_annuncio"
-                            android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+                    <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dettagli_btn_contatta"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_dettagli_button"
+                            android:src="@drawable/ic_action_contact"
+                            android:layout_marginEnd="5dp"
+                            android:padding="5dp"/>
+                    <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/dettagli_btn_messaggi"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_dettagli_button"
+                            android:src="@drawable/ic_baseline_email_24"
+                            android:layout_marginEnd="5dp"
+                            android:padding="5dp"/>
+                    <ImageButton
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/dettagli_btn_salva"
                             android:layout_weight="1"
+                            android:tag="0"
+                            android:src="@drawable/ic_favorite_border_black_24dp"
                             android:background="@drawable/background_dettagli_favorite"
-                            android:padding="10dp"/>
+                            android:padding="5dp">
+                    </ImageButton>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +137,7 @@
                         android:id="@+id/dettagli_btn_modifica"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_buttongroup_buttonchecked"
                         android:padding="5dp"
@@ -249,15 +258,6 @@
                                 android:layout_gravity="end"/>
                     </TableRow>
                 </TableLayout>
-                <View
-                        android:id="@+id/divider4"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="?android:attr/listDivider"
-                        android:layout_marginTop="15dp" android:layout_marginBottom="25dp" android:layout_weight="1"/>
-                <com.google.android.gms.maps.MapView
-                        android:layout_width="match_parent"
-                        android:layout_height="197dp" android:id="@+id/dettagli_view_mappa"/>
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>

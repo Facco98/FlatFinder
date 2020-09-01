@@ -338,25 +338,40 @@
                         app:tabGravity="center"
                         app:tabIndicatorHeight="0dp"/>
 
-                <Button
-                        android:text="Carica foto"
-                        android:layout_width="wrap_content"
+                <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/nuovo_annuncio_btn_caricafoto"
-                        app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="16dp" android:background="@color/grey" android:padding="20dp"
-                        app:layout_constraintHorizontal_bias="0.5"/>
+                        android:orientation="horizontal">
 
-                <Button
-                        android:text="Scatta foto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/nuovo_annuncio_btn_scattaFoto"
-                        app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="16dp" android:background="@color/grey" android:padding="20dp"
-                        app:layout_constraintHorizontal_bias="0.5"/>
+                    <Button
+                            android:text="Carica foto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/nuovo_annuncio_btn_caricafoto"
+                            app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/grey"
+                            android:padding="20dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintHorizontal_bias="0.5"/>
+
+                    <Button
+                            android:text="Scatta foto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:id="@+id/nuovo_annuncio_btn_scattaFoto"
+                            app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="16dp" android:background="@color/grey" android:padding="20dp"
+                            app:layout_constraintHorizontal_bias="0.5"/>
+
+                </LinearLayout>
 
                 <Space
                         android:layout_width="match_parent"
@@ -372,7 +387,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_buttongroup_buttonchecked"
                         android:text="Annulla"

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,8 +42,9 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     private TextView lblNBagni;
     private TextView lblTipologia;
     private TextView lblIndirizzo;
-    private Button btnContatta;
-    private Button btnSalva;
+    private ImageButton btnContatta;
+    private ImageButton btnSalva;
+    private ImageButton btnMessaggi;
     private Button btnModifica;
     private Button btnElimina;
     private TextView lblDescrizione;
@@ -51,7 +53,6 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     private TextView lblDisponibilita;
     private TextView lblArredamento;
     private TextView lblClasseEnergetica;
-    private MapView mapView;
     private ViewPager imgViewPager;
 
     private SharedPreferences sharedPreferences;
@@ -116,6 +117,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         this.lblNBagni = findViewById(R.id.dettagli_lbl_nbagni);
         this.lblTipologia = findViewById(R.id.dettagli_lbl__tipologia);
         this.lblIndirizzo = findViewById(R.id.dettagli_lbl_indirizzo);
+        this.btnMessaggi = findViewById(R.id.dettagli_btn_messaggi);
         this.btnContatta = findViewById(R.id.dettagli_btn_contatta);
         this.btnSalva = findViewById(R.id.dettagli_btn_salva);
         this.btnModifica = findViewById(R.id.dettagli_btn_modifica);
@@ -126,18 +128,21 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         this.lblDisponibilita = findViewById(R.id.dettagli_lbl_disponibilita);
         this.lblArredamento = findViewById(R.id.dettagli_lbl_arredamento);
         this.lblClasseEnergetica = findViewById(R.id.dettagli_lbl_classeEnergetica);
-        this.mapView = findViewById(R.id.dettagli_view_mappa);
         this.imgViewPager = this.findViewById(R.id.dettagli_view_pager);
-        TabLayout dotsIndicator = this.findViewById(R.id.annuncio_dettagli_lyt_dotIndicator);
+        TabLayout dotsIndicator = this.findViewById(R.id.dettagli_lyt_dotIndicator);
         dotsIndicator.setupWithViewPager(imgViewPager, true);
 
         this.btnContatta.setOnClickListener(this::btnContattaOnClick);
         this.btnSalva.setOnClickListener(this::btnSalvaOnClick);
         this.btnModifica.setOnClickListener(this::btnModificaOnCick);
         this.btnElimina.setOnClickListener(this::btnEliminaOnClick);
+        this.btnMessaggi.setOnClickListener(this::btnMessaggiOnClick);
 
         setupToolbar();
 
+    }
+
+    private void btnMessaggiOnClick(View view) {
     }
 
     private void checkBtnSalva(){
@@ -174,8 +179,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         Log.d(TAG, "announceId: "+announceId);
 
         Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
-
-        if(this.btnSalva.getText().equals(getString(R.string.salva_annuncio))){
+        if(this.btnSalva.getTag().equals(0)){
             Log.d(TAG, "isChecked");
             favorites.add(announceId);
             setAnnuncioSalvato();
@@ -195,15 +199,13 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
     }
 
     private void setAnnuncioSalvato(){
-        this.btnSalva.setText(R.string.annuncio_salvato);
-        this.btnSalva.setBackgroundResource(R.drawable.background_dettagli_button);
-        this.btnSalva.setTextColor(Color.WHITE);
+        this.btnSalva.setTag(1);
+        this.btnSalva.setImageResource(R.drawable.ic_favorite_black_24dp);
     }
 
     private void setSalvaAnnuncio(){
-        this.btnSalva.setText(R.string.salva_annuncio);
-        this.btnSalva.setBackgroundResource(R.drawable.background_dettagli_favorite);
-        this.btnSalva.setTextColor(Color.BLACK);
+        this.btnSalva.setTag(0);
+        this.btnSalva.setImageResource(R.drawable.ic_favorite_border_black_24dp);
     }
 
     private void btnModificaOnCick( View v){
