@@ -82,6 +82,11 @@ public class SignUpActivity extends AppCompatActivity {
 
             Toast.makeText(this.getApplicationContext(), R.string.termini_non_accettati, Toast.LENGTH_LONG).show();
 
+        } else if(nome.trim().isEmpty() || cognome.trim().isEmpty() || email.trim().isEmpty()
+                || password.trim().isEmpty() || confermaPassword.trim().isEmpty()){
+
+            Toast.makeText(this.getApplicationContext(), "Si prega di inserire tutti i campi", Toast.LENGTH_LONG).show();
+
         } else if (!password.equals(confermaPassword)) {
 
             Toast.makeText(this.getApplicationContext(), R.string.password_non_corrispondenti, Toast.LENGTH_LONG).show();

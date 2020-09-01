@@ -1,24 +1,21 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -32,14 +29,15 @@ import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.*;
-import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResponse;
-import it.unitn.disi.lpsmt.flatfinder.model.gecoding.GeocodingResult;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,7 +79,7 @@ public class NewAnnounceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.nuovo_annuncio);
-        this.alertDialog = Util.getDialog(this, TAG);
+        this.alertDialog = Util.getDialog(this, "Attendi mentre pubblichiamo l'annuncio", TAG);
         this.user = User.getCurrentUser();
         if( user == null ){
 

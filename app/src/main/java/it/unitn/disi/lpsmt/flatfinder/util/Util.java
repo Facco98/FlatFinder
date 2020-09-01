@@ -31,11 +31,11 @@ public class Util {
 
     }
 
-    public static AlertDialog getDialog(Context context, String TAG){
+    public static AlertDialog getDialog(Context context, String message, String TAG){
         Log.d(TAG, "alert create");
         return new AlertDialog.Builder(context)
                 .setTitle("Caricamento")
-                .setMessage("Attendi mentre carichiamo l'applicazione")
+                .setMessage(message)
                 .setCancelable(false)
                 .create();
     }

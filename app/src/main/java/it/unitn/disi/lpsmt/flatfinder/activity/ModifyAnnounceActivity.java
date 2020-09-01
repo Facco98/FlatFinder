@@ -1,13 +1,10 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -15,54 +12,29 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
 import it.unitn.disi.lpsmt.flatfinder.exception.EmptyFieldException;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Category;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.EnergeticClass;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.FornitureStatus;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.LocalType;
-import it.unitn.disi.lpsmt.flatfinder.model.announce.Photo;
+import it.unitn.disi.lpsmt.flatfinder.model.announce.*;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.util.*;
 
 public class ModifyAnnounceActivity extends AppCompatActivity {
 
@@ -115,7 +87,7 @@ public class ModifyAnnounceActivity extends AppCompatActivity {
 
         }
 
-        this.alertDialog = Util.getDialog(this, TAG);
+        this.alertDialog = Util.getDialog(this, "Caricamento dell'annuncio in corso", TAG);
 
         Intent i = this.getIntent();
         if( i != null && i.hasExtra("announceID") ){

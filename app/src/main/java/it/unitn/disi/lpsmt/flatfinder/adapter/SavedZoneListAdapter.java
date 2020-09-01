@@ -41,7 +41,7 @@ public class SavedZoneListAdapter extends RecyclerView.Adapter<SavedZoneListAdap
 
     @Override
     public void onBindViewHolder(@NonNull FavoriteAreaListViewHolder holder, int position) {
-        AlertDialog alertDialog = Util.getDialog(context, TAG);
+        AlertDialog alertDialog = Util.getDialog(context, "Caricamento delle zona in corso", TAG);
         Util.showDialog(alertDialog, TAG);
         holder.populateUI(this.list.get(position));
         holder.btnElimina.setOnClickListener((view) -> {

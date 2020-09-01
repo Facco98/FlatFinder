@@ -25,12 +25,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     private static final String TAG = "FavoritesAdapter";
     private static final String FAVORITES_ARRAY = "favorite_announces";
 
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private Set<String> favorites;
+
     private final List<String> announceList;
     private final Context context;
 
     public FavoritesAdapter(List<String> announceList, Context context) {
         this.announceList = new ArrayList<>(announceList);
         this.context = context;
+        this.sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
+        this.editor = sharedPreferences.edit();
     }
 
     @NonNull
@@ -42,11 +48,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Set<String> favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
+        this.favorites = sharedPreferences.getStringSet(FAVORITES_ARRAY, new HashSet<>());
 
-        AlertDialog alertDialog = Util.getDialog(context, TAG);
+        AlertDialog alertDialog = Util.getDialog(context, "Caricamento dell'annuncio in corso",TAG);
         Util.showDialog(alertDialog, TAG);
 
         holder.txtCategoria.setText("");
@@ -69,26 +73,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
             } else if( announces != null && announces.size() <= 0 ){
                 // non viene ritornato nessun annuncio, apro un dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setCancelable(false)
-                        .setTitle("Aggiornamento lista dei preferiti")
-                        .setMessage("L'annuncio numero " +announceId+ " è stato eliminato, cliccare sul bottone per aggiornare gli annunci")
-                        .setPositiveButton("Aggiorna la lista", (dialog, which) -> {
-                            favorites.remove(announceId);
-                            editor.clear();
-                            editor.putStringSet(FAVORITES_ARRAY, favorites);
-                            editor.commit();
-                            removeFromList(position);
-                            dialog.dismiss();
-                            Toast.makeText(context, "Lista aggiornata con successo", Toast.LENGTH_SHORT).show();
-                        }).create().show();
+                showAlert(announceId, position);
             } else if ( announces != null && announces.size() > 0 ){
                 // annuncio ancora presente
                 Announce announce = announces.get(0);
-                Log.i(TAG, "id=" + announces.get(0).getId() + ", " +announces.toString());
-                Log.i(TAG, "Data retrivered");
 
-                if(announce != null){
+                if(announce != null  && announce.isActive()){
                     Log.d(TAG, "onbind announceid: " + announce.getId());
                     holder.txtPrezzo.setText(announce.getRentPerMonth()+" €");
                     holder.txtDimensione.setText(announce.getSize()+" mq");
@@ -99,7 +89,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                     if(favorites.contains(announceId)){
                         holder.btnAddToFavorite.setChecked(true);
                     } else {
-                        removeFromList(position);
+                        removeFromList(announceId, position);
                     }
 
                     holder.itemView.setOnClickListener((v) -> {
@@ -112,15 +102,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
                         if (!isChecked) {
                             Log.d(TAG, "is not Checked");
-                            favorites.remove(announceId);
-                            editor.clear();
-                            editor.putStringSet(FAVORITES_ARRAY, favorites);
-                            editor.commit();
-                            removeFromList(position);
+
+                            removeFromList(announceId, position);
                             Toast.makeText(context, "Lista aggiornata con successo", Toast.LENGTH_SHORT).show();
                         }
 
                     });
+                } else {
+                    showAlert(announceId, position);
                 }
             }
         });
@@ -128,7 +117,23 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         Util.dismissDialog(alertDialog, TAG);
     }
 
-    private void removeFromList(int position){
+    private void showAlert(String announceId, int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false)
+                .setTitle("Aggiornamento lista dei preferiti")
+                .setMessage("L'annuncio numero " +announceId+ " è stato eliminato o ritirato, cliccare sul bottone per aggiornare gli annunci")
+                .setPositiveButton("Aggiorna la lista", (dialog, which) -> {
+                    removeFromList(announceId, position);
+                    dialog.dismiss();
+                    Toast.makeText(context, "Lista aggiornata con successo", Toast.LENGTH_SHORT).show();
+                }).create().show();
+    }
+
+    private void removeFromList(String announceId, int position){
+        favorites.remove(announceId);
+        editor.clear();
+        editor.putStringSet(FAVORITES_ARRAY, favorites);
+        editor.commit();
         announceList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, announceList.size());

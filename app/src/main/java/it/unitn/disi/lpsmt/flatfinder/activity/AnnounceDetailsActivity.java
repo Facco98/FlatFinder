@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-import com.google.android.gms.maps.MapView;
 import com.google.android.material.tabs.TabLayout;
 import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.adapter.PhotosAdapter;
@@ -25,7 +23,6 @@ import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
-import retrofit2.http.HTTP;
 
 import java.util.*;
 
@@ -79,7 +76,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
 
         this.sharedPreferences = this.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
         this.editor = sharedPreferences.edit();
-        this.alertDialog = Util.getDialog(this, TAG);
+        this.alertDialog = Util.getDialog(this, "Caricamento dell'annuncio in corso", TAG);
 
         this.setupUI();
         Intent i = this.getIntent();

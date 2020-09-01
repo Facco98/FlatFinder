@@ -154,12 +154,17 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListenerWrapper() {
-            @Override
-            public void onLocationChanged(Location location) {
-                moveCameraToPosition(location.getLatitude(), location.getLongitude());
-            }
-        }, Looper.getMainLooper());
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListenerWrapper() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    moveCameraToPosition(location.getLatitude(), location.getLongitude());
+                }
+            }, Looper.getMainLooper());
+        } else {
+            Toast.makeText(this,"Attiva la geolocalizzazione del dispositivo per continuare ", Toast.LENGTH_LONG).show();
+        }
+
 
     }
 

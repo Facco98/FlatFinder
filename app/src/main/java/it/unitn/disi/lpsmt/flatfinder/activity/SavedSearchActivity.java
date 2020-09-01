@@ -35,7 +35,7 @@ public class SavedSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_search);
-        this.alertDialog = Util.getDialog(this, TAG);
+        this.alertDialog = Util.getDialog(this, "Caricamento delle zone di interesse in corso", TAG);
 
         this.user = User.getCurrentUser();
         if ( user == null ){

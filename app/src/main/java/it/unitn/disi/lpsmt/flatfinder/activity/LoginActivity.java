@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_login);
         this.user = null;
 
-        AlertDialog alertDialog = Util.getDialog(this, TAG);
+        AlertDialog alertDialog = Util.getDialog(this, "Attendi mentre carichiamo l'applicazione", TAG);
         Util.showDialog(alertDialog, TAG);
 
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
