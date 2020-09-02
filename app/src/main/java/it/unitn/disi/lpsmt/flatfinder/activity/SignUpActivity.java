@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.flatfinder.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import it.unitn.disi.lpsmt.flatfinder.R;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 import it.unitn.disi.lpsmt.flatfinder.task.Completion;
+import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -25,10 +27,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Button btnRegistrati;
 
+    private AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        this.alertDialog = Util.getDialog(this, "Registrazione in corso", TAG);
         this.initUI();
 
 
@@ -94,6 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
 
             Completion<Boolean> completion = (result, error) -> {
+                Util.dismissDialog(this.alertDialog, TAG);
                 if (error != null) {
                     Toast.makeText(this.getApplicationContext(), "Errore durante la registrazione del nuovo utente", Toast.LENGTH_LONG).show();
                     error.printStackTrace();
@@ -106,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
             };
 
             User user = new User(email, nome, cognome, null, null, null, null);
+            Util.dismissDialog(this.alertDialog, TAG);
             Authentication.registerUser(user, password, completion);
 
         }

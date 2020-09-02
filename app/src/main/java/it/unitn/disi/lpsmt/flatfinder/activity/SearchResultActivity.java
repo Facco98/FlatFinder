@@ -56,7 +56,7 @@ public class SearchResultActivity extends AppCompatActivity implements FilterCom
             this.finish();
         }
 
-        this.alertDialog = Util.getDialog(this, "Caricamento degli annunci in corso", TAG);
+        this.alertDialog = Util.getDialog(this, "Caricamento dei risultati in corso", TAG);
 
         this.latitudeCenter = getIntent().getDoubleExtra("latitudineCentro", 0);
         this.longitudeCenter = getIntent().getDoubleExtra("longitudineCentro", 0);

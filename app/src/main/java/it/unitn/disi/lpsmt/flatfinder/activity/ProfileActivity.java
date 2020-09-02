@@ -38,10 +38,13 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnSalva, btnCambiaImmagineProfilo;
     private User user;
 
+    private AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.profilo);
+        this.alertDialog = Util.getDialog(this, "Aggiornamento del profilo in corso", TAG);
         this.user = User.getCurrentUser();
         if( this.user == null ){
 
@@ -112,8 +115,10 @@ public class ProfileActivity extends AppCompatActivity {
         this.user.setFamily_name(this.txtCognome.getText().toString());
         this.user.setName(this.txtNome.getText().toString());
         this.user.setPhone_number(this.txtTelefono.getText().toString());
+        Util.showDialog(this.alertDialog, TAG);
         Authentication.updateProfile(this.user, (value, err) -> {
 
+            Util.dismissDialog(this.alertDialog, TAG);
             if( err != null ) {
                 Toast.makeText(this, R.string.profile_error_update, Toast.LENGTH_SHORT).show();
                 err.printStackTrace();
@@ -143,8 +148,6 @@ public class ProfileActivity extends AppCompatActivity {
                     this.user.setProfileImg(Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
                     this.imgProfileImage.setImageBitmap(bmp);
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -18,6 +18,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unitn.disi.lpsmt.flatfinder.R;
+import it.unitn.disi.lpsmt.flatfinder.activity.AnnounceDetailsActivity;
 import it.unitn.disi.lpsmt.flatfinder.activity.HomeActivity;
 import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
@@ -49,14 +50,17 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("msg", "onMessageReceived: " + remoteMessage.getData().get("message"));
+        Log.d("msg", "onMessageReceived: " + remoteMessage.getData().toString());
         String channelId = "Default";
-        String title = remoteMessage.getData().get("title")+": " + remoteMessage.getData().get("announceID");
+        String title = remoteMessage.getData().get("title");
         String text = remoteMessage.getData().get("body");
-        Intent i = new Intent(this, HomeActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, 0);
+        Intent i = new Intent(this, AnnounceDetailsActivity.class);
+        Log.i(TAG, remoteMessage.getData().toString());
+        Integer announceID = Integer.parseInt(remoteMessage.getData().get("announceID"));
+        i.putExtra("announceID", announceID);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new  NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text).setBigContentTitle(title))

@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private Switch swtSalvaCredenziali;
     private TextView lblPasswordDimenticata;
 
+    private AlertDialog alertDialog;
+
 
     @Nullable
     private User user;
@@ -45,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
         this.user = null;
+
+        this.alertDialog = Util.getDialog(this, "Autenticazione in corso", TAG);
 
         AlertDialog alertDialog = Util.getDialog(this, "Attendi mentre carichiamo l'applicazione", TAG);
         Util.showDialog(alertDialog, TAG);
@@ -151,13 +155,17 @@ public class LoginActivity extends AppCompatActivity {
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 300) {
+            Util.showDialog(this.alertDialog, TAG);
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Authentication.loginWithGoole(account.getIdToken(), this::loginHandler);
             } catch (ApiException e) {
+                Toast.makeText(this, "Errore durante l'autenticazione con Google", Toast.LENGTH_SHORT).show();
+                Util.dismissDialog(this.alertDialog, TAG);
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             }
+
         }
     }
 
@@ -172,6 +180,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginHandler(User user, Exception ex){
 
+        Util.dismissDialog(this.alertDialog, TAG);
         this.user = user;
         if( user != null ){
             this.loginAvvenuto();
@@ -183,7 +192,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this.getApplicationContext(), R.string.login_email_o_psw_errati, Toast.LENGTH_LONG).show();
             } else {
                 ex.printStackTrace();
+                Toast.makeText(this, "Errore durante l'autenticazione dell'utente", Toast.LENGTH_SHORT).show();
             }
+
         }
 
     }

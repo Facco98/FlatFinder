@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -21,6 +22,7 @@ import it.unitn.disi.lpsmt.flatfinder.fragment.EliminaAnnuncioDialogFragment;
 import it.unitn.disi.lpsmt.flatfinder.listener.DeleteFragmentListener;
 import it.unitn.disi.lpsmt.flatfinder.model.User;
 import it.unitn.disi.lpsmt.flatfinder.model.announce.Announce;
+import it.unitn.disi.lpsmt.flatfinder.remote.Authentication;
 import it.unitn.disi.lpsmt.flatfinder.remote.RemoteAPI;
 import it.unitn.disi.lpsmt.flatfinder.util.Util;
 
@@ -68,10 +70,20 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         this.user = User.getCurrentUser();
         if ( user == null ){
 
-            //Log.i(TAG, "USER IS NOT LOGGED IN");
-            Intent i = new Intent(this, LoginActivity.class);
-            this.startActivity(i);
-            this.finish();
+            Authentication.getUser((user, err) -> {
+                if( err != null ){
+
+                    err.printStackTrace();
+                    Intent i = new Intent(this, LoginActivity.class);
+                    this.startActivity(i);
+                    this.finish();
+
+                } else if( user != null ){
+
+                    this.user = user;
+                }
+            });
+
         }
 
         this.sharedPreferences = this.getSharedPreferences("annunci_preferiti", Context.MODE_PRIVATE);
@@ -82,7 +94,7 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         Intent i = this.getIntent();
         if( i != null && i.hasExtra("announceID") ){
 
-            int announceID = i.getIntExtra("announceID", 1);
+            int announceID = i.getIntExtra("announceID", -1);
             Map<String, String> filters = new HashMap<>(1);
             filters.put("id", ""+announceID);
             Util.showDialog(this.alertDialog, TAG);
@@ -235,9 +247,9 @@ public class AnnounceDetailsActivity extends AppCompatActivity implements Delete
         }
 
         if( announces.size() != 1 ) {
-            TextView textView = new TextView(this);
-            textView.setText("L'annuncio selezionato non esiste");
-            this.setContentView(textView);
+            Toast.makeText(this, "L'annuncio selezionato non esiste", Toast.LENGTH_SHORT).show();
+            Util.dismissDialog(this.alertDialog, TAG);
+            this.finish();
             return;
         }
 
