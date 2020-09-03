@@ -9,3 +9,4 @@
 gradle
 gradlew*
 app/src/main/res/raw/awsconfiguration.json
+.DS_Store

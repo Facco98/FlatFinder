@@ -1,3 +1,162 @@
 <resources>
     <string name="app_name">FlatFinder</string>
+    <string name="email_label">Indirizzo e-mail</string>
+    <string name="logo_app">Logo app</string>
+    <string name="password_label">Password</string>
+    <string name="ricordami_login_label">Salva dati di accesso</string>
+    <string name="accedi_login_label">Accedi</string>
+    <string name="password_dimenticata_label">Password dimenticata?</string>
+    <string name="salva_dati_di_accesso_label">Salva dati di accesso</string>
+    <string name="non_hai_ancora_l_account_registra_gratuitamente_label">Non hai ancora l\'account? Registra
+        gratuitamente
+    </string>
+    <string name="oppure_label">Oppure</string>
+    <string name="accedi_con_google_label">Accedi con Google</string>+
+    <string name="registrati_label">Registrati</string>
+    <string name="accedi_label">Accedi</string>
+    <string name="nome_signup_label">Nome</string>
+    <string name="cognome_signup_label">Cognome</string>
+    <string name="ripeti_la_password_signup_label">Ripeti la password</string>
+    <string name="registrati_con_google">Registrati con Google</string>
+    <string name="informativa_e_condizioni_signup_label">Ho letto e accetto l\'informativa e le condizioni</string>
+
+    <string name="termini_non_accettati">
+        Per registrarti devi accettare i termini di utilizzo
+    </string>
+
+    <string name="password_non_corrispondenti">
+        Le password inserite non corrispondono
+    </string>
+
+    <string name="email_inviata_verifica">
+        Abbiamo inviato una mail di verifica all\'indirizzo specificato
+    </string>
+    <string name="email_gia_registrata">
+        La mail inserita è gia associata a un altro utente
+    </string>
+    <string name="password_non_valida">
+        La password deve contenere almeno 6 caratteri di cui almeno una lettera maiuscola, un numero e un simbolo
+        speciale
+    </string>
+
+    <string name="login_utente_non_confermato">
+        L\'utente non è confermato, controlla la mail
+    </string>
+
+    <string name="login_email_o_psw_errati">
+        Email o password errati
+    </string>
+    <string name="home_img_background_label">Orange color background</string>
+    <string name="home_btn_search_label">CERCA UN ALLOGGIO</string>
+    <string name="home_btn_post">PUBBLICA UN ANNUNCIO</string>
+    <string name="home_lbl_annunciRecenti_label">Annunci recenti</string>
+    <string name="sidebar_lbl_hi_heading">Ciao,</string>
+    <string name="sidebar_lbl_home">Home</string>
+    <string name="sidebar_lbl_cerca_un_alloggio">Cerca un alloggio</string>
+    <string name="sidebar_lbl_pubblica_un_annuncio">Pubblica un annuncio</string>
+    <string name="sidebar_lbl_annunci_pubblicati">Annunci pubblicati</string>
+    <string name="sidebar_lbl_annunci_salvati">Annunci salvati</string>
+    <string name="sidebar_lbl_ricerche_salvate">Zone salvate</string>
+    <string name="sidebar_lbl_profilo">Profilo</string>
+    <string name="sidebar_lbl_logout">Logout</string>
+    <string name="sidebar_lbl_segnala">Segnala</string>
+    <string name="sidebar_lbl_condivi_con_i_tuoi_amici">Condivi con i tuoi amici</string>
+    <string name="euro">€</string>
+    <string name="per_month">/mese</string>
+    <string name="from">Dal</string>
+    <string name="to">al</string>
+    <string name="rooms">locali</string>
+    <string name="floor">piano</string>
+    <string name="mq">mq</string>
+    <string name="bathrooms">bagni</string>
+    <string name="empty_photos">Caricamento delle foto in corso</string>
+    <string name="no_photo">Nessuna foto disponibile</string>
+    <string name="common_empty_address">L\'indirizzo non può essere vuoto</string>
+    <string name="new_announce_must_validate_address">Devi inserire un indirizzo valido</string>
+    <string name="common_empty_field">"Il campo non può essere vuoto: "</string>
+    <string name="invalid_number">Il numero inserito non è valido</string>
+    <string name="invalid_date">Data non valida</string>
+    <string name="error_while_verifying_address">Si è verificato un errore durante la verifica dell\'indirizzo</string>
+
+    <string name="notifica_aggiornamenti">Riceverai una notifica quando nuovi annunci in linea alla tua ricerca vengono
+        pubblicati
+    </string>
+
+    <string-array name="annuncio_tipologia_struttura">
+        <item>Alloggio privato</item>
+        <item>Studentato</item>
+        <item>Altro</item>
+    </string-array>
+
+    <string-array name="annuncio_categoria">
+        <item>Appartamento</item>
+        <item>Stanza singola</item>
+        <item>Stanza doppia</item>
+        <item>Altro</item>
+    </string-array>
+
+    <string-array name="arredamento">
+        <item>-</item>
+        <item>Arredato</item>
+        <item>Parzialmente arredato</item>
+        <item>Non arredato</item>
+    </string-array>
+
+    <string-array name="consumo_energetico">
+        <item>-</item>
+        <item>A4</item>
+        <item>A3</item>
+        <item>A2</item>
+        <item>A1</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+    </string-array>
+
+    <string-array name="dimensione">
+        <item>-</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+        <item>120</item>
+        <item>140</item>
+        <item>160</item>
+        <item>180</item>
+        <item>190</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="tipo_inserzionista">
+        <item>Agente immobiliare</item>
+        <item>Personale dello studentato</item>
+        <item>Privato</item>
+    </string-array>
+
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGV2YWNrIiwiYSI6ImNrZWI4c2g0ZTA2aDcyc3A3MTlqejd2MG4ifQ.sRuJerdZblEdwG5IO0a0Lw</string>
+    <string name="must_select_location">E\' necessaro selezionare un punto sulla mappa</string>
+    <string name="profile_updated">Profilo aggiornato con successo</string>
+    <string name="profile_error_update">Si è verificato un errore nell\'aggiornamento del profilo</string>
+    <string name="zone_registered">Zona registrata con successo</string>
+    <string name="zone_registered_error">Errore nella registrazione della zona</string>
+    <string name="loading_zones_error">Errore nel caricamento delle zone di interesse</string>
+    <string name="error_generic">Errore nel caricamento</string>
+    <string name="salva_annuncio">salva annuncio</string>
+    <string name="annuncio_salvato">annuncio salvato</string>
+
+    <string name="delete_announce_message">Eliminare l\'annuncio?</string>
+    <string name="delete_annonce_positive_button">Elimina</string>
+    <string name="delete_announce_negative_button">Annulla</string>
+
 </resources>

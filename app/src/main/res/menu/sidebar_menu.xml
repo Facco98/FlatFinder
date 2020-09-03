@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/sidebar_lbl_home"
+        android:id="@+id/sidebar_item_home"/>
+    <item
+            android:title="@string/sidebar_lbl_cerca_un_alloggio"
+            android:id="@+id/sidebar_item_cercaAlloggio" />
+    <item
+            android:title="@string/sidebar_lbl_pubblica_un_annuncio"
+            android:id="@+id/sidebar_item_pubblicaAnnuncio" />
+    <item
+            android:title="@string/sidebar_lbl_annunci_pubblicati"
+            android:id="@+id/sidebar_item_annunciPubblicati" />
+    <item
+            android:title="@string/sidebar_lbl_annunci_salvati"
+            android:id="@+id/sidebar_item_AnnunciSalvati" />
+    <item
+            android:title="@string/sidebar_lbl_ricerche_salvate"
+            android:id="@+id/sidebar_item_ricercheSalvate" />
+    <item
+            android:title="@string/sidebar_lbl_profilo"
+            android:id="@+id/sidebar_item_profilo" />
+    <item
+            android:title="@string/sidebar_lbl_logout"
+            android:id="@+id/sidebar_item_logout" />
+</menu>

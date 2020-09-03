@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "128269540845",
+    "firebase_url": "https://flatfinder-273911.firebaseio.com",
+    "project_id": "flatfinder-273911",
+    "storage_bucket": "flatfinder-273911.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128269540845:android:843c156023ba5363035be4",
+        "android_client_info": {
+          "package_name": "it.unitn.disi.lpsmt.flatfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128269540845-0k4kiogs3jqi31tcsm4dkiup1ddqc1r4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.unitn.disi.lpsmt.flatfinder",
+            "certificate_hash": "8bc79418968a25fc4f2ff06d07f7b7d3a0893634"
+          }
+        },
+        {
+          "client_id": "128269540845-0e9q6jgjan4j81pf21cp4rg7gdrnrunr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNb1tv22iWk7PR6u3TqnU8J5JNBeR6Cow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128269540845-0e9q6jgjan4j81pf21cp4rg7gdrnrunr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

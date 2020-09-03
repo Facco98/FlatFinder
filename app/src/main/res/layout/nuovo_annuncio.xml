@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/nuovo_annuncio_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white_background"
+                android:elevation="5dp"
+                app:title="Nuovo annuncio"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" app:cardCornerRadius="5dp" android:paddingBottom="20dp"
+                android:layout_margin="20dp">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:padding="20dp">
+
+                <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_tipologia_struttura"/>
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_tipologia_struttura"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tipologia struttura"/>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+                <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_categoria"/>
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_categoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Categoria"/>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+
+                <EditText
+                    android:id="@+id/nuovo_annuncio_txt_indirizzo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_edittext"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPostalAddress"
+                    android:padding="10dp" />
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_indirizzo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Indirizzo"/>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:baselineAligned="false">
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginRight="10dp"
+                            android:layout_weight="1" android:layout_marginEnd="10dp">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberSigned"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
+                                android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
+                                android:id="@+id/nuovo_annuncio_txt_affitto"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_affitto_mensile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Affitto mensile"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_weight="1">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberSigned"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:drawableEnd="@drawable/ic_euro_symbol_black_24dp"
+                                android:drawableRight="@drawable/ic_euro_symbol_black_24dp"
+                                android:id="@+id/nuovo_annuncio_txt_altreSpese"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_altre_spese"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Altre spese"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:inputType="textMultiLine"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:background="@drawable/background_edittext"
+                        android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_descrizione"/>
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_descrizione"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Descrizione"/>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:baselineAligned="false">
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginRight="10dp"
+                            android:layout_weight="1" android:layout_marginEnd="10dp">
+                        <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_arredamento"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_arredamento"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Arredamento"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_weight="1">
+                        <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp" android:id="@+id/nuovo_annuncio_spinner_classeenergetica"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_classe_energetica"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Classe energetica"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:background="@drawable/background_edittext"
+                        android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_disponibilità"/>
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_disponibiità"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Disponibilità"/>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:baselineAligned="false">
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginRight="10dp"
+                            android:layout_weight="1" android:layout_marginEnd="10dp">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberSigned"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nLocali"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_numero_locali"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Numero locali"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_weight="1">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberSigned"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nBagni"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_numero_bagni"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Numero bagni"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:baselineAligned="false">
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_marginRight="10dp"
+                            android:layout_weight="0.2" android:layout_marginEnd="10dp">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberSigned"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_dimensione"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_dimensione"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Dimensione (metri quadri)"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:layout_weight="1">
+                        <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:gravity="start|top"
+                                android:ems="10"
+                                android:background="@drawable/background_edittext"
+                                android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_nPiano"/>
+
+                        <TextView
+                                android:id="@+id/nuovo_annuncio_lbl_numero_piano"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Numero piano"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:background="@drawable/background_edittext"
+                        android:padding="10dp" android:id="@+id/nuovo_annuncio_txt_contattiCellulare"/>
+
+                <TextView
+                        android:id="@+id/nuovo_annuncio_lbl_contatti"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contatti (numero cellulare)"/>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"/>
+
+                <androidx.viewpager.widget.ViewPager
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:id="@+id/nuovo_annuncio_view_pager"
+                >
+                </androidx.viewpager.widget.ViewPager>
+
+                <com.google.android.material.tabs.TabLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nuovo_annuncio_lyt_dotIndicator"
+                        app:tabBackground="@drawable/dot_indicator_tabselector"
+                        app:tabGravity="center"
+                        app:tabIndicatorHeight="0dp"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <Button
+                            android:text="Carica foto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/nuovo_annuncio_btn_caricafoto"
+                            app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/grey"
+                            android:padding="20dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintHorizontal_bias="0.5"/>
+
+                    <Button
+                            android:text="Scatta foto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:id="@+id/nuovo_annuncio_btn_scattaFoto"
+                            app:layout_constraintTop_toBottomOf="@+id/nuovo_annuncio_recyclerview_photos"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="16dp" android:background="@color/grey" android:padding="20dp"
+                            app:layout_constraintHorizontal_bias="0.5"/>
+
+                </LinearLayout>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"/>
+
+                <CheckBox
+                    android:id="@+id/nuovo_annuncio_checkBox_attivo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Annuncio ATTIVO"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/nuovo_annuncio_annulla"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_buttongroup_buttonchecked"
+                        android:text="Annulla"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/nuovo_annuncio_btn_avanti"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimaryDark"
+                        android:padding="15dp"
+                        android:text="pubblica" />
+                </LinearLayout>
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+</ScrollView>
